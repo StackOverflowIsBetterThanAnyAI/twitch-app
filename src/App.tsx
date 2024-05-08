@@ -1,11 +1,10 @@
-import React from 'react'
-import Call from './components/Call'
+import Streams from './components/Streams'
 
 function App() {
     return (
         <div>
             Hello World!
-            <Call />
+            <Streams />
         </div>
     )
 }
