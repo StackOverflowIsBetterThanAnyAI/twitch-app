@@ -2,8 +2,7 @@ import Streams from './components/Streams'
 
 function App() {
     return (
-        <div>
-            Hello World!
+        <div className="font-sans">
             <Streams />
         </div>
     )

@@ -1,6 +1,8 @@
 import { AuthorizationProps } from '../types/AuthorizationProps'
 import { getTwitchAuthorization } from './getTwitchAuthorization'
 
+import type { StreamProps } from '../types/StreamProps'
+
 export const getStreams = async (CLIENT_ID: string, CLIENT_SECRET: string) => {
     const url = 'https://api.twitch.tv/helix/streams?language=de'
 
@@ -25,8 +27,8 @@ export const getStreams = async (CLIENT_ID: string, CLIENT_SECRET: string) => {
             method: 'GET',
         })
         if (!response.ok) throw new Error(`${response.status} ${response.url}`)
-        const data: AuthorizationProps = await response.json()
-        console.log(data)
+        const data: StreamProps = await response.json()
+        return data
     } catch (error: any) {
         console.error(
             'The following error occured while fetching the current live streams:',
