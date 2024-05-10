@@ -8,9 +8,9 @@ import { getImage } from '../helper/getImage'
 
 import { useScreenWidth } from '../hooks/useScreenWidth'
 import StreamLive from './StreamLive'
+import { getProfilePicture } from '../helper/getProfilePicture'
 
 // TODO: streamData.data.length could be 0
-// TODO: make custom component for the streams
 
 const Streams = () => {
     const [streamData, setStreamData] = useState<StreamProps | undefined>(
@@ -33,6 +33,24 @@ const Streams = () => {
         fetchData()
     }, [])
 
+    // has to be executed as soon as the stream data has arrived
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getProfilePicture(
+                    CLIENT_ID,
+                    CLIENT_SECRET,
+                    '206234482' // streamData.data[].user_id
+                )
+                if (!data) throw new Error('no profile picture')
+            } catch (error) {
+                console.error('Error fetching a user profile picture:', error)
+            }
+        }
+
+        fetchData()
+    }, [])
+
     return (
         <div>
             {streamData?.data &&
@@ -40,9 +58,13 @@ const Streams = () => {
                     <div key={item.user_id} className="">
                         <div key={item.thumbnail_url} className="relative">
                             <img
-                                src={getImage(item.thumbnail_url, {
-                                    size: screenWidth,
-                                })}
+                                src={getImage(
+                                    item.thumbnail_url,
+                                    {
+                                        size: screenWidth,
+                                    },
+                                    'THUMBNAIL'
+                                )}
                                 alt={`${item.user_name} Livestream`}
                                 className="rounded-xl"
                             />
