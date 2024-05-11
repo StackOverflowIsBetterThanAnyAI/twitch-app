@@ -9,6 +9,7 @@ import { getImage } from '../helper/getImage'
 import { useScreenWidth } from '../hooks/useScreenWidth'
 import StreamLive from './StreamLive'
 import { getProfilePicture } from '../helper/getProfilePicture'
+import StreamThumbnail from './StreamThumbnail'
 
 // TODO: streamData.data.length could be 0
 
@@ -29,7 +30,6 @@ const Streams = () => {
                 console.error('Error fetching streams:', error)
             }
         }
-
         fetchData()
     }, [])
 
@@ -56,36 +56,26 @@ const Streams = () => {
             {streamData?.data &&
                 streamData.data.map((item) => (
                     <div key={item.user_id} className="">
-                        <div key={item.thumbnail_url} className="relative">
-                            <img
-                                src={getImage(
-                                    item.thumbnail_url,
-                                    {
-                                        size: screenWidth,
-                                    },
-                                    'THUMBNAIL'
-                                )}
-                                alt={`${item.user_name} Livestream`}
-                                className="rounded-xl"
+                        <div className="relative">
+                            <StreamThumbnail
+                                thumbnail_url={item.thumbnail_url}
+                                user_name={item.user_name}
+                                screenWidth={screenWidth}
+                                key={item.thumbnail_url}
                             />
                             <StreamLive
                                 type={item.type}
                                 key={`${item.user_id}${item.type}`}
                             />
                         </div>
-                        <div key={`${item.user_id}${item.title}`}>
-                            {item.title}
-                        </div>
-                        <div key={item.user_name}>{item.user_name}</div>
-                        <div key={`${item.user_id}${item.game_name}`}>
-                            {item.game_name}
-                        </div>
-                        <div key={`${item.user_id}${item.viewer_count}`}>
-                            {item.viewer_count}
-                        </div>
-                        <div key={`${item.user_id}${item.tags}`}>
+                        <div>{item.title}</div>
+                        <div>{item.user_id}</div>
+                        <div>{item.user_name}</div>
+                        <div>{item.game_name}</div>
+                        <div>{item.viewer_count}</div>
+                        <div>
                             {item.tags.map((item) => (
-                                <a href="#" className="bg-red-500">
+                                <a href="#" className="bg-red-500" key={item}>
                                     {item}
                                 </a>
                             ))}
