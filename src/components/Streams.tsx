@@ -69,7 +69,7 @@ const Streams = () => {
                             />
                         </div>
                         <div>{item.title}</div>
-                        <div>{item.user_id}</div>
+                        <div>Profile picture of {item.user_id}</div>
                         <div>{item.user_name}</div>
                         <div>{item.game_name}</div>
                         <div>{item.viewer_count}</div>
