@@ -68,11 +68,15 @@ const Streams = () => {
                                 key={`${item.user_id}${item.type}`}
                             />
                         </div>
-                        <div>{item.title}</div>
-                        <div>Profile picture of {item.user_id}</div>
-                        <div>{item.user_name}</div>
-                        <div>{item.game_name}</div>
-                        <div>{item.viewer_count}</div>
+                        <div className="flex bg-red-400">
+                            <div>Profile picture of {item.user_id}</div>
+                            <div>
+                                <div>{item.user_name}</div>
+                                <div>{item.title}</div>
+                                <div>{item.game_name}</div>
+                                <div>{item.viewer_count}</div>
+                            </div>
+                        </div>
                         <div>
                             {item.tags.map((item) => (
                                 <a href="#" className="bg-red-500" key={item}>
