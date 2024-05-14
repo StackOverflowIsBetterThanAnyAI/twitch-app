@@ -31,8 +31,8 @@ export const getProfilePicture = async (
         })
         if (!response.ok) throw new Error(`${response.status} ${response.url}`)
         const data: ProfilePictureProps = await response.json()
-        console.log(data.data[0].profile_image_url)
-        return data
+        const imageUrl: string = data.data[0].profile_image_url
+        return imageUrl
     } catch (error: any) {
         console.error(
             'The following error occured while fetching a user profile picture:',

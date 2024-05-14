@@ -1,11 +1,10 @@
 import { FC } from 'react'
 import { getImage } from '../helper/getImage'
-import { ScreenSizeProps } from '../types/ScreenSizeProps'
 
 type StreamThumbnailProps = {
+    screenWidth: 'MOBILE' | 'TABLET' | 'DESKTOP'
     thumbnail_url: string
     user_name: string
-    screenWidth: 'MOBILE' | 'TABLET' | 'DESKTOP'
 }
 
 const StreamThumbnail: FC<StreamThumbnailProps> = ({

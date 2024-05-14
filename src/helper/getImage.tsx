@@ -20,24 +20,9 @@ export const getImage = (
         },
     }
 
-    const sizesProfile = {
-        MOBILE: {
-            height: '32',
-            width: '32',
-        },
-        TABLET: {
-            height: '48',
-            width: '48',
-        },
-        DESKTOP: {
-            height: '64',
-            width: '64',
-        },
-    }
-
-    const outputSize = type === 'THUMBNAIL' ? sizesThumbnail : sizesProfile
-
-    return url
-        .replace('{height}', outputSize[size.size].height)
-        .replace('{width}', outputSize[size.size].width)
+    return type === 'PROFILE'
+        ? url
+        : url
+              .replace('{height}', sizesThumbnail[size.size].height)
+              .replace('{width}', sizesThumbnail[size.size].width)
 }
