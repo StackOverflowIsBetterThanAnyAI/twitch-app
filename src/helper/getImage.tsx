@@ -11,12 +11,12 @@ export const getImage = (
             width: '272',
         },
         TABLET: {
-            height: '198',
-            width: '352',
+            height: '162',
+            width: '288',
         },
         DESKTOP: {
-            height: '405',
-            width: '720',
+            height: '198',
+            width: '352',
         },
     }
 

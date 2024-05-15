@@ -35,12 +35,24 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
         fetchImageUrl()
     })
 
+    const imageWidth = (() => {
+        switch (screenWidth) {
+            case 'MOBILE':
+                return 32
+            case 'TABLET':
+                return 48
+            case 'DESKTOP':
+                return 54
+        }
+    })()
+
     return (
         <img
             src={getImage(imageUrl, { size: screenWidth }, 'PROFILE')}
             alt={user_name}
+            title={user_name}
             className="rounded-full"
-            width={64}
+            width={imageWidth}
         />
     )
 }

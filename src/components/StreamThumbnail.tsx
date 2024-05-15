@@ -22,7 +22,7 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
                 'THUMBNAIL'
             )}
             alt={`${user_name} Livestream`}
-            className="rounded-xl"
+            className="rounded-xl w-full"
         />
     )
 }
