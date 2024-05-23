@@ -2,7 +2,6 @@ import { FC, useEffect, useState } from 'react'
 import { getProfilePicture } from '../helper/getProfilePicture'
 import { CLIENT_ID, CLIENT_SECRET } from '../clientdata/clientdata'
 
-import fallbackImage from './../fallback.png'
 import { getImage } from '../helper/getImage'
 
 type StreamProfilePictureProps = {
@@ -16,7 +15,7 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
     user_id,
     user_name,
 }) => {
-    const [imageUrl, setImageUrl] = useState<string>(fallbackImage)
+    const [imageUrl, setImageUrl] = useState<string>('')
 
     useEffect(() => {
         const fetchImageUrl = async () => {
@@ -26,11 +25,10 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
                     CLIENT_SECRET,
                     user_id
                 )
-                if (!data) throw new Error(`no profile picture for ${user_id}`)
-                setImageUrl(data)
-            } catch (error) {
-                console.error('Error fetching a user profile picture:', error)
-            }
+                if (!data) {
+                    throw new Error()
+                } else setImageUrl(data)
+            } catch (error: any) {}
         }
         fetchImageUrl()
     })
@@ -38,7 +36,7 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
     const imageWidth = (() => {
         switch (screenWidth) {
             case 'MOBILE':
-                return 32
+                return 40
             case 'TABLET':
                 return 48
             case 'DESKTOP':
@@ -51,7 +49,7 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
             src={getImage(imageUrl, { size: screenWidth }, 'PROFILE')}
             alt={user_name}
             title={user_name}
-            className="rounded-full"
+            className="rounded-full p-1 col-span-1 mx-auto"
             width={imageWidth}
         />
     )

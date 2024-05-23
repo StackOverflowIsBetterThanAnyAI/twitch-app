@@ -5,7 +5,7 @@ type StreamChannelProps = {
 }
 
 const StreamChannel: FC<StreamChannelProps> = ({ user_name }) => {
-    return <div className="text-slate-300 font-medium text-lg">{user_name}</div>
+    return <h2 className="text-slate-300 font-medium text-lg">{user_name}</h2>
 }
 
 export default StreamChannel

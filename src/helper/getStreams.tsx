@@ -3,7 +3,10 @@ import { getTwitchAuthorization } from './getTwitchAuthorization'
 
 import type { StreamProps } from '../types/StreamProps'
 
-export const getStreams = async (CLIENT_ID: string, CLIENT_SECRET: string) => {
+export const getStreams = async (
+    CLIENT_ID: string,
+    CLIENT_SECRET: string
+): Promise<StreamProps | undefined> => {
     const url = 'https://api.twitch.tv/helix/streams?language=de'
 
     const authorizationObject: AuthorizationProps =
@@ -28,6 +31,10 @@ export const getStreams = async (CLIENT_ID: string, CLIENT_SECRET: string) => {
         })
         if (!response.ok) throw new Error(`${response.status} ${response.url}`)
         const data: StreamProps = await response.json()
+        if (!data.data.length)
+            throw new Error(
+                `There are no live streams available under this url: ${response.url}`
+            )
         return data
     } catch (error: any) {
         console.error(

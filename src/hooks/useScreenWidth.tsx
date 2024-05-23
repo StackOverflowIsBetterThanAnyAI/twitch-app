@@ -15,6 +15,7 @@ export const useScreenWidth = (): 'MOBILE' | 'TABLET' | 'DESKTOP' => {
         }
         window.addEventListener('resize', handleScreenWidth)
         handleScreenWidth()
+
         return () => {
             window.removeEventListener('resize', handleScreenWidth)
         }

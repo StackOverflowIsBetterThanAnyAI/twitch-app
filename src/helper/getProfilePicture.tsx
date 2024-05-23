@@ -6,7 +6,7 @@ export const getProfilePicture = async (
     CLIENT_ID: string,
     CLIENT_SECRET: string,
     user_id: string
-) => {
+): Promise<string | undefined> => {
     const url = `https://api.twitch.tv/helix/users?id=${user_id}`
 
     const authorizationObject: AuthorizationProps =
@@ -38,5 +38,6 @@ export const getProfilePicture = async (
             'The following error occured while fetching a user profile picture:',
             error
         )
+        return undefined
     }
 }

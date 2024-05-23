@@ -16,12 +16,11 @@ import StreamTags from './StreamTags'
 import StreamGame from './StreamGame'
 import StreamTitle from './StreamTitle'
 import StreamChannel from './StreamChannel'
-
-// TODO: fallback images for thumbnail, and more?
-
-// TODO: adjust thumbnail size
+import StreamFallback from './StreamFallback'
 
 // TODO: check if api calls are on the right place in the code
+
+// TODO: skeleton loader
 
 // TODO: check if api error handling works
 
@@ -42,10 +41,13 @@ import StreamChannel from './StreamChannel'
 
 // TODO: check if more than twenty streams can be loaded by this or another api
 
+// TODO: title and game can be changed during a live stream
+
 const StreamFeed = () => {
     const [streamData, setStreamData] = useState<StreamProps | undefined>(
         undefined
     )
+    const [error, setError] = useState(false)
 
     const screenWidth = useScreenWidth()
 
@@ -54,9 +56,10 @@ const StreamFeed = () => {
             try {
                 const data = await getStreams(CLIENT_ID, CLIENT_SECRET)
                 setStreamData(data)
-                if (!data) throw new Error('no Streams')
+                setError(false)
+                if (!data) throw new Error()
             } catch (error) {
-                console.error('Error fetching streams:', error)
+                setError(true)
             }
         }
         fetchData()
@@ -76,9 +79,9 @@ const StreamFeed = () => {
         }
     })()
 
-    return (
+    return !error ? (
         // TODO: turn style into className if possible
-        <div
+        <article
             style={{
                 gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
             }}
@@ -87,7 +90,7 @@ const StreamFeed = () => {
             {streamData?.data &&
                 streamData.data.map((item) => (
                     <article key={item.user_id}>
-                        <div className="relative pb-2">
+                        <section className="relative pb-2">
                             <StreamThumbnail
                                 thumbnail_url={item.thumbnail_url}
                                 user_name={item.user_name}
@@ -101,16 +104,14 @@ const StreamFeed = () => {
                             <StreamViewerCount
                                 viewer_count={item.viewer_count}
                             />
-                        </div>
-                        <div className="grid grid-cols-5 grid-rows-1 w-full">
-                            <div className="p-1 col-span-1 mx-auto">
-                                <StreamProfilePicture
-                                    screenWidth={screenWidth}
-                                    user_id={item.user_id}
-                                    user_name={item.user_name}
-                                />
-                            </div>
-                            <div className="col-span-4">
+                        </section>
+                        <section className="grid grid-cols-5 grid-rows-1 w-full">
+                            <StreamProfilePicture
+                                screenWidth={screenWidth}
+                                user_id={item.user_id}
+                                user_name={item.user_name}
+                            />
+                            <section className="col-span-4">
                                 <StreamChannel user_name={item.user_name} />
                                 <StreamTitle title={item.title} />
                                 <StreamGame game_name={item.game_name} />
@@ -119,11 +120,13 @@ const StreamFeed = () => {
                                         <StreamTags item={item} key={item} />
                                     ))}
                                 </div>
-                            </div>
-                        </div>
+                            </section>
+                        </section>
                     </article>
                 ))}
-        </div>
+        </article>
+    ) : (
+        <StreamFallback screenWidth={screenWidth} />
     )
 }
 

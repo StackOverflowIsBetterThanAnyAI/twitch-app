@@ -8,13 +8,13 @@ const StreamLive: FC<StreamLiveProps> = ({ type }) => {
     return (
         <>
             {type === 'live' ? (
-                <div className="absolute left-2 top-2 bg-red-600 text-slate-50 rounded-lg px-2 font-medium">
+                <mark className="absolute left-2 top-2 bg-red-600 text-slate-50 rounded-lg px-2 font-medium">
                     {type.toUpperCase()}
-                </div>
+                </mark>
             ) : (
-                <div className="absolute left-2 top-2 bg-gray-800 text-slate-50 rounded-lg px-2 font-medium shadow">
+                <mark className="absolute left-2 top-2 bg-gray-800 text-slate-50 rounded-lg px-2 font-medium shadow">
                     {type.toUpperCase()}
-                </div>
+                </mark>
             )}
         </>
     )
