@@ -1,4 +1,5 @@
 import { FC } from 'react'
+
 import fallbackThumbnailImage from './../fallbackThumbnail.png'
 import StreamThumbnail from './StreamThumbnail'
 
@@ -8,7 +9,7 @@ type StreamFallbackProps = {
 
 const StreamFallback: FC<StreamFallbackProps> = ({ screenWidth }) => {
     return (
-        <article className="p-4 text-center text-slate-300">
+        <article className="p-12 text-center text-slate-300">
             <section>
                 <h2 className="text-xl font-bold">Ooops!</h2>
                 <h3 className="text-lg">

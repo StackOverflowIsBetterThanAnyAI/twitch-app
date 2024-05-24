@@ -8,6 +8,7 @@ export const getImage = (
     size: ScreenSizeProps,
     type: 'THUMBNAIL' | 'PROFILE'
 ): string => {
+    const cacheBuster = Date.now()
     const sizesThumbnail = {
         MOBILE: {
             height: '180',
@@ -31,8 +32,11 @@ export const getImage = (
     return url.startsWith(
         'https://static-cdn.jtvnw.net/previews-ttv/live_user_'
     )
-        ? url
+        ? `${url
               .replace('{height}', sizesThumbnail[size.size].height)
-              .replace('{width}', sizesThumbnail[size.size].width)
+              .replace(
+                  '{width}',
+                  sizesThumbnail[size.size].width
+              )}&cacheBuster=${cacheBuster}`
         : fallbackThumbnailImage
 }

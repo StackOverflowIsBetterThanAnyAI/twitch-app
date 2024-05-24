@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react'
+import { getStreams } from '../helper/getStreams'
+import { StreamProps } from '../types/StreamProps'
+import { useScreenWidth } from '../hooks/useScreenWidth'
+
+import SkeletonFeed from './skeleton/SkeletonFeed'
+import StreamGame from './StreamGame'
+import StreamChannel from './StreamChannel'
+import StreamFallback from './StreamFallback'
+import StreamLive from './StreamLive'
+import StreamProfilePicture from './StreamProfilePicture'
+import StreamTags from './StreamTags'
+import StreamThumbnail from './StreamThumbnail'
+import StreamTitle from './StreamTitle'
+import StreamViewerCount from './StreamViewerCount'
 
 import { CLIENT_ID, CLIENT_SECRET } from '../clientdata/clientdata'
 
-import { getStreams } from '../helper/getStreams'
-
-import { StreamProps } from '../types/StreamProps'
-
-import { useScreenWidth } from '../hooks/useScreenWidth'
-
-import StreamLive from './StreamLive'
-import StreamThumbnail from './StreamThumbnail'
-import StreamProfilePicture from './StreamProfilePicture'
-import StreamViewerCount from './StreamViewerCount'
-import StreamTags from './StreamTags'
-import StreamGame from './StreamGame'
-import StreamTitle from './StreamTitle'
-import StreamChannel from './StreamChannel'
-import StreamFallback from './StreamFallback'
+// TODO: website loads while the skeleton is displayed
 
 // TODO: check if api calls are on the right place in the code
 
@@ -26,67 +26,55 @@ import StreamFallback from './StreamFallback'
 
 // TODO: api result can also be empty or wrong
 
-// TODO: parameters and imports are sorted alphabetically
-
-// TODO: remove unused import statements and variables
-
 // TODO: check if something is re-rendered / executed too often
 // and can be replaced by a state variable
 
 // TODO: implement loading screen for initial page loading
 
-// TODO: add function which refreshes the page every eg three minutes
-
 // TODO: implement function which lets the user filter the results
-
-// TODO: check if more than twenty streams can be loaded by this or another api
-
-// TODO: title and game can be changed during a live stream
 
 const StreamFeed = () => {
     const [streamData, setStreamData] = useState<StreamProps | undefined>(
         undefined
     )
     const [error, setError] = useState(false)
+    const [loading, setLoading] = useState(true)
 
     const screenWidth = useScreenWidth()
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getStreams(CLIENT_ID, CLIENT_SECRET)
-                setStreamData(data)
-                setError(false)
-                if (!data) throw new Error()
-            } catch (error) {
-                setError(true)
-            }
+    const loadStreams = async () => {
+        try {
+            const data = await getStreams(CLIENT_ID, CLIENT_SECRET)
+            setStreamData(data)
+            if (!data) throw new Error()
+            setError(false)
+        } catch (error) {
+            setError(true)
+        } finally {
+            setLoading(false)
         }
-        fetchData()
+    }
+
+    useEffect(() => {
+        loadStreams()
+        const refresh = setInterval(() => {
+            loadStreams()
+        }, 180000)
+        return () => {
+            clearInterval(refresh)
+        }
     }, [])
 
-    // TODO: should be turned into CSS.Properties
-    // => x < 700px looks meh, there should actually be two
-    // cards next to each other instead of only one
-    const gridClassName = (() => {
-        switch (screenWidth) {
-            case 'MOBILE':
-                return 'grid grid-cols-1'
-            case 'TABLET':
-                return 'grid grid-cols-2 gap-4'
-            case 'DESKTOP':
-                return 'grid grid-cols-3 gap-4'
-        }
-    })()
+    if (error) {
+        return <StreamFallback screenWidth={screenWidth} />
+    }
 
-    return !error ? (
-        // TODO: turn style into className if possible
-        <article
-            style={{
-                gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            }}
-            className="p-4 gap-4 grid"
-        >
+    if (loading) {
+        return <SkeletonFeed />
+    }
+
+    return (
+        <article className="p-4 gap-4 grid grid-cols-auto-fit-320">
             {streamData?.data &&
                 streamData.data.map((item) => (
                     <article key={item.user_id}>
@@ -125,8 +113,6 @@ const StreamFeed = () => {
                     </article>
                 ))}
         </article>
-    ) : (
-        <StreamFallback screenWidth={screenWidth} />
     )
 }
 

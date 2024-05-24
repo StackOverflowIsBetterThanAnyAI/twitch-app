@@ -1,15 +1,15 @@
 {
-    "name": "Twitch App",
+    "name": "Twitch-App",
     "manifest_version": 3,
     "version": "1.0.0",
-    "description": "Twitch App",
+    "description": "Twitch-App",
     "author": "Michael Münzenhofer",
     "icons": {
         "128": "favicon.png"
     },
     "action": {
         "default_popup": "index.html",
-        "default_title": "Twitch App",
+        "default_title": "Twitch-App",
         "default_icon": {
             "128": "favicon.png"
         }

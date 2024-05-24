@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react'
 import { getProfilePicture } from '../helper/getProfilePicture'
+
 import { CLIENT_ID, CLIENT_SECRET } from '../clientdata/clientdata'
 
 import { getImage } from '../helper/getImage'
@@ -19,19 +20,23 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
 
     useEffect(() => {
         const fetchImageUrl = async () => {
-            try {
-                const data = await getProfilePicture(
-                    CLIENT_ID,
-                    CLIENT_SECRET,
-                    user_id
-                )
-                if (!data) {
-                    throw new Error()
-                } else setImageUrl(data)
-            } catch (error: any) {}
+            if (user_id === 'fallback') setImageUrl('')
+            else
+                try {
+                    const data = await getProfilePicture(
+                        CLIENT_ID,
+                        CLIENT_SECRET,
+                        user_id
+                    )
+                    if (!data) {
+                        throw new Error()
+                    } else setImageUrl(data)
+                } catch (error: any) {}
         }
         fetchImageUrl()
-    })
+
+        return () => {}
+    }, [user_id])
 
     const imageWidth = (() => {
         switch (screenWidth) {
