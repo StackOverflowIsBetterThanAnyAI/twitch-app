@@ -27,6 +27,7 @@ const SkeletonProfilePicture: FC<SkeletonProfilePictureProps> = ({
             title="loading"
             className="rounded-full p-1 col-span-1 mx-auto animate-pulse"
             width={imageWidth}
+            loading="lazy"
         />
     )
 }

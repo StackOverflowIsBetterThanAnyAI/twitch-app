@@ -56,6 +56,7 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
             title={user_name}
             className="rounded-full p-1 col-span-1 mx-auto"
             width={imageWidth}
+            loading="lazy"
         />
     )
 }

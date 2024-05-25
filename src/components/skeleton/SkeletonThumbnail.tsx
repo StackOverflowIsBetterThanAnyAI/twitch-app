@@ -12,6 +12,7 @@ const SkeletonThumbnail: FC<SkeletonThumbnailProps> = ({ screenWidth }) => {
             src={fallbackThumbnailSkeleton}
             alt="loading"
             className="rounded-xl w-full pb-2 animate-pulse"
+            loading="lazy"
         />
     )
 }
