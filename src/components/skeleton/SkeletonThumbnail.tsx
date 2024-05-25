@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import fallbackThumbnailSkeleton from './../../fallbackThumbnailSkeleton.png'
+import fallbackThumbnailSkeleton from './../../images/fallbackThumbnailSkeleton.png'
 
 type SkeletonThumbnailProps = {
     screenWidth: 'MOBILE' | 'TABLET' | 'DESKTOP'

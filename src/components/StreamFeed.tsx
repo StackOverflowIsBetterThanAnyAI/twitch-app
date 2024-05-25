@@ -29,8 +29,6 @@ import { CLIENT_ID, CLIENT_SECRET } from '../clientdata/clientdata'
 // TODO: check if something is re-rendered / executed too often
 // and can be replaced by a state variable
 
-// TODO: implement loading screen for initial page loading
-
 // TODO: implement function which lets the user filter the results
 
 const StreamFeed = () => {

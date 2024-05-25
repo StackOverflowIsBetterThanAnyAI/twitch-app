@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import fallbackSkeleton from './../../fallbackSkeleton.png'
+import fallbackSkeleton from './../../images/fallbackSkeleton.png'
 
 type SkeletonProfilePictureProps = {
     screenWidth: 'MOBILE' | 'TABLET' | 'DESKTOP'

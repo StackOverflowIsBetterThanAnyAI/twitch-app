@@ -1,6 +1,6 @@
 import { FC } from 'react'
 
-import fallbackThumbnailImage from './../fallbackThumbnail.png'
+import fallbackThumbnailImage from './../images/fallbackThumbnail.png'
 import StreamThumbnail from './StreamThumbnail'
 
 type StreamFallbackProps = {

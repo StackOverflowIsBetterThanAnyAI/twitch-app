@@ -1,7 +1,7 @@
 import { ScreenSizeProps } from '../types/ScreenSizeProps'
 
-import fallbackImage from './../fallback.png'
-import fallbackThumbnailImage from './../fallbackThumbnail.png'
+import fallbackImage from './../images/fallback.png'
+import fallbackThumbnailImage from './../images/fallbackThumbnail.png'
 
 export const getImage = (
     url: string,
