@@ -16,11 +16,7 @@ import StreamViewerCount from './StreamViewerCount'
 
 import { CLIENT_ID, CLIENT_SECRET } from '../clientdata/clientdata'
 
-// TODO: website loads while the skeleton is displayed
-
 // TODO: check if api calls are on the right place in the code
-
-// TODO: skeleton loader
 
 // TODO: check if api error handling works
 
@@ -64,7 +60,12 @@ const StreamFeed = () => {
     }, [])
 
     if (error) {
-        return <StreamFallback screenWidth={screenWidth} />
+        return (
+            <StreamFallback
+                loadStreams={loadStreams}
+                screenWidth={screenWidth}
+            />
+        )
     }
 
     if (loading) {
