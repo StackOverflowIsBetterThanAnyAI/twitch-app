@@ -20,18 +20,16 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
 
     useEffect(() => {
         const fetchImageUrl = async () => {
-            if (user_id === 'fallback') setImageUrl('')
-            else
-                try {
-                    const data = await getProfilePicture(
-                        CLIENT_ID,
-                        CLIENT_SECRET,
-                        user_id
-                    )
-                    if (!data) {
-                        throw new Error()
-                    } else setImageUrl(data)
-                } catch (error: any) {}
+            try {
+                const data = await getProfilePicture(
+                    CLIENT_ID,
+                    CLIENT_SECRET,
+                    user_id
+                )
+                if (!data) {
+                    throw new Error()
+                } else setImageUrl(data)
+            } catch (error: any) {}
         }
         fetchImageUrl()
 

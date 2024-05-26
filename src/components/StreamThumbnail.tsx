@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { getImage } from '../helper/getImage'
 
 type StreamThumbnailProps = {
@@ -12,19 +12,38 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
     thumbnail_url,
     user_name,
 }) => {
+    const [loaded, setLoaded] = useState<boolean>(false)
     return (
-        <img
-            src={getImage(
-                thumbnail_url,
-                {
-                    size: screenWidth,
-                },
-                'THUMBNAIL'
+        <>
+            {loaded ? (
+                <img
+                    src={getImage(
+                        thumbnail_url,
+                        {
+                            size: screenWidth,
+                        },
+                        'THUMBNAIL'
+                    )}
+                    alt={`${user_name} Livestream`}
+                    className="rounded-xl w-full"
+                    loading="lazy"
+                />
+            ) : (
+                <img
+                    src={getImage(
+                        '',
+                        {
+                            size: screenWidth,
+                        },
+                        'THUMBNAIL'
+                    )}
+                    alt={`loading ${user_name}`}
+                    className="rounded-xl w-full"
+                    loading="lazy"
+                    onLoad={() => setLoaded(true)}
+                />
             )}
-            alt={`${user_name} Livestream`}
-            className="rounded-xl w-full"
-            loading="lazy"
-        />
+        </>
     )
 }
 

@@ -49,7 +49,7 @@ const StreamFeed = () => {
         } catch (error) {
             setError(true)
         } finally {
-            setLoading(true)
+            setLoading(false)
         }
     }
 
