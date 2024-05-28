@@ -7,7 +7,7 @@ type StreamTitleProps = {
 const StreamTitle: FC<StreamTitleProps> = ({ title }) => {
     return (
         <h3
-            className="text-slate-300 w-full text-ellipsis whitespace-nowrap overflow-hidden"
+            className="text-slate-300 w-full text-ellipsis whitespace-nowrap overflow-hidden text-base lg:text-lg"
             title={title}
         >
             {title}

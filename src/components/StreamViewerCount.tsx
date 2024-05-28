@@ -29,7 +29,7 @@ const StreamViewerCount: FC<StreamViewerCountProps> = ({ viewer_count }) => {
     })()
 
     return (
-        <aside className="absolute left-2 bottom-4 bg-zinc-900 text-slate-50 px-2 opacity-85 tabular-nums">
+        <aside className="absolute left-2 bottom-4 bg-zinc-900 text-slate-50 px-2 opacity-85 tabular-nums text-sm lg:text-base">
             {`${formattedViewerCount} viewers`}
         </aside>
     )

@@ -27,6 +27,8 @@ import { CLIENT_ID, CLIENT_SECRET } from '../clientdata/clientdata'
 
 // TODO: implement function which lets the user filter the results
 
+// TODO: fallback thumbnail if order of streams changes
+
 const StreamFeed = () => {
     const [streamData, setStreamData] = useState<StreamProps | undefined>(
         undefined
