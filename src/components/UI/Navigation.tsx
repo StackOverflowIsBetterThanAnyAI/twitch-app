@@ -55,9 +55,9 @@ const Navigation: FC<NavigationProps> = ({ screenWidth }) => {
     }, [blockOpacity, navOpacity])
 
     return (
-        <>
+        <div className="sticky top-0 z-10">
             <nav
-                className={`bg-zinc-900 text-slate-300 flex justify-between py-2 px-4 h-16 sticky top-0 z-10
+                className={`bg-zinc-900 text-slate-300 flex justify-between py-2 px-4 h-16
             transition-opacity duration-500 ease-in-out ${navOpacity}`}
             >
                 <a href="/" className="flex flex-row">
@@ -106,12 +106,22 @@ const Navigation: FC<NavigationProps> = ({ screenWidth }) => {
                 )}
                 <img src={logo} alt="Settings" loading="lazy" />
             </nav>
-            {(screenWidth === 'MOBILE' || screenWidth === 'TABLET_SMALL') && (
-                <div>
-                    <input type="search" hidden={hideSearch} />
-                </div>
-            )}
-        </>
+            {(screenWidth === 'MOBILE' || screenWidth === 'TABLET_SMALL') &&
+                !hideSearch && (
+                    <div className="bg-zinc-800 p-2 outline outline-zinc-900 w-full">
+                        <input
+                            type="search"
+                            placeholder="Search"
+                            className="bg-zinc-900 text-slate-300 caret-zinc-300 px-2"
+                            value={searchText}
+                            onChange={handleChange}
+                            onFocus={handleFocus}
+                            onInput={handleInput}
+                            onBlur={handleBlur}
+                        />
+                    </div>
+                )}
+        </div>
     )
 }
 
