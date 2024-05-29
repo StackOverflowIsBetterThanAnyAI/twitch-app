@@ -23,6 +23,9 @@ const Navigation: FC<NavigationProps> = ({ screenWidth }) => {
         setBlockOpacity(true)
     }
     const handleInput = handleFocus
+    const handleSearch = () => {
+        console.log(`searching for ${searchText}`)
+    }
 
     useEffect(() => {
         let lastScrollY = window.scrollY
@@ -79,7 +82,15 @@ const Navigation: FC<NavigationProps> = ({ screenWidth }) => {
                             onInput={handleInput}
                             onBlur={handleBlur}
                         />
-                        <button className="m-auto px-2">
+                        <button
+                            className={`m-auto px-2 ${
+                                searchText
+                                    ? 'hover:cursor-pointer'
+                                    : 'hover:cursor-not-allowed'
+                            }`}
+                            onClick={handleSearch}
+                            disabled={!searchText}
+                        >
                             <svg
                                 className="w-6 h-6 text-gray-800 dark:text-white"
                                 aria-hidden="true"
@@ -108,7 +119,7 @@ const Navigation: FC<NavigationProps> = ({ screenWidth }) => {
             </nav>
             {(screenWidth === 'MOBILE' || screenWidth === 'TABLET_SMALL') &&
                 !hideSearch && (
-                    <div className="bg-zinc-800 p-2 outline outline-zinc-900 w-full">
+                    <div className="flex justify-center bg-zinc-800 p-2 outline outline-zinc-900 w-full">
                         <input
                             type="search"
                             placeholder="Search"
@@ -119,6 +130,32 @@ const Navigation: FC<NavigationProps> = ({ screenWidth }) => {
                             onInput={handleInput}
                             onBlur={handleBlur}
                         />
+                        <button
+                            className={`px-2 ${
+                                searchText
+                                    ? 'hover:cursor-pointer'
+                                    : 'hover:cursor-not-allowed'
+                            }`}
+                            onClick={handleSearch}
+                            disabled={!searchText}
+                        >
+                            <svg
+                                className="w-6 h-6 text-gray-800 dark:text-white"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke="gainsboro"
+                                    strokeLinecap="round"
+                                    strokeWidth="2"
+                                    d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+                                />
+                            </svg>
+                        </button>
                     </div>
                 )}
         </div>
