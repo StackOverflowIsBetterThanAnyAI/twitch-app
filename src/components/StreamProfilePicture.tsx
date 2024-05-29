@@ -6,7 +6,7 @@ import { CLIENT_ID, CLIENT_SECRET } from '../clientdata/clientdata'
 import { getImage } from '../helper/getImage'
 
 type StreamProfilePictureProps = {
-    screenWidth: 'MOBILE' | 'TABLET' | 'DESKTOP'
+    screenWidth: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP'
     user_id: string
     user_name: string
 }
@@ -40,6 +40,7 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
         switch (screenWidth) {
             case 'MOBILE':
                 return 40
+            case 'TABLET_SMALL':
             case 'TABLET':
                 return 48
             case 'DESKTOP':

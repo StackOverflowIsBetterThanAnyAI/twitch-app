@@ -2,7 +2,7 @@ import { FC, useState } from 'react'
 import { getImage } from '../helper/getImage'
 
 type StreamThumbnailProps = {
-    screenWidth: 'MOBILE' | 'TABLET' | 'DESKTOP'
+    screenWidth: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP'
     thumbnail_url: string
     user_name: string
 }

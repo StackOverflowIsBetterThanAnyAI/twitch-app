@@ -1,11 +1,8 @@
-import { useScreenWidth } from '../../hooks/useScreenWidth'
-
 import SkeletonChannelInfo from './SkeletonChannelInfo'
 import SkeletonProfilePicture from './SkeletonProfilePicture'
 import SkeletonThumbnail from './SkeletonThumbnail'
 
 const SkeletonFeed = () => {
-    const screenWidth = useScreenWidth()
     const skeleton = []
     for (let i = 0; i < 20; i++) {
         skeleton.push(i)
@@ -15,9 +12,9 @@ const SkeletonFeed = () => {
             {skeleton.map((item) => {
                 return (
                     <article key={item}>
-                        <SkeletonThumbnail screenWidth={screenWidth} />
+                        <SkeletonThumbnail />
                         <section className="grid grid-cols-5 grid-rows-1 w-full">
-                            <SkeletonProfilePicture screenWidth={screenWidth} />
+                            <SkeletonProfilePicture />
                             <section className="col-span-4">
                                 <SkeletonChannelInfo />
                             </section>

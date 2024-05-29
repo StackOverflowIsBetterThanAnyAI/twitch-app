@@ -6,7 +6,7 @@ import Button from './UI/Button'
 
 type StreamFallbackProps = {
     loadStreams: () => void
-    screenWidth: 'MOBILE' | 'TABLET' | 'DESKTOP'
+    screenWidth: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP'
 }
 
 const StreamFallback: FC<StreamFallbackProps> = ({

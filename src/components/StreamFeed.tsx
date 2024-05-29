@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { getStreams } from '../helper/getStreams'
 import { StreamProps } from '../types/StreamProps'
-import { useScreenWidth } from '../hooks/useScreenWidth'
 
 import SkeletonFeed from './skeleton/SkeletonFeed'
 import StreamGame from './StreamGame'
@@ -29,14 +28,16 @@ import { CLIENT_ID, CLIENT_SECRET } from '../clientdata/clientdata'
 
 // TODO: fallback thumbnail if order of streams changes
 
-const StreamFeed = () => {
+type StreamFeedProps = {
+    screenWidth: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP'
+}
+
+const StreamFeed: FC<StreamFeedProps> = ({ screenWidth }) => {
     const [streamData, setStreamData] = useState<StreamProps | undefined>(
         undefined
     )
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
-
-    const screenWidth = useScreenWidth()
 
     const loadStreams = async () => {
         try {

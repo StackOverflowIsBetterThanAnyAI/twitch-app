@@ -1,3 +1,3 @@
 export type ScreenSizeProps = {
-    size: 'MOBILE' | 'TABLET' | 'DESKTOP'
+    size: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP'
 }

@@ -14,6 +14,10 @@ export const getImage = (
             height: '180',
             width: '320',
         },
+        TABLET_SMALL: {
+            height: '180',
+            width: '320',
+        },
         TABLET: {
             height: '180',
             width: '320',
