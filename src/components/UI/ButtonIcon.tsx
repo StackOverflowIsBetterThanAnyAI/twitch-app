@@ -2,7 +2,7 @@ import { FC } from 'react'
 
 type ButtonIconProps = {
     onClick: () => void
-    type: 'search'
+    type: 'Search'
 }
 
 const ButtonIcon: FC<ButtonIconProps> = ({ onClick, type }) => {
@@ -26,7 +26,7 @@ const ButtonIcon: FC<ButtonIconProps> = ({ onClick, type }) => {
     )
     const icon = (() => {
         switch (type) {
-            case 'search':
+            case 'Search':
                 return search
         }
     })()
@@ -38,6 +38,7 @@ const ButtonIcon: FC<ButtonIconProps> = ({ onClick, type }) => {
         focus:bg-zinc-800 focus:outline focus:outline-zinc-700 focus:outline-2
         active:bg-zinc-700 active:outline active:outline-zinc-600 active:outline-2"
             onClick={onClick}
+            title={type}
         >
             {icon}
         </button>

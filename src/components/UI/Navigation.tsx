@@ -100,7 +100,7 @@ const Navigation: FC<NavigationProps> = ({ screenWidth }) => {
                     </div>
                 ) : (
                     <ButtonIcon
-                        type="search"
+                        type="Search"
                         onClick={() => setHideSearch((prev) => !prev)}
                     />
                 )}
