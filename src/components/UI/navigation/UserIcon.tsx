@@ -1,14 +1,13 @@
-import { FC } from 'react'
 import logo from './../../../images/fallback.png'
+import { CLIENT_ID } from './../../../clientdata/clientdata'
 
-type UserIconProps = {
-    screenWidth: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP'
-}
-
-export const UserIcon: FC<UserIconProps> = ({ screenWidth }) => {
+export const UserIcon = () => {
     return (
-        <button className="rounded-md px-2 pseudo-zinc">
+        <a
+            href={`https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=http://localhost&scope=user:read:email`}
+            className="rounded-md px-2 pseudo-zinc"
+        >
             <img src={logo} alt="Settings" loading="lazy" width={48} />
-        </button>
+        </a>
     )
 }

@@ -104,7 +104,7 @@ const Navigation: FC<NavigationProps> = ({ screenWidth }) => {
                         onClick={handleToggleMobile}
                     />
                 )}
-                <UserIcon screenWidth={screenWidth} />
+                <UserIcon />
             </nav>
             {(screenWidth === 'MOBILE' || screenWidth === 'TABLET_SMALL') &&
                 !hideSearch && (
