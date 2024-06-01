@@ -41,6 +41,7 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
             case 'MOBILE':
                 return 40
             case 'TABLET_SMALL':
+                return 48
             case 'TABLET':
                 return 48
             case 'DESKTOP':

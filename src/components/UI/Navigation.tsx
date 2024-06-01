@@ -1,6 +1,9 @@
-import { FC, useEffect, useState } from 'react'
-import logo from './../../images/fallback.png'
+import { FC, useEffect, useRef, useState } from 'react'
 import ButtonIcon from './ButtonIcon'
+import { HomeIcon } from './navigation/HomeIcon'
+import { UserIcon } from './navigation/UserIcon'
+import { DesktopSearch } from './navigation/DesktopSearch'
+import { MobileSearch } from './navigation/MobileSearch'
 
 type NavigationProps = {
     screenWidth: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP'
@@ -11,6 +14,9 @@ const Navigation: FC<NavigationProps> = ({ screenWidth }) => {
     const [navOpacity, setNavOpacity] = useState<string>('opacity-100')
     const [blockOpacity, setBlockOpacity] = useState(false)
     const [hideSearch, setHideSearch] = useState(true)
+    const [ariaPressed, setAriaPressed] = useState(false)
+    const searchMobileRef = useRef<HTMLInputElement>(null)
+    const buttonIconRef = useRef<HTMLButtonElement>(null)
 
     const handleBlur = () => {
         setBlockOpacity(false)
@@ -23,8 +29,24 @@ const Navigation: FC<NavigationProps> = ({ screenWidth }) => {
         setBlockOpacity(true)
     }
     const handleInput = handleFocus
+    const handleKeyDownMobile = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Escape') {
+            buttonIconRef.current?.focus()
+            setHideSearch(true)
+        } else if (e.shiftKey && e.key === 'Tab') {
+            e.preventDefault()
+            buttonIconRef.current?.focus()
+        }
+    }
     const handleSearch = () => {
         console.log(`searching for ${searchText}`)
+    }
+    const handleToggleMobile = () => {
+        setHideSearch((prev) => !prev)
+        setAriaPressed((prev) => !prev)
+        setTimeout(() => {
+            searchMobileRef.current?.focus()
+        }, 0)
     }
 
     useEffect(() => {
@@ -63,100 +85,39 @@ const Navigation: FC<NavigationProps> = ({ screenWidth }) => {
                 className={`bg-zinc-900 text-slate-300 flex justify-between py-2 px-4 h-16
             transition-opacity duration-500 ease-in-out ${navOpacity}`}
             >
-                <a href="/" className="flex flex-row">
-                    <img src={logo} alt="Twitch-App Homepage" loading="lazy" />
-                    {(screenWidth === 'TABLET' ||
-                        screenWidth === 'DESKTOP') && (
-                        <span className="pl-2 m-auto">Twitch-App</span>
-                    )}
-                </a>
+                <HomeIcon screenWidth={screenWidth} />
                 {screenWidth === 'TABLET' || screenWidth === 'DESKTOP' ? (
-                    <div className="flex flex-row outline outline-zinc-700 rounded-lg">
-                        <input
-                            type="search"
-                            placeholder="Search"
-                            className="bg-zinc-900 text-slate-300 caret-zinc-300 px-2"
-                            value={searchText}
-                            onChange={handleChange}
-                            onFocus={handleFocus}
-                            onInput={handleInput}
-                            onBlur={handleBlur}
-                        />
-                        <button
-                            className={`m-auto px-2 ${
-                                searchText
-                                    ? 'hover:cursor-pointer'
-                                    : 'hover:cursor-not-allowed'
-                            }`}
-                            onClick={handleSearch}
-                            disabled={!searchText}
-                        >
-                            <svg
-                                className="w-6 h-6 text-gray-800 dark:text-white"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke="gainsboro"
-                                    strokeLinecap="round"
-                                    strokeWidth="2"
-                                    d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
-                                />
-                            </svg>
-                        </button>
-                    </div>
+                    <DesktopSearch
+                        handleBlur={handleBlur}
+                        handleChange={handleChange}
+                        handleFocus={handleFocus}
+                        handleInput={handleInput}
+                        handleSearch={handleSearch}
+                        searchText={searchText}
+                    />
                 ) : (
                     <ButtonIcon
+                        ariaLabel="Search current Livestreams"
+                        ariaPressed={ariaPressed}
+                        buttonIconRef={buttonIconRef}
                         type="Search"
-                        onClick={() => setHideSearch((prev) => !prev)}
+                        onClick={handleToggleMobile}
                     />
                 )}
-                <img src={logo} alt="Settings" loading="lazy" />
+                <UserIcon screenWidth={screenWidth} />
             </nav>
             {(screenWidth === 'MOBILE' || screenWidth === 'TABLET_SMALL') &&
                 !hideSearch && (
-                    <div className="flex justify-center bg-zinc-800 p-2 outline outline-zinc-900 w-full">
-                        <input
-                            type="search"
-                            placeholder="Search"
-                            className="bg-zinc-900 text-slate-300 caret-zinc-300 px-2"
-                            value={searchText}
-                            onChange={handleChange}
-                            onFocus={handleFocus}
-                            onInput={handleInput}
-                            onBlur={handleBlur}
-                        />
-                        <button
-                            className={`px-2 ${
-                                searchText
-                                    ? 'hover:cursor-pointer'
-                                    : 'hover:cursor-not-allowed'
-                            }`}
-                            onClick={handleSearch}
-                            disabled={!searchText}
-                        >
-                            <svg
-                                className="w-6 h-6 text-gray-800 dark:text-white"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke="gainsboro"
-                                    strokeLinecap="round"
-                                    strokeWidth="2"
-                                    d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
-                                />
-                            </svg>
-                        </button>
-                    </div>
+                    <MobileSearch
+                        handleBlur={handleBlur}
+                        handleChange={handleChange}
+                        handleFocus={handleFocus}
+                        handleInput={handleInput}
+                        handleKeyDown={handleKeyDownMobile}
+                        handleSearch={handleSearch}
+                        searchMobileRef={searchMobileRef}
+                        searchText={searchText}
+                    />
                 )}
         </div>
     )

@@ -1,11 +1,20 @@
-import { FC } from 'react'
+import { FC, RefObject } from 'react'
 
 type ButtonIconProps = {
+    ariaLabel: string
+    ariaPressed: boolean
+    buttonIconRef: RefObject<HTMLButtonElement>
     onClick: () => void
     type: 'Search'
 }
 
-const ButtonIcon: FC<ButtonIconProps> = ({ onClick, type }) => {
+const ButtonIcon: FC<ButtonIconProps> = ({
+    ariaLabel,
+    ariaPressed,
+    buttonIconRef,
+    onClick,
+    type,
+}) => {
     const search = (
         <svg
             className="w-6 h-6 text-gray-800 dark:text-white"
@@ -33,12 +42,12 @@ const ButtonIcon: FC<ButtonIconProps> = ({ onClick, type }) => {
 
     return (
         <button
-            className="m-auto p-2 rounded-full
-        hover:bg-zinc-800
-        focus:bg-zinc-800 focus:outline focus:outline-zinc-700 focus:outline-2
-        active:bg-zinc-700 active:outline active:outline-zinc-600 active:outline-2"
+            className="m-auto p-2 rounded-full pseudo-zinc"
             onClick={onClick}
             title={type}
+            aria-label={ariaLabel}
+            aria-pressed={ariaPressed}
+            ref={buttonIconRef}
         >
             {icon}
         </button>
