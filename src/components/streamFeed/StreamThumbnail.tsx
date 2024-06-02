@@ -1,5 +1,5 @@
 import { FC, useState } from 'react'
-import { getImage } from '../helper/getImage'
+import { getImage } from '../../helper/getImage'
 
 type StreamThumbnailProps = {
     screenWidth: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP'

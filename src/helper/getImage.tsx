@@ -5,7 +5,7 @@ import fallbackThumbnailImage from './../images/fallbackThumbnail.png'
 
 export const getImage = (
     url: string,
-    size: ScreenSizeProps,
+    size: ScreenSizeProps | number,
     type: 'THUMBNAIL' | 'PROFILE'
 ): string => {
     const cacheBuster = Date.now()
@@ -37,10 +37,17 @@ export const getImage = (
         'https://static-cdn.jtvnw.net/previews-ttv/live_user_'
     )
         ? `${url
-              .replace('{height}', sizesThumbnail[size.size].height)
+              .replace(
+                  '{height}',
+                  typeof size === 'number'
+                      ? size.toString()
+                      : sizesThumbnail[size.size].height
+              )
               .replace(
                   '{width}',
-                  sizesThumbnail[size.size].width
+                  typeof size === 'number'
+                      ? size.toString()
+                      : sizesThumbnail[size.size].width
               )}&cacheBuster=${cacheBuster}`
         : fallbackThumbnailImage
 }

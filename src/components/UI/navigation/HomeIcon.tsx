@@ -20,7 +20,12 @@ export const HomeIcon: FC<HomeIconProps> = ({ screenWidth }) => {
             className="flex flex-row px-2 rounded-md pseudo-zinc"
             onKeyDown={handleKeyDown}
         >
-            <img src={logo} alt="Twitch-App Homepage" loading="lazy" />
+            <img
+                src={logo}
+                alt="Twitch-App Homepage"
+                title="Homepage"
+                loading="lazy"
+            />
             {(screenWidth === 'TABLET' || screenWidth === 'DESKTOP') && (
                 <span className="pl-4 m-auto">Twitch-App</span>
             )}

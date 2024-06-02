@@ -1,8 +1,8 @@
 import { FC } from 'react'
 
-import fallbackThumbnailImage from './../images/fallbackThumbnail.png'
+import fallbackThumbnailImage from './../../images/fallbackThumbnail.png'
 import StreamThumbnail from './StreamThumbnail'
-import Button from './UI/Button'
+import Button from '../UI/Button'
 
 type StreamFallbackProps = {
     loadStreams: () => void

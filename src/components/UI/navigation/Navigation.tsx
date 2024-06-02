@@ -1,13 +1,15 @@
 import { FC, useEffect, useRef, useState } from 'react'
-import ButtonIcon from './ButtonIcon'
-import { HomeIcon } from './navigation/HomeIcon'
-import { UserIcon } from './navigation/UserIcon'
-import { DesktopSearch } from './navigation/DesktopSearch'
-import { MobileSearch } from './navigation/MobileSearch'
+import ButtonIcon from '../ButtonIcon'
+import { HomeIcon } from './HomeIcon'
+import { UserIcon } from './UserIcon'
+import { DesktopSearch } from './DesktopSearch'
+import { MobileSearch } from './MobileSearch'
 
 type NavigationProps = {
     screenWidth: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP'
 }
+
+// TODO: save profile picture (it is reset after going back to the homepage)
 
 const Navigation: FC<NavigationProps> = ({ screenWidth }) => {
     const [searchText, setSearchText] = useState<string>('')

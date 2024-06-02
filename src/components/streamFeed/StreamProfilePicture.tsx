@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from 'react'
-import { getProfilePicture } from '../helper/getProfilePicture'
+import { getProfilePicture } from '../../helper/getProfilePicture'
 
-import { CLIENT_ID, CLIENT_SECRET } from '../clientdata/clientdata'
+import { CLIENT_ID, CLIENT_SECRET } from '../../clientdata/clientdata'
 
-import { getImage } from '../helper/getImage'
+import { getImage } from '../../helper/getImage'
 
 type StreamProfilePictureProps = {
     screenWidth: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP'

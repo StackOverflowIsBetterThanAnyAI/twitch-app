@@ -1,5 +1,5 @@
-import StreamFeed from './components/StreamFeed'
-import Navigation from './components/UI/Navigation'
+import StreamFeed from './components/streamFeed/StreamFeed'
+import Navigation from './components/UI/navigation/Navigation'
 import { useScreenWidth } from './hooks/useScreenWidth'
 
 function App() {

@@ -1,8 +1,8 @@
 import { FC, useEffect, useState } from 'react'
-import { getStreams } from '../helper/getStreams'
-import { StreamProps } from '../types/StreamProps'
+import { getStreams } from '../../helper/getStreams'
+import { StreamProps } from '../../types/StreamProps'
 
-import SkeletonFeed from './skeleton/SkeletonFeed'
+import SkeletonFeed from '../skeleton/SkeletonFeed'
 import StreamGame from './StreamGame'
 import StreamChannel from './StreamChannel'
 import StreamFallback from './StreamFallback'
@@ -13,16 +13,7 @@ import StreamThumbnail from './StreamThumbnail'
 import StreamTitle from './StreamTitle'
 import StreamViewerCount from './StreamViewerCount'
 
-import { CLIENT_ID, CLIENT_SECRET } from '../clientdata/clientdata'
-
-// TODO: check if api calls are on the right place in the code
-
-// TODO: check if api error handling works
-
-// TODO: api result can also be empty or wrong
-
-// TODO: check if something is re-rendered / executed too often
-// and can be replaced by a state variable
+import { CLIENT_ID, CLIENT_SECRET } from '../../clientdata/clientdata'
 
 // TODO: implement function which lets the user filter the results
 
@@ -52,7 +43,7 @@ const StreamFeed: FC<StreamFeedProps> = ({ screenWidth }) => {
 
     const loadStreams = async () => {
         try {
-            const data = await getStreams(CLIENT_ID, CLIENT_SECRET)
+            const data = await getStreams(CLIENT_ID, CLIENT_SECRET, 'de')
             setStreamData(data)
             if (!data) throw new Error()
             setError(false)
@@ -94,7 +85,7 @@ const StreamFeed: FC<StreamFeedProps> = ({ screenWidth }) => {
                     return (
                         <article key={item.user_id}>
                             <div className={`rounded-xl ${bgColor}`}>
-                                <section className="relative hover:translate-x-2 hover:-translate-y-2">
+                                <section className="relative transform transition duration-150 ease-in-out hover:translate-x-2 hover:-translate-y-2">
                                     <StreamThumbnail
                                         thumbnail_url={item.thumbnail_url}
                                         user_name={item.user_name}

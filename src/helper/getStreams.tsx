@@ -5,9 +5,10 @@ import type { StreamProps } from '../types/StreamProps'
 
 export const getStreams = async (
     CLIENT_ID: string,
-    CLIENT_SECRET: string
+    CLIENT_SECRET: string,
+    language: string
 ): Promise<StreamProps | undefined> => {
-    const url = 'https://api.twitch.tv/helix/streams?language=de'
+    const url = `https://api.twitch.tv/helix/streams?language=${language}`
 
     const authorizationObject: AuthorizationProps =
         await getTwitchAuthorization(CLIENT_ID, CLIENT_SECRET)
