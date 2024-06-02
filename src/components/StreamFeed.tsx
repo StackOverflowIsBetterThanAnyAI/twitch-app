@@ -32,6 +32,17 @@ type StreamFeedProps = {
     screenWidth: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP'
 }
 
+const bgColors = [
+    'bg-red-400',
+    'bg-cyan-400',
+    'bg-lime-300',
+    'bg-violet-600',
+    'bg-amber-300',
+    'bg-blue-300',
+    'bg-green-500',
+    'bg-fuchsia-400',
+]
+
 const StreamFeed: FC<StreamFeedProps> = ({ screenWidth }) => {
     const [streamData, setStreamData] = useState<StreamProps | undefined>(
         undefined
@@ -78,42 +89,50 @@ const StreamFeed: FC<StreamFeedProps> = ({ screenWidth }) => {
     return (
         <article className="p-4 gap-4 grid grid-cols-auto-fit-320">
             {streamData?.data &&
-                streamData.data.map((item) => (
-                    <article key={item.user_id}>
-                        <section className="relative pb-2">
-                            <StreamThumbnail
-                                thumbnail_url={item.thumbnail_url}
-                                user_name={item.user_name}
-                                screenWidth={screenWidth}
-                                key={item.thumbnail_url}
-                            />
-                            <StreamLive
-                                type={item.type}
-                                key={`${item.user_id}${item.type}`}
-                            />
-                            <StreamViewerCount
-                                viewer_count={item.viewer_count}
-                            />
-                        </section>
-                        <section className="grid grid-cols-5 grid-rows-1 w-full">
-                            <StreamProfilePicture
-                                screenWidth={screenWidth}
-                                user_id={item.user_id}
-                                user_name={item.user_name}
-                            />
-                            <section className="col-span-4">
-                                <StreamChannel user_name={item.user_name} />
-                                <StreamTitle title={item.title} />
-                                <StreamGame game_name={item.game_name} />
-                                <div className="flex flex-wrap w-full">
-                                    {item.tags.map((item) => (
-                                        <StreamTags item={item} key={item} />
-                                    ))}
-                                </div>
+                streamData.data.map((item, index) => {
+                    const bgColor = bgColors[index % bgColors.length]
+                    return (
+                        <article key={item.user_id}>
+                            <div className={`rounded-xl ${bgColor}`}>
+                                <section className="relative hover:translate-x-2 hover:-translate-y-2">
+                                    <StreamThumbnail
+                                        thumbnail_url={item.thumbnail_url}
+                                        user_name={item.user_name}
+                                        screenWidth={screenWidth}
+                                        key={item.thumbnail_url}
+                                    />
+                                    <StreamLive
+                                        type={item.type}
+                                        key={`${item.user_id}${item.type}`}
+                                    />
+                                    <StreamViewerCount
+                                        viewer_count={item.viewer_count}
+                                    />
+                                </section>
+                            </div>
+                            <section className="grid grid-cols-5 grid-rows-1 w-full pt-2">
+                                <StreamProfilePicture
+                                    screenWidth={screenWidth}
+                                    user_id={item.user_id}
+                                    user_name={item.user_name}
+                                />
+                                <section className="col-span-4">
+                                    <StreamChannel user_name={item.user_name} />
+                                    <StreamTitle title={item.title} />
+                                    <StreamGame game_name={item.game_name} />
+                                    <div className="flex flex-wrap w-full">
+                                        {item.tags.map((item) => (
+                                            <StreamTags
+                                                item={item}
+                                                key={item}
+                                            />
+                                        ))}
+                                    </div>
+                                </section>
                             </section>
-                        </section>
-                    </article>
-                ))}
+                        </article>
+                    )
+                })}
         </article>
     )
 }

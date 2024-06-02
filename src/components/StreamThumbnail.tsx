@@ -13,6 +13,7 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
     user_name,
 }) => {
     const [loaded, setLoaded] = useState<boolean>(false)
+
     return (
         <>
             {loaded ? (
@@ -27,6 +28,7 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
                     alt={`${user_name} Livestream`}
                     className="rounded-xl w-full"
                     loading="lazy"
+                    title={user_name}
                 />
             ) : (
                 <img
