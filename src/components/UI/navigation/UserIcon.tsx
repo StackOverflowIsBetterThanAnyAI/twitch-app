@@ -50,6 +50,14 @@ export const UserIcon = () => {
         setDropdownActive((prev) => !prev)
     }
 
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLAnchorElement>) => {
+        if (e.key === ' ') {
+            const target = e.target as HTMLElement
+            target.click()
+            e.preventDefault()
+        }
+    }
+
     return (
         <>
             {user?.profile_image_url ? (
@@ -88,6 +96,7 @@ export const UserIcon = () => {
                 <a
                     href={`https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=http://localhost:${PORT}&state=${state}&scope=user:read:email`}
                     className="rounded-md px-2 pseudo-zinc"
+                    onKeyDown={handleKeyDown}
                 >
                     <img
                         src={getImage('', 48, 'PROFILE')}
