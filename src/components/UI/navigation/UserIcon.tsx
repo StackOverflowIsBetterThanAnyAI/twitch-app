@@ -81,11 +81,11 @@ export const UserIcon = () => {
                     </button>
                     {dropdownActive && (
                         <div className="absolute top-16 right-4 bg-zinc-700 outline outline-zinc-900 rounded-md p-2">
-                            <div className="flex flex-col gap-4">
-                                <button className="rounded-md m-auto px-2 pseudo-zinc">
+                            <div className="flex flex-col gap-2">
+                                <button className="rounded-md px-2 py-1 pseudo-zinc">
                                     Filter Language
                                 </button>
-                                <button className="rounded-md m-auto px-2 pseudo-zinc">
+                                <button className="rounded-md px-2 py-1 pseudo-zinc">
                                     Filter Language
                                 </button>
                             </div>
