@@ -1,13 +1,17 @@
 import { CLIENT_ID, PORT } from './../../../clientdata/clientdata'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getImage } from '../../../helper/getImage'
 import { UserProps } from '../../../types/UserProps'
 import { getUser } from '../../../helper/getUser'
+import SettingsPopup from './SettingsPopup'
 
 export const UserIcon = () => {
     const [state, setState] = useState('')
     const [user, setUser] = useState<UserProps | null>(null)
     const [dropdownActive, setDropdownActive] = useState(false)
+
+    const popupRef = useRef<HTMLDivElement | null>(null)
+    const buttonRef = useRef<HTMLButtonElement | null>(null)
 
     useEffect(() => {
         let randomState = ''
@@ -58,6 +62,42 @@ export const UserIcon = () => {
         }
     }
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                popupRef.current &&
+                !popupRef.current.contains(event.target as Node) &&
+                buttonRef.current &&
+                !buttonRef.current.contains(event.target as Node)
+            ) {
+                setDropdownActive(false)
+            }
+        }
+
+        const handleEscape = (event: KeyboardEvent) => {
+            if (
+                popupRef.current &&
+                !popupRef.current.contains(event.target as Node) &&
+                event.key === 'Escape'
+            ) {
+                setDropdownActive(false)
+            }
+        }
+
+        if (dropdownActive) {
+            document.addEventListener('mousedown', handleClickOutside)
+            document.addEventListener('keydown', handleEscape)
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside)
+            document.removeEventListener('keydown', handleEscape)
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+            document.removeEventListener('keydown', handleEscape)
+        }
+    }, [dropdownActive])
+
     return (
         <>
             {user?.profile_image_url ? (
@@ -65,6 +105,7 @@ export const UserIcon = () => {
                     <button
                         className="rounded-md px-2 pseudo-zinc"
                         onClick={handleClick}
+                        ref={buttonRef}
                     >
                         <img
                             src={getImage(
@@ -79,18 +120,7 @@ export const UserIcon = () => {
                             className="rounded-full"
                         />
                     </button>
-                    {dropdownActive && (
-                        <div className="absolute top-16 right-4 bg-zinc-700 outline outline-zinc-900 rounded-md p-2">
-                            <div className="flex flex-col gap-2">
-                                <button className="rounded-md px-2 py-1 pseudo-zinc">
-                                    Filter Language
-                                </button>
-                                <button className="rounded-md px-2 py-1 pseudo-zinc">
-                                    Filter Language
-                                </button>
-                            </div>
-                        </div>
-                    )}
+                    {dropdownActive && <SettingsPopup popupRef={popupRef} />}
                 </>
             ) : (
                 <a
