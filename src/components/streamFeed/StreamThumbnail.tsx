@@ -1,17 +1,22 @@
-import { FC, useState } from 'react'
+import { FC, useContext, useState } from 'react'
 import { getImage } from '../../helper/getImage'
+import { ContextScreenWidth } from '../../App'
 
 type StreamThumbnailProps = {
-    screenWidth: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP'
     thumbnail_url: string
     user_name: string
 }
 
 const StreamThumbnail: FC<StreamThumbnailProps> = ({
-    screenWidth,
     thumbnail_url,
     user_name,
 }) => {
+    const contextScreenWidth = useContext(ContextScreenWidth)
+    if (!contextScreenWidth) {
+        throw new Error(
+            'ContextScreenWidth must be used within a ContextScreenWidth.Provider'
+        )
+    }
     const [loaded, setLoaded] = useState<boolean>(false)
 
     return (
@@ -21,7 +26,7 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
                     src={getImage(
                         thumbnail_url,
                         {
-                            size: screenWidth,
+                            size: contextScreenWidth,
                         },
                         'THUMBNAIL'
                     )}
@@ -35,7 +40,7 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
                     src={getImage(
                         '',
                         {
-                            size: screenWidth,
+                            size: contextScreenWidth,
                         },
                         'THUMBNAIL'
                     )}

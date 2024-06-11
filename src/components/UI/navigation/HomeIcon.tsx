@@ -1,11 +1,14 @@
-import { FC } from 'react'
+import { useContext } from 'react'
 import logo from './../../../images/fallback.png'
+import { ContextScreenWidth } from '../../../App'
 
-type HomeIconProps = {
-    screenWidth: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP'
-}
-
-export const HomeIcon: FC<HomeIconProps> = ({ screenWidth }) => {
+export const HomeIcon = () => {
+    const contextScreenWidth = useContext(ContextScreenWidth)
+    if (!contextScreenWidth) {
+        throw new Error(
+            'ContextScreenWidth must be used within a ContextScreenWidth.Provider'
+        )
+    }
     const handleKeyDown = (e: React.KeyboardEvent<HTMLAnchorElement>) => {
         if (e.key === ' ') {
             const target = e.target as HTMLElement
@@ -26,7 +29,8 @@ export const HomeIcon: FC<HomeIconProps> = ({ screenWidth }) => {
                 title="Homepage"
                 loading="lazy"
             />
-            {(screenWidth === 'TABLET' || screenWidth === 'DESKTOP') && (
+            {(contextScreenWidth === 'TABLET' ||
+                contextScreenWidth === 'DESKTOP') && (
                 <span className="pl-4 m-auto">Twitch-App</span>
             )}
         </a>

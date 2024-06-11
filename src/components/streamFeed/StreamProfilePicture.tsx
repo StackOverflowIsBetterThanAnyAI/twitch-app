@@ -1,21 +1,26 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useContext, useEffect, useState } from 'react'
 import { getProfilePicture } from '../../helper/getProfilePicture'
 
 import { CLIENT_ID, CLIENT_SECRET } from '../../clientdata/clientdata'
 
 import { getImage } from '../../helper/getImage'
+import { ContextScreenWidth } from '../../App'
 
 type StreamProfilePictureProps = {
-    screenWidth: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP'
     user_id: string
     user_name: string
 }
 
 const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
-    screenWidth,
     user_id,
     user_name,
 }) => {
+    const contextScreenWidth = useContext(ContextScreenWidth)
+    if (!contextScreenWidth) {
+        throw new Error(
+            'ContextScreenWidth must be used within a ContextScreenWidth.Provider'
+        )
+    }
     const [imageUrl, setImageUrl] = useState<string>('')
 
     useEffect(() => {
@@ -24,7 +29,7 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
                 const data = await getProfilePicture(
                     CLIENT_ID,
                     CLIENT_SECRET,
-                    user_id
+                    user_id || ''
                 )
                 if (!data) {
                     throw new Error()
@@ -37,7 +42,7 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
     }, [user_id])
 
     const imageWidth = (() => {
-        switch (screenWidth) {
+        switch (contextScreenWidth) {
             case 'MOBILE':
                 return 40
             case 'TABLET_SMALL':
@@ -51,7 +56,7 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
 
     return (
         <img
-            src={getImage(imageUrl, { size: screenWidth }, 'PROFILE')}
+            src={getImage(imageUrl, { size: contextScreenWidth }, 'PROFILE')}
             alt={user_name}
             title={user_name}
             className="rounded-full p-1 col-span-1 mx-auto"

@@ -1,17 +1,20 @@
-import { FC, useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import ButtonIcon from '../ButtonIcon'
 import { HomeIcon } from './HomeIcon'
 import { UserIcon } from './UserIcon'
 import { DesktopSearch } from './DesktopSearch'
 import { MobileSearch } from './MobileSearch'
-
-type NavigationProps = {
-    screenWidth: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP'
-}
+import { ContextScreenWidth } from '../../../App'
 
 // TODO: save profile picture (it is reset after going back to the homepage)
 
-const Navigation: FC<NavigationProps> = ({ screenWidth }) => {
+const Navigation = () => {
+    const contextScreenWidth = useContext(ContextScreenWidth)
+    if (!contextScreenWidth) {
+        throw new Error(
+            'ContextScreenWidth must be used within a ContextScreenWidth.Provider'
+        )
+    }
     const [searchText, setSearchText] = useState<string>('')
     const [navOpacity, setNavOpacity] = useState<string>('opacity-100')
     const [blockOpacity, setBlockOpacity] = useState(false)
@@ -87,8 +90,9 @@ const Navigation: FC<NavigationProps> = ({ screenWidth }) => {
                 className={`bg-zinc-900 text-slate-300 flex justify-between py-2 px-4 h-16
             transition-opacity duration-500 ease-in-out ${navOpacity}`}
             >
-                <HomeIcon screenWidth={screenWidth} />
-                {screenWidth === 'TABLET' || screenWidth === 'DESKTOP' ? (
+                <HomeIcon />
+                {contextScreenWidth === 'TABLET' ||
+                contextScreenWidth === 'DESKTOP' ? (
                     <DesktopSearch
                         handleBlur={handleBlur}
                         handleChange={handleChange}
@@ -108,7 +112,8 @@ const Navigation: FC<NavigationProps> = ({ screenWidth }) => {
                 )}
                 <UserIcon />
             </nav>
-            {(screenWidth === 'MOBILE' || screenWidth === 'TABLET_SMALL') &&
+            {(contextScreenWidth === 'MOBILE' ||
+                contextScreenWidth === 'TABLET_SMALL') &&
                 !hideSearch && (
                     <MobileSearch
                         handleBlur={handleBlur}

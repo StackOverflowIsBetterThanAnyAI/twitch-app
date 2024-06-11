@@ -1,4 +1,4 @@
-import { CLIENT_ID, PORT } from './../../../clientdata/clientdata'
+import { ADDRESS, CLIENT_ID } from './../../../clientdata/clientdata'
 import { useEffect, useRef, useState } from 'react'
 import { getImage } from '../../../helper/getImage'
 import { UserProps } from '../../../types/UserProps'
@@ -13,25 +13,36 @@ export const UserIcon = () => {
     const popupRef = useRef<HTMLDivElement | null>(null)
     const buttonRef = useRef<HTMLButtonElement | null>(null)
 
+    // should only be executed on mount when the user is not logged in
+    // otherwise the states cannot be compared
     useEffect(() => {
-        let randomState = ''
-        for (let i = 0; i < 16; i++) {
-            let char = Math.round(Math.random() * 2)
-            switch (char) {
-                case 0:
-                    randomState += String.fromCharCode(Math.random() * 10 + 48)
-                    break
-                case 1:
-                    randomState += String.fromCharCode(Math.random() * 26 + 65)
-                    break
-                case 2:
-                    randomState += String.fromCharCode(Math.random() * 26 + 97)
-                    break
+        if (true) {
+            let randomState = ''
+            for (let i = 0; i < 16; i++) {
+                let char = Math.round(Math.random() * 2)
+                switch (char) {
+                    case 0:
+                        randomState += String.fromCharCode(
+                            Math.random() * 10 + 48
+                        )
+                        break
+                    case 1:
+                        randomState += String.fromCharCode(
+                            Math.random() * 26 + 65
+                        )
+                        break
+                    case 2:
+                        randomState += String.fromCharCode(
+                            Math.random() * 26 + 97
+                        )
+                        break
+                }
             }
+            setState(randomState)
         }
-        setState(randomState)
     }, [])
 
+    // is only executed when the user is not logged in and the button is pressed
     const fetchUser = async () => {
         try {
             const data = await getUser(CLIENT_ID)
@@ -120,11 +131,17 @@ export const UserIcon = () => {
                             className="rounded-full"
                         />
                     </button>
-                    {dropdownActive && <SettingsPopup popupRef={popupRef} />}
+                    {dropdownActive && (
+                        <SettingsPopup
+                            popupRef={popupRef}
+                            user_display_name={user.display_name}
+                            user_profile_image_url={user.profile_image_url}
+                        />
+                    )}
                 </>
             ) : (
                 <a
-                    href={`https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=http://localhost:${PORT}&state=${state}&scope=user:read:email`}
+                    href={`https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${ADDRESS}&state=${state}&scope=user:read:email`}
                     className="rounded-md px-2 pseudo-zinc"
                     onKeyDown={handleKeyDown}
                 >

@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { getStreams } from '../../helper/getStreams'
 import { StreamProps } from '../../types/StreamProps'
 
@@ -14,14 +14,11 @@ import StreamTitle from './StreamTitle'
 import StreamViewerCount from './StreamViewerCount'
 
 import { CLIENT_ID, CLIENT_SECRET } from '../../clientdata/clientdata'
+import { ContextScreenWidth } from '../../App'
 
 // TODO: implement function which lets the user filter the results
 
 // TODO: fallback thumbnail if order of streams changes
-
-type StreamFeedProps = {
-    screenWidth: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP'
-}
 
 const bgColors = [
     'bg-red-400',
@@ -34,7 +31,13 @@ const bgColors = [
     'bg-fuchsia-400',
 ]
 
-const StreamFeed: FC<StreamFeedProps> = ({ screenWidth }) => {
+const StreamFeed = () => {
+    const contextScreenWidth = useContext(ContextScreenWidth)
+    if (!contextScreenWidth) {
+        throw new Error(
+            'ContextScreenWidth must be used within a ContextScreenWidth.Provider'
+        )
+    }
     const [streamData, setStreamData] = useState<StreamProps | undefined>(
         undefined
     )
@@ -65,12 +68,7 @@ const StreamFeed: FC<StreamFeedProps> = ({ screenWidth }) => {
     }, [])
 
     if (error) {
-        return (
-            <StreamFallback
-                loadStreams={loadStreams}
-                screenWidth={screenWidth}
-            />
-        )
+        return <StreamFallback loadStreams={loadStreams} />
     }
 
     if (loading) {
@@ -89,7 +87,6 @@ const StreamFeed: FC<StreamFeedProps> = ({ screenWidth }) => {
                                     <StreamThumbnail
                                         thumbnail_url={item.thumbnail_url}
                                         user_name={item.user_name}
-                                        screenWidth={screenWidth}
                                         key={item.thumbnail_url}
                                     />
                                     <StreamLive
@@ -103,7 +100,6 @@ const StreamFeed: FC<StreamFeedProps> = ({ screenWidth }) => {
                             </div>
                             <section className="grid grid-cols-5 grid-rows-1 w-full pt-2">
                                 <StreamProfilePicture
-                                    screenWidth={screenWidth}
                                     user_id={item.user_id}
                                     user_name={item.user_name}
                                 />
