@@ -1,11 +1,21 @@
 import { ADDRESS, CLIENT_ID } from './../../../clientdata/clientdata'
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { getImage } from '../../../helper/getImage'
 import { UserProps } from '../../../types/UserProps'
 import { getUser } from '../../../helper/getUser'
 import SettingsPopup from './SettingsPopup'
+import { ContextLoggedIn } from '../../../App'
 
 export const UserIcon = () => {
+    const contextLoggedIn = useContext(ContextLoggedIn)
+    if (!contextLoggedIn) {
+        throw new Error(
+            'ContextLoggedIn must be used within a ContextLoggedIn.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [loggedIn, setLoggedIn] = contextLoggedIn
+
     const [state, setState] = useState('')
     const [user, setUser] = useState<UserProps | null>(null)
     const [dropdownActive, setDropdownActive] = useState(false)
@@ -15,34 +25,28 @@ export const UserIcon = () => {
 
     // should only be executed on mount when the user is not logged in
     // otherwise the states cannot be compared
-    useEffect(() => {
-        if (true) {
-            let randomState = ''
-            for (let i = 0; i < 16; i++) {
-                let char = Math.round(Math.random() * 2)
-                switch (char) {
-                    case 0:
-                        randomState += String.fromCharCode(
-                            Math.random() * 10 + 48
-                        )
-                        break
-                    case 1:
-                        randomState += String.fromCharCode(
-                            Math.random() * 26 + 65
-                        )
-                        break
-                    case 2:
-                        randomState += String.fromCharCode(
-                            Math.random() * 26 + 97
-                        )
-                        break
-                }
+
+    const settingState = () => {
+        let randomState = ''
+        for (let i = 0; i < 16; i++) {
+            let char = Math.round(Math.random() * 2)
+            switch (char) {
+                case 0:
+                    randomState += String.fromCharCode(Math.random() * 10 + 48)
+                    break
+                case 1:
+                    randomState += String.fromCharCode(Math.random() * 26 + 65)
+                    break
+                case 2:
+                    randomState += String.fromCharCode(Math.random() * 26 + 97)
+                    break
             }
-            setState(randomState)
         }
-    }, [])
+        setState(randomState)
+    }
 
     // is only executed when the user is not logged in and the button is pressed
+    // ! or when the button has been pressed and the user is logged in !
     const fetchUser = async () => {
         try {
             const data = await getUser(CLIENT_ID)
@@ -61,7 +65,7 @@ export const UserIcon = () => {
         fetchUser()
     }, [])
 
-    const handleClick = () => {
+    const handleButtonClick = () => {
         setDropdownActive((prev) => !prev)
     }
 
@@ -70,6 +74,7 @@ export const UserIcon = () => {
             const target = e.target as HTMLElement
             target.click()
             e.preventDefault()
+            settingState()
         }
     }
 
@@ -115,7 +120,7 @@ export const UserIcon = () => {
                 <>
                     <button
                         className="rounded-md px-2 pseudo-zinc"
-                        onClick={handleClick}
+                        onClick={handleButtonClick}
                         ref={buttonRef}
                     >
                         <img
@@ -144,6 +149,7 @@ export const UserIcon = () => {
                     href={`https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${ADDRESS}&state=${state}&scope=user:read:email`}
                     className="rounded-md px-2 pseudo-zinc"
                     onKeyDown={handleKeyDown}
+                    onClick={settingState}
                 >
                     <img
                         src={getImage('', 48, 'PROFILE')}

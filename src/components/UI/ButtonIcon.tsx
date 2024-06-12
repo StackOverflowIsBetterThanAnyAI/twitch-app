@@ -2,10 +2,11 @@ import { FC, RefObject } from 'react'
 
 type ButtonIconProps = {
     ariaLabel: string
-    ariaPressed: boolean
-    buttonIconRef: RefObject<HTMLButtonElement>
+    ariaPressed?: boolean
+    buttonIconRef?: RefObject<HTMLButtonElement>
     onClick: () => void
-    type: 'Search'
+    place: 'center' | 'left'
+    type: 'Search' | 'Back'
 }
 
 const ButtonIcon: FC<ButtonIconProps> = ({
@@ -13,6 +14,7 @@ const ButtonIcon: FC<ButtonIconProps> = ({
     ariaPressed,
     buttonIconRef,
     onClick,
+    place,
     type,
 }) => {
     const search = (
@@ -33,16 +35,40 @@ const ButtonIcon: FC<ButtonIconProps> = ({
             />
         </svg>
     )
+    const back = (
+        <svg
+            className="w-[20px] h-[20px] text-gray-800 dark:text-white"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+        >
+            <path
+                stroke="gainsboro"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m15 19-7-7 7-7"
+            />
+        </svg>
+    )
+
     const icon = (() => {
         switch (type) {
             case 'Search':
                 return search
+            case 'Back':
+                return back
         }
     })()
 
     return (
         <button
-            className="m-auto p-2 rounded-full pseudo-zinc"
+            className={`${
+                place === 'center' ? 'm-auto' : 'absolute left-2'
+            } p-2 rounded-full pseudo-zinc`}
             onClick={onClick}
             title={type}
             aria-label={ariaLabel}

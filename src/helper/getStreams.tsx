@@ -8,6 +8,7 @@ export const getStreams = async (
     CLIENT_SECRET: string,
     language: string
 ): Promise<StreamProps | undefined> => {
+    // TODO: add language to URL
     const url = `https://api.twitch.tv/helix/streams?language=${language}`
 
     const authorizationObject: AuthorizationProps =

@@ -7,12 +7,15 @@ export const getUser = async (CLIENT_ID: string): Promise<UserProps | null> => {
     const hash = window.location.hash
     const params = new URLSearchParams(hash.substring(1))
     const access_token = params.get('access_token')
+    const access_state = params.get('state')
 
     if (!access_token) {
         throw new Error('Failed fetching the access token')
     }
 
     localStorage.setItem('twitch_access_token', access_token)
+    // TODO: compare this state with the randomState from UserIcon
+    localStorage.setItem('twitch_access_state', access_state || '')
 
     const authorization = `Bearer ${access_token}`
 

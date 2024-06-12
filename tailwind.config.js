@@ -24,7 +24,6 @@ module.exports = {
                 },
             })
         },
-
         function ({ addUtilities }) {
             addUtilities({
                 '.pseudo-zinc-retry': {

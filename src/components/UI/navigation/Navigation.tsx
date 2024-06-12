@@ -103,11 +103,12 @@ const Navigation = () => {
                     />
                 ) : (
                     <ButtonIcon
-                        ariaLabel="Search current Livestreams"
+                        ariaLabel="Search current Livestreams."
                         ariaPressed={ariaPressed}
                         buttonIconRef={buttonIconRef}
                         type="Search"
                         onClick={handleToggleMobile}
+                        place="center"
                     />
                 )}
                 <UserIcon />

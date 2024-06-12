@@ -14,3 +14,21 @@ input[type='search']::-webkit-search-cancel-button {
 input[type='search']::-webkit-search-cancel-button:hover {
     transform: rotate(90deg);
 }
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgb(63 63 70);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgb(250 250 250);
+    border-radius: 6px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgb(161 161 170);
+}

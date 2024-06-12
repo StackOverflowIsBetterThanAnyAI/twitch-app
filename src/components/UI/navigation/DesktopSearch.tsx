@@ -33,8 +33,13 @@ export const DesktopSearch: FC<DesktopSearchProps> = ({
                 className={`m-auto p-2 rounded-full mr-1 ${
                     searchText
                         ? 'hover:cursor-pointer'
-                        : 'hover:cursor-not-allowed'
+                        : 'hover:cursor-not-allowed active:bg-zinc-800 active:outline-0'
                 } pseudo-zinc`}
+                title={
+                    searchText
+                        ? 'Search current Livestreams.'
+                        : 'Type anything to search for.'
+                }
                 onClick={handleSearch}
                 disabled={!searchText}
                 aria-disabled={!searchText}

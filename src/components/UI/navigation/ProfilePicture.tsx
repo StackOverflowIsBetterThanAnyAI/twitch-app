@@ -39,7 +39,7 @@ const ProfilePicture: FC<ProfilePictureProps> = ({
             )}
             alt={user_display_name}
             title={user_display_name}
-            className="rounded-full p-1 col-span-1 mx-auto"
+            className="rounded-full p-1"
             width={imageWidth}
             loading="lazy"
         />

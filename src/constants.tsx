@@ -1,0 +1,18 @@
+export const LANGUAGES = [
+    { Deutsch: 'de' },
+    { English: 'en' },
+    { Español: 'es' },
+    { Français: 'fr' },
+    { Italiano: 'it' },
+    { Magyar: 'hu' },
+    { Nederlands: 'nl' },
+    { Norsk: 'no' },
+    { Polski: 'pl' },
+    { Português: 'pt' },
+    { Română: 'ro' },
+    { Slovenčina: 'sk' },
+    { Suomi: 'fi' },
+    { Svenska: 'sv' },
+    { Türkçe: 'tr' },
+    { Русский: 'ru' },
+]

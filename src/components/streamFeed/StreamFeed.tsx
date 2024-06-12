@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import { getStreams } from '../../helper/getStreams'
 import { StreamProps } from '../../types/StreamProps'
 
@@ -14,7 +14,7 @@ import StreamTitle from './StreamTitle'
 import StreamViewerCount from './StreamViewerCount'
 
 import { CLIENT_ID, CLIENT_SECRET } from '../../clientdata/clientdata'
-import { ContextScreenWidth } from '../../App'
+import { ContextLanguage, ContextScreenWidth } from '../../App'
 
 // TODO: implement function which lets the user filter the results
 
@@ -32,6 +32,15 @@ const bgColors = [
 ]
 
 const StreamFeed = () => {
+    const contextLanguage = useContext(ContextLanguage)
+    if (!contextLanguage) {
+        throw new Error(
+            'ContextLanguage must be used within a ContextLanguage.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [language, setLanguage] = contextLanguage
+
     const contextScreenWidth = useContext(ContextScreenWidth)
     if (!contextScreenWidth) {
         throw new Error(
@@ -44,9 +53,9 @@ const StreamFeed = () => {
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
 
-    const loadStreams = async () => {
+    const loadStreams = useCallback(async () => {
         try {
-            const data = await getStreams(CLIENT_ID, CLIENT_SECRET, 'de')
+            const data = await getStreams(CLIENT_ID, CLIENT_SECRET, language)
             setStreamData(data)
             if (!data) throw new Error()
             setError(false)
@@ -55,7 +64,7 @@ const StreamFeed = () => {
         } finally {
             setLoading(false)
         }
-    }
+    }, [language])
 
     useEffect(() => {
         loadStreams()
@@ -65,7 +74,7 @@ const StreamFeed = () => {
         return () => {
             clearInterval(refresh)
         }
-    }, [])
+    }, [loadStreams])
 
     if (error) {
         return <StreamFallback loadStreams={loadStreams} />
