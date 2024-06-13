@@ -42,6 +42,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
             const target = e.target as HTMLSelectElement
             setLanguage(target.value)
         }
+        if (e.key === 'Escape') setFilterLanguageExpanded(false)
     }
 
     const handleButtonApplyClick = () => {

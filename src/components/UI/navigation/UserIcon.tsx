@@ -90,27 +90,14 @@ export const UserIcon = () => {
             }
         }
 
-        const handleEscape = (event: KeyboardEvent) => {
-            if (
-                popupRef.current &&
-                !popupRef.current.contains(event.target as Node) &&
-                event.key === 'Escape'
-            ) {
-                setDropdownActive(false)
-            }
-        }
-
         if (dropdownActive) {
             document.addEventListener('mousedown', handleClickOutside)
-            document.addEventListener('keydown', handleEscape)
         } else {
             document.removeEventListener('mousedown', handleClickOutside)
-            document.removeEventListener('keydown', handleEscape)
         }
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside)
-            document.removeEventListener('keydown', handleEscape)
         }
     }, [dropdownActive])
 
