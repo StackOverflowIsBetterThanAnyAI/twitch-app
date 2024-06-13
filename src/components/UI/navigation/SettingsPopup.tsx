@@ -96,25 +96,31 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
         >
             {filterLanguageExpanded ? (
                 <div
-                    className="flex flex-col gap-2 h-[30dvh] min-w-36 w-[20vw] max-w-80"
+                    className="flex flex-col gap-2 h-[30dvh] min-w-44 w-[20vw] max-w-80"
                     ref={popupLanguageRef}
                 >
-                    <div className="flex flex-row border-b pb-2 items-center">
+                    <div className="flex flex-row border-b pb-2 items-center justify-between">
                         <ButtonIcon
                             type="Back"
                             ariaLabel="Back to Settings."
                             onClick={handleClickBackFromLanguage}
                             place="left"
                         />
-                        <h2 className="text-base lg:text-lg mx-auto">
-                            Language
-                        </h2>
+                        <h2 className="text-base lg:text-lg">Language</h2>
+                        <Icon
+                            type="Country"
+                            code={language
+                                .replace('en', 'gb')
+                                .replace('sv', 'se')}
+                            language={findLanguageNameByCode(language)}
+                        />
                     </div>
                     <select
                         size={LANGUAGES.length}
                         className="bg-zinc-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-zinc-50 rounded-md"
                         defaultValue={findLanguageNameByCode(language)}
                         onKeyDown={handleSelectKeyDown}
+                        onDoubleClick={handleButtonApplyClick}
                         autoFocus
                         ref={selectLanguageRef}
                     >

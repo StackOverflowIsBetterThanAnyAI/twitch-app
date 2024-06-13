@@ -1,10 +1,12 @@
 import { FC } from 'react'
 
 type IconProps = {
-    type: 'Logout' | 'Expand'
+    code?: string
+    language?: string
+    type: 'Logout' | 'Expand' | 'Country'
 }
 
-const Icon: FC<IconProps> = ({ type }) => {
+const Icon: FC<IconProps> = ({ code, language, type }) => {
     const logout = (
         <svg
             className="w-[16px] h-[16px] text-gray-800 dark:text-white"
@@ -43,6 +45,13 @@ const Icon: FC<IconProps> = ({ type }) => {
             />
         </svg>
     )
+    const country = (
+        <img
+            src={`https://flagcdn.com/w40/${code}.png`}
+            alt={language}
+            className="mx-2 w-8"
+        ></img>
+    )
 
     const icon = (() => {
         switch (type) {
@@ -50,6 +59,8 @@ const Icon: FC<IconProps> = ({ type }) => {
                 return logout
             case 'Expand':
                 return expand
+            case 'Country':
+                return country
         }
     })()
 

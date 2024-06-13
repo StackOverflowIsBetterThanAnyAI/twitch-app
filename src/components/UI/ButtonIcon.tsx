@@ -67,7 +67,7 @@ const ButtonIcon: FC<ButtonIconProps> = ({
     return (
         <button
             className={`${
-                place === 'center' ? 'm-auto' : 'absolute left-2'
+                place === 'center' && 'm-auto'
             } p-2 rounded-full pseudo-zinc`}
             onClick={onClick}
             title={type}
