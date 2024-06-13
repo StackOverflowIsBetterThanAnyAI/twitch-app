@@ -34,22 +34,21 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
     }
     const [filterLanguageExpanded, setFilterLanguageExpanded] = useState(false)
 
-    const [languageCode, setLanguageCode] = useState<string>(language)
-
     const popupLanguageRef = useRef<HTMLDivElement | null>(null)
-
-    const handleSelectChange = (
-        event: React.ChangeEvent<HTMLSelectElement>
-    ) => {
-        setLanguageCode(event.target.value)
-    }
+    const selectLanguageRef = useRef<HTMLSelectElement | null>(null)
 
     const handleSelectKeyDown = (e: React.KeyboardEvent<HTMLSelectElement>) => {
-        if (e.key === ' ' || e.key === 'Enter') handleButtonApplyClick()
+        if (e.key === ' ' || e.key === 'Enter') {
+            const target = e.target as HTMLSelectElement
+            setLanguage(target.value)
+        }
     }
 
     const handleButtonApplyClick = () => {
-        setLanguage(languageCode)
+        if (selectLanguageRef.current) {
+            const selectedValue = selectLanguageRef.current.value
+            setLanguage(selectedValue)
+        }
     }
 
     const handleClickFilterLanguage = () => {
@@ -114,9 +113,9 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
                         size={LANGUAGES.length}
                         className="bg-zinc-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-zinc-50 rounded-md"
                         defaultValue={findLanguageNameByCode(language)}
-                        onChange={handleSelectChange}
                         onKeyDown={handleSelectKeyDown}
                         autoFocus
+                        ref={selectLanguageRef}
                     >
                         {LANGUAGES.map((lang) => {
                             const [name, code] = Object.entries(lang)[0]
