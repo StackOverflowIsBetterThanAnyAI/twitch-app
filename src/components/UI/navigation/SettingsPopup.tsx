@@ -5,6 +5,8 @@ import { LANGUAGES } from '../../../constants'
 import ButtonApply from './ButtonApply'
 import ButtonIcon from '../ButtonIcon'
 import Icon from '../Icon'
+import { getLanguageIndex } from '../../../helper/getLanguageIndex'
+import { getLanguageNameByCode } from '../../../helper/getLanguageNameByCode'
 
 type SettingsPopupProps = {
     popupRef: React.MutableRefObject<HTMLDivElement | null>
@@ -33,22 +35,80 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
         )
     }
     const [filterLanguageExpanded, setFilterLanguageExpanded] = useState(false)
+    const [currentIndex, setCurrentIndex] = useState<number>(
+        getLanguageIndex(language) === 0 ? 1 : 0
+    )
+    const [disabledIndex, setDisabledIndex] = useState(
+        getLanguageIndex(language)
+    )
 
     const popupLanguageRef = useRef<HTMLDivElement | null>(null)
     const selectLanguageRef = useRef<HTMLSelectElement | null>(null)
 
     const handleSelectKeyDown = (e: React.KeyboardEvent<HTMLSelectElement>) => {
+        let newIndex = currentIndex
         if (e.key === ' ' || e.key === 'Enter') {
             const target = e.target as HTMLSelectElement
             setLanguage(target.value)
+            setDisabledIndex(getLanguageIndex(target.value))
         }
         if (e.key === 'Escape') setFilterLanguageExpanded(false)
+        if (e.key === 'ArrowDown') {
+            e.preventDefault()
+            if (currentIndex === LANGUAGES.length - 1) {
+                if (0 === disabledIndex) {
+                    newIndex = 1
+                } else {
+                    newIndex = 0
+                }
+            } else if (
+                currentIndex === LANGUAGES.length - 2 &&
+                disabledIndex === LANGUAGES.length - 1
+            ) {
+                newIndex = 0
+            } else if (disabledIndex === currentIndex + 1) {
+                newIndex = currentIndex + 2
+            } else {
+                newIndex = currentIndex + 1
+            }
+        }
+        if (e.key === 'ArrowUp') {
+            e.preventDefault()
+            if (currentIndex === 0) {
+                if (LANGUAGES.length - 1 === disabledIndex) {
+                    newIndex = LANGUAGES.length - 2
+                } else {
+                    newIndex = LANGUAGES.length - 1
+                }
+            } else if (currentIndex === 1 && disabledIndex === 0) {
+                newIndex = LANGUAGES.length - 1
+            } else if (disabledIndex === currentIndex - 1) {
+                newIndex = currentIndex - 2
+            } else {
+                newIndex = currentIndex - 1
+            }
+        }
+
+        if (newIndex !== currentIndex) {
+            setCurrentIndex(newIndex)
+            if (selectLanguageRef.current) {
+                selectLanguageRef.current.selectedIndex = newIndex
+            }
+        }
+    }
+
+    const handleSelectChange = (
+        event: React.ChangeEvent<HTMLSelectElement>
+    ) => {
+        const selectedIndex = event.target.selectedIndex
+        setCurrentIndex(selectedIndex)
     }
 
     const handleButtonApplyClick = () => {
         if (selectLanguageRef.current) {
             const selectedValue = selectLanguageRef.current.value
             setLanguage(selectedValue)
+            setDisabledIndex(getLanguageIndex(selectedValue))
         }
     }
 
@@ -58,13 +118,6 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
 
     const handleClickBackFromLanguage = () => {
         setFilterLanguageExpanded(false)
-    }
-
-    const findLanguageNameByCode = (code: string): string | undefined => {
-        const language = LANGUAGES.find((lang) =>
-            Object.values(lang).includes(code)
-        )
-        return language ? Object.keys(language)[0] : undefined
     }
 
     useEffect(() => {
@@ -112,15 +165,16 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
                             code={language
                                 .replace('en', 'gb')
                                 .replace('sv', 'se')}
-                            language={findLanguageNameByCode(language)}
+                            language={getLanguageNameByCode(language)}
                         />
                     </div>
                     <select
                         size={LANGUAGES.length}
                         className="bg-zinc-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-zinc-50 rounded-md"
-                        defaultValue={findLanguageNameByCode(language)}
+                        defaultValue={getLanguageNameByCode(language)}
                         onKeyDown={handleSelectKeyDown}
                         onDoubleClick={handleButtonApplyClick}
+                        onChange={handleSelectChange}
                         autoFocus
                         ref={selectLanguageRef}
                     >
@@ -142,7 +196,10 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
                             )
                         })}
                     </select>
-                    <ButtonApply handleClick={handleButtonApplyClick}>
+                    <ButtonApply
+                        handleClick={handleButtonApplyClick}
+                        disabled={currentIndex === disabledIndex}
+                    >
                         Apply
                     </ButtonApply>
                 </div>

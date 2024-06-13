@@ -117,10 +117,10 @@ const StreamFeed = () => {
                                     <StreamTitle title={item.title} />
                                     <StreamGame game_name={item.game_name} />
                                     <div className="flex flex-wrap w-full">
-                                        {item.tags.map((item) => (
+                                        {item.tags.map((item, index) => (
                                             <StreamTags
                                                 item={item}
-                                                key={item}
+                                                key={`${item}${index}`}
                                             />
                                         ))}
                                     </div>
