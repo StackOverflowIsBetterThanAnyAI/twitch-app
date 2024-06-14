@@ -2,11 +2,9 @@ import { FC, useContext, useEffect, useRef, useState } from 'react'
 import { ContextLanguage, ContextScreenWidth } from '../../../App'
 import ProfilePicture from './ProfilePicture'
 import { LANGUAGES } from '../../../constants'
-import ButtonApply from './ButtonApply'
-import ButtonIcon from '../ButtonIcon'
 import Icon from '../Icon'
 import { getLanguageIndex } from '../../../helper/getLanguageIndex'
-import { getLanguageNameByCode } from '../../../helper/getLanguageNameByCode'
+import FilterLanguagePopup from './FIlterLanguagePopup'
 
 type SettingsPopupProps = {
     popupRef: React.MutableRefObject<HTMLDivElement | null>
@@ -148,61 +146,16 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
             ref={popupRef}
         >
             {filterLanguageExpanded ? (
-                <div
-                    className="flex flex-col gap-2 h-[30dvh] min-w-44 w-[20vw] max-w-80"
-                    ref={popupLanguageRef}
-                >
-                    <div className="flex flex-row border-b pb-2 items-center justify-between">
-                        <ButtonIcon
-                            type="Back"
-                            ariaLabel="Back to Settings."
-                            onClick={handleClickBackFromLanguage}
-                            place="left"
-                        />
-                        <h2 className="text-base lg:text-lg">Language</h2>
-                        <Icon
-                            type="Country"
-                            code={language
-                                .replace('en', 'gb')
-                                .replace('sv', 'se')}
-                            language={getLanguageNameByCode(language)}
-                        />
-                    </div>
-                    <select
-                        size={LANGUAGES.length}
-                        className="bg-zinc-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-zinc-50 rounded-md"
-                        defaultValue={getLanguageNameByCode(language)}
-                        onKeyDown={handleSelectKeyDown}
-                        onDoubleClick={handleButtonApplyClick}
-                        onChange={handleSelectChange}
-                        autoFocus
-                        ref={selectLanguageRef}
-                    >
-                        {LANGUAGES.map((lang) => {
-                            const [name, code] = Object.entries(lang)[0]
-                            return (
-                                <option
-                                    key={code}
-                                    className={`px-2 py-1 rounded-md ${
-                                        code === language
-                                            ? 'bg-zinc-600 text-zinc-400'
-                                            : 'hover:bg-zinc-800 hover:text-slate-300'
-                                    }`}
-                                    value={code}
-                                    disabled={code === language}
-                                >
-                                    {name}
-                                </option>
-                            )
-                        })}
-                    </select>
-                    <ButtonApply
-                        handleClick={handleButtonApplyClick}
-                        disabled={currentIndex === disabledIndex}
-                    >
-                        Apply
-                    </ButtonApply>
-                </div>
+                <FilterLanguagePopup
+                    currentIndex={currentIndex}
+                    disabledIndex={disabledIndex}
+                    handleButtonApplyClick={handleButtonApplyClick}
+                    handleClickBackFromLanguage={handleClickBackFromLanguage}
+                    handleSelectChange={handleSelectChange}
+                    handleSelectKeyDown={handleSelectKeyDown}
+                    popupLanguageRef={popupLanguageRef}
+                    selectLanguageRef={selectLanguageRef}
+                />
             ) : (
                 <div className="flex flex-col gap-2 min-w-36 max-w-80">
                     <div className="flex border-b pb-2 items-center gap-2">
