@@ -218,7 +218,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
                         </h2>
                     </div>
                     <button
-                        className="rounded-md py-1 pseudo-zinc w-full flex justify-between gap-4 items-center"
+                        className="rounded-md p-1 pseudo-zinc w-full flex justify-between gap-4 items-center"
                         onClick={handleClickFilterLanguage}
                         autoFocus
                     >
@@ -230,7 +230,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
                         </div>
                         <Icon type="Expand" />
                     </button>
-                    <button className="rounded-md py-1 pseudo-zinc w-full flex justify-start gap-2 items-center">
+                    <button className="rounded-md p-1 pseudo-zinc w-full flex justify-start gap-2 items-center">
                         <Icon type="Logout" />
                         <h3 className="text-base lg:text-lg">Log out</h3>
                     </button>
