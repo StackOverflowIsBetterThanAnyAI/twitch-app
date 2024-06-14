@@ -16,7 +16,9 @@ export const ContextLanguage = createContext<
 >(undefined)
 
 function App() {
-    const [language, setLanguage] = useState('de')
+    const [language, setLanguage] = useState(
+        localStorage.getItem('twitch_filtered_language') || 'de'
+    )
     const [loggedIn, setLoggedIn] = useState(false)
     const screenWidth = useScreenWidth()
     return (

@@ -48,6 +48,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
         if (e.key === ' ' || e.key === 'Enter') {
             const target = e.target as HTMLSelectElement
             setLanguage(target.value)
+            localStorage.setItem('twitch_filtered_language', target.value)
             setDisabledIndex(getLanguageIndex(target.value))
         }
         if (e.key === 'Escape') setFilterLanguageExpanded(false)
@@ -106,6 +107,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
         if (selectLanguageRef.current) {
             const selectedValue = selectLanguageRef.current.value
             setLanguage(selectedValue)
+            localStorage.setItem('twitch_filtered_language', selectedValue)
             setDisabledIndex(getLanguageIndex(selectedValue))
         }
     }
