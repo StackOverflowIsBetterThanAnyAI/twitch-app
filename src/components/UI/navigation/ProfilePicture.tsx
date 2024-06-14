@@ -20,9 +20,9 @@ const ProfilePicture: FC<ProfilePictureProps> = ({
     const imageWidth = (() => {
         switch (contextScreenWidth) {
             case 'MOBILE':
-                return 40
+                return 36
             case 'TABLET_SMALL':
-                return 48
+                return 42
             case 'TABLET':
                 return 48
             case 'DESKTOP':
@@ -39,7 +39,7 @@ const ProfilePicture: FC<ProfilePictureProps> = ({
             )}
             alt={user_display_name}
             title={user_display_name}
-            className="rounded-full p-1"
+            className="rounded-full"
             width={imageWidth}
             loading="lazy"
         />

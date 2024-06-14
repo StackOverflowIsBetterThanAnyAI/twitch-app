@@ -205,31 +205,34 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
                 </div>
             ) : (
                 <div className="flex flex-col gap-2 min-w-36 max-w-80">
-                    <div className="flex border-b pb-2 items-center">
+                    <div className="flex border-b pb-2 items-center gap-2">
                         <ProfilePicture
                             user_display_name={user_display_name}
                             user_profile_image_url={user_profile_image_url}
                         />
                         <h2
-                            className="text-base lg:text-lg px-2 font-medium text-ellipsis overflow-hidden"
+                            className="text-base lg:text-lg font-medium text-ellipsis overflow-hidden"
                             title={user_display_name}
                         >
                             {user_display_name}
                         </h2>
                     </div>
                     <button
-                        className="rounded-md px-2 py-1 pseudo-zinc w-full flex justify-between gap-2 items-center"
+                        className="rounded-md py-1 pseudo-zinc w-full flex justify-between gap-4 items-center"
                         onClick={handleClickFilterLanguage}
                         autoFocus
                     >
-                        <h3 className="text-base lg:text-lg">
-                            Filter Language
-                        </h3>
+                        <div className="flex flex-row justify-start items-center gap-2">
+                            <Icon type="Language" />
+                            <h3 className="text-base lg:text-lg">
+                                Filter Language
+                            </h3>
+                        </div>
                         <Icon type="Expand" />
                     </button>
-                    <button className="rounded-md px-2 py-1 pseudo-zinc w-full flex justify-between gap-2 items-center">
-                        <h3 className="text-base lg:text-lg">Log out</h3>
+                    <button className="rounded-md py-1 pseudo-zinc w-full flex justify-start gap-2 items-center">
                         <Icon type="Logout" />
+                        <h3 className="text-base lg:text-lg">Log out</h3>
                     </button>
                 </div>
             )}
