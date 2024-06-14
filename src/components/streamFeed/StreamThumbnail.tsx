@@ -3,11 +3,13 @@ import { getImage } from '../../helper/getImage'
 import { ContextScreenWidth } from '../../App'
 
 type StreamThumbnailProps = {
+    stream_game?: string
     thumbnail_url: string
     user_name: string
 }
 
 const StreamThumbnail: FC<StreamThumbnailProps> = ({
+    stream_game,
     thumbnail_url,
     user_name,
 }) => {
@@ -33,7 +35,11 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
                     alt={`${user_name} Livestream`}
                     className="rounded-xl w-full"
                     loading="lazy"
-                    title={user_name}
+                    title={
+                        stream_game
+                            ? `${user_name} streams ${stream_game}`
+                            : user_name
+                    }
                 />
             ) : (
                 <img

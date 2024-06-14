@@ -96,6 +96,7 @@ const StreamFeed = () => {
                                     <StreamThumbnail
                                         thumbnail_url={item.thumbnail_url}
                                         user_name={item.user_name}
+                                        stream_game={item.game_name}
                                         key={item.thumbnail_url}
                                     />
                                     <StreamLive
