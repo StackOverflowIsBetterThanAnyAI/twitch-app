@@ -17,7 +17,12 @@ export const UserIcon = () => {
     const [loggedIn, setLoggedIn] = contextLoggedIn
 
     const [state, setState] = useState('')
-    const [user, setUser] = useState<UserProps | null>(null)
+    // user is always reset when the page is refreshed, because it is set to null
+    // profile picture is set after pressing the login button for the second time
+    const [user, setUser] = useState<UserProps | null>(() => {
+        const storedUser = localStorage.getItem('twitch_user')
+        return storedUser ? JSON.parse(storedUser) : null
+    })
     const [dropdownActive, setDropdownActive] = useState(false)
 
     const popupRef = useRef<HTMLDivElement | null>(null)
@@ -51,6 +56,7 @@ export const UserIcon = () => {
         try {
             const data = await getUser(CLIENT_ID)
             setUser(data)
+            localStorage.setItem('twitch_user', JSON.stringify(data))
             if (!data)
                 throw new Error('Unable to fetch the currently logged in user')
         } catch (error: any) {
@@ -61,9 +67,10 @@ export const UserIcon = () => {
         }
     }
 
-    useEffect(() => {
+    const handleAnchorClick = () => {
+        settingState()
         fetchUser()
-    }, [])
+    }
 
     const handleButtonClick = () => {
         setDropdownActive((prev) => !prev)
@@ -136,7 +143,7 @@ export const UserIcon = () => {
                     href={`https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${ADDRESS}&state=${state}&scope=user:read:email`}
                     className="rounded-md px-2 pseudo-zinc"
                     onKeyDown={handleKeyDown}
-                    onClick={settingState}
+                    onClick={handleAnchorClick}
                 >
                     <img
                         src={getImage('', 48, 'PROFILE')}

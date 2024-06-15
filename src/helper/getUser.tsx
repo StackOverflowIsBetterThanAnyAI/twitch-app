@@ -39,7 +39,7 @@ export const getUser = async (CLIENT_ID: string): Promise<UserProps | null> => {
         return user
     } catch (error: any) {
         console.error(
-            'The following error occured while fetching the logged in user',
+            'The following error occured while fetching the currently logged in user',
             error
         )
         return user
