@@ -48,7 +48,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
         if (e.key === ' ' || e.key === 'Enter') {
             const target = e.target as HTMLSelectElement
             setLanguage(target.value)
-            localStorage.setItem('twitch_filtered_language', target.value)
+            sessionStorage.setItem('twitch_filtered_language', target.value)
             setDisabledIndex(getLanguageIndex(target.value))
         }
         if (e.key === 'Escape') setFilterLanguageExpanded(false)
@@ -107,7 +107,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
         if (selectLanguageRef.current) {
             const selectedValue = selectLanguageRef.current.value
             setLanguage(selectedValue)
-            localStorage.setItem('twitch_filtered_language', selectedValue)
+            sessionStorage.setItem('twitch_filtered_language', selectedValue)
             setDisabledIndex(getLanguageIndex(selectedValue))
         }
     }
@@ -118,6 +118,14 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
 
     const handleClickBackFromLanguage = () => {
         setFilterLanguageExpanded(false)
+    }
+
+    const handleLogout = () => {
+        sessionStorage.removeItem('twitch_access_state')
+        sessionStorage.removeItem('twitch_access_token')
+        sessionStorage.removeItem('twitch_logged_in')
+        sessionStorage.removeItem('twitch_user')
+        window.location.reload()
     }
 
     useEffect(() => {
@@ -185,7 +193,10 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
                         </div>
                         <Icon type="Expand" />
                     </button>
-                    <button className="rounded-md p-1 pseudo-zinc w-full flex justify-start gap-2 items-center">
+                    <button
+                        className="rounded-md p-1 pseudo-zinc w-full flex justify-start gap-2 items-center"
+                        onClick={handleLogout}
+                    >
                         <Icon type="Logout" />
                         <h3 className="text-base lg:text-lg">Log out</h3>
                     </button>

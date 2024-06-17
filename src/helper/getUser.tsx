@@ -9,13 +9,19 @@ export const getUser = async (CLIENT_ID: string): Promise<UserProps | null> => {
     const access_token = params.get('access_token')
     const access_state = params.get('state')
 
-    if (!access_token) {
-        throw new Error('Failed fetching the access token')
-    }
+    sessionStorage.setItem('twitch_access_token', access_token || '')
+    sessionStorage.setItem('twitch_access_state', access_state || '')
 
-    localStorage.setItem('twitch_access_token', access_token)
-    // TODO: compare this state with the randomState from UserIcon
-    localStorage.setItem('twitch_access_state', access_state || '')
+    const checkForDifferentState =
+        sessionStorage.getItem('twitch_random_state') ===
+        sessionStorage.getItem('twitch_access_state')
+
+    sessionStorage.removeItem('twitch_access_state')
+    sessionStorage.removeItem('twitch_random_state')
+    sessionStorage.removeItem('twitch_access_token')
+
+    if (!checkForDifferentState)
+        throw new Error('The received state does not match the sent state.')
 
     const authorization = `Bearer ${access_token}`
 
@@ -43,5 +49,7 @@ export const getUser = async (CLIENT_ID: string): Promise<UserProps | null> => {
             error
         )
         return user
+    } finally {
+        window.location.href = '/'
     }
 }

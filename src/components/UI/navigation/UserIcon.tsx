@@ -1,26 +1,15 @@
 import { ADDRESS, CLIENT_ID } from './../../../clientdata/clientdata'
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getImage } from '../../../helper/getImage'
 import { UserProps } from '../../../types/UserProps'
 import { getUser } from '../../../helper/getUser'
 import SettingsPopup from './SettingsPopup'
-import { ContextLoggedIn } from '../../../App'
+import { getRandomChars } from '../../../helper/getRandomChars'
 
 export const UserIcon = () => {
-    const contextLoggedIn = useContext(ContextLoggedIn)
-    if (!contextLoggedIn) {
-        throw new Error(
-            'ContextLoggedIn must be used within a ContextLoggedIn.Provider'
-        )
-    }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [loggedIn, setLoggedIn] = contextLoggedIn
-
     const [state, setState] = useState('')
-    // user is always reset when the page is refreshed, because it is set to null
-    // profile picture is set after pressing the login button for the second time
     const [user, setUser] = useState<UserProps | null>(() => {
-        const storedUser = localStorage.getItem('twitch_user')
+        const storedUser = sessionStorage.getItem('twitch_user')
         return storedUser ? JSON.parse(storedUser) : null
     })
     const [dropdownActive, setDropdownActive] = useState(false)
@@ -28,37 +17,19 @@ export const UserIcon = () => {
     const popupRef = useRef<HTMLDivElement | null>(null)
     const buttonRef = useRef<HTMLButtonElement | null>(null)
 
-    // should only be executed on mount when the user is not logged in
-    // otherwise the states cannot be compared
-
     const settingState = () => {
-        let randomState = ''
-        for (let i = 0; i < 16; i++) {
-            let char = Math.round(Math.random() * 2)
-            switch (char) {
-                case 0:
-                    randomState += String.fromCharCode(Math.random() * 10 + 48)
-                    break
-                case 1:
-                    randomState += String.fromCharCode(Math.random() * 26 + 65)
-                    break
-                case 2:
-                    randomState += String.fromCharCode(Math.random() * 26 + 97)
-                    break
-            }
-        }
+        const randomState = getRandomChars()
         setState(randomState)
+        sessionStorage.setItem('twitch_random_state', randomState)
     }
 
-    // is only executed when the user is not logged in and the button is pressed
-    // ! or when the button has been pressed and the user is logged in !
     const fetchUser = async () => {
         try {
             const data = await getUser(CLIENT_ID)
-            setUser(data)
-            localStorage.setItem('twitch_user', JSON.stringify(data))
             if (!data)
                 throw new Error('Unable to fetch the currently logged in user')
+            setUser(data)
+            sessionStorage.setItem('twitch_user', JSON.stringify(data))
         } catch (error: any) {
             console.error(
                 'The following error occured while fetching the currently logged in user',
@@ -69,8 +40,13 @@ export const UserIcon = () => {
 
     const handleAnchorClick = () => {
         settingState()
-        fetchUser()
+        sessionStorage.setItem('twitch_logged_in', 'true')
     }
+
+    useEffect(() => {
+        const isLoggedIn = sessionStorage.getItem('twitch_logged_in')
+        isLoggedIn === 'true' && !user && fetchUser()
+    }, [user])
 
     const handleButtonClick = () => {
         setDropdownActive((prev) => !prev)
@@ -144,6 +120,7 @@ export const UserIcon = () => {
                     className="rounded-md px-2 pseudo-zinc"
                     onKeyDown={handleKeyDown}
                     onClick={handleAnchorClick}
+                    title="Log in"
                 >
                     <img
                         src={getImage('', 48, 'PROFILE')}

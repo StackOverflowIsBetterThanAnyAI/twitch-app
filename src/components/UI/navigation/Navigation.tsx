@@ -6,8 +6,6 @@ import { DesktopSearch } from './DesktopSearch'
 import { MobileSearch } from './MobileSearch'
 import { ContextScreenWidth } from '../../../App'
 
-// TODO: save profile picture (it is reset after going back to the homepage)
-
 const Navigation = () => {
     const contextScreenWidth = useContext(ContextScreenWidth)
     if (!contextScreenWidth) {
