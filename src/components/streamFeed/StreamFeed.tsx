@@ -21,14 +21,14 @@ import { ContextLanguage } from '../../App'
 // TODO: fallback thumbnail if order of streams changes
 
 const bgColors = [
-    'bg-red-400',
-    'bg-cyan-400',
-    'bg-lime-300',
-    'bg-violet-600',
-    'bg-amber-300',
-    'bg-blue-300',
-    'bg-green-500',
-    'bg-fuchsia-400',
+    'bg-gradient-to-tr from-red-400 to-red-800',
+    'bg-gradient-to-tr from-cyan-400 to-cyan-800',
+    'bg-gradient-to-tr from-lime-300 to-lime-700',
+    'bg-gradient-to-tr from-violet-600 to-violet-950',
+    'bg-gradient-to-tr from-amber-300 to-amber-700',
+    'bg-gradient-to-tr from-blue-300 to-blue-700',
+    'bg-gradient-to-tr from-green-500 to-green-900',
+    'bg-gradient-to-tr from-fuchsia-400 to-fuchsia-800',
 ]
 
 const StreamFeed = () => {
