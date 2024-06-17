@@ -14,7 +14,7 @@ import StreamTitle from './StreamTitle'
 import StreamViewerCount from './StreamViewerCount'
 
 import { CLIENT_ID, CLIENT_SECRET } from '../../clientdata/clientdata'
-import { ContextLanguage, ContextScreenWidth } from '../../App'
+import { ContextLanguage } from '../../App'
 
 // TODO: implement function which lets the user filter the results
 
@@ -41,12 +41,6 @@ const StreamFeed = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [language, setLanguage] = contextLanguage
 
-    const contextScreenWidth = useContext(ContextScreenWidth)
-    if (!contextScreenWidth) {
-        throw new Error(
-            'ContextScreenWidth must be used within a ContextScreenWidth.Provider'
-        )
-    }
     const [streamData, setStreamData] = useState<StreamProps | undefined>(
         undefined
     )
@@ -77,7 +71,7 @@ const StreamFeed = () => {
     }, [loadStreams])
 
     if (error) {
-        return <StreamFallback loadStreams={loadStreams} />
+        return <StreamFallback />
     }
 
     if (loading) {

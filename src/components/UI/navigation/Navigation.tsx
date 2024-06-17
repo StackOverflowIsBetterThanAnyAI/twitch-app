@@ -105,6 +105,7 @@ const Navigation = () => {
                         ariaPressed={ariaPressed}
                         buttonIconRef={buttonIconRef}
                         type="Search"
+                        title="Toggle search bar."
                         onClick={handleToggleMobile}
                         place="center"
                     />

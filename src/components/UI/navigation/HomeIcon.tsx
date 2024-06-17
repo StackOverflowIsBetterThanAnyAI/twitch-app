@@ -22,13 +22,9 @@ export const HomeIcon = () => {
             href="/"
             className="flex flex-row px-2 rounded-md pseudo-zinc"
             onKeyDown={handleKeyDown}
+            title="Homepage"
         >
-            <img
-                src={logo}
-                alt="Twitch-App Homepage"
-                title="Homepage"
-                loading="lazy"
-            />
+            <img src={logo} alt="Twitch-App Homepage" loading="lazy" />
             {(contextScreenWidth === 'TABLET' ||
                 contextScreenWidth === 'DESKTOP') && (
                 <span className="pl-4 m-auto">Twitch-App</span>

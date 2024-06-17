@@ -28,6 +28,7 @@ export const DesktopSearch: FC<DesktopSearchProps> = ({
                 onFocus={handleFocus}
                 onInput={handleInput}
                 onBlur={handleBlur}
+                title="Search current Livestreams."
             />
             <button
                 className={`m-auto p-2 rounded-full mr-1 ${

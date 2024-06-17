@@ -6,6 +6,7 @@ type ButtonIconProps = {
     buttonIconRef?: RefObject<HTMLButtonElement>
     onClick: () => void
     place: 'center' | 'left'
+    title?: string
     type: 'Search' | 'Back'
 }
 
@@ -15,6 +16,7 @@ const ButtonIcon: FC<ButtonIconProps> = ({
     buttonIconRef,
     onClick,
     place,
+    title,
     type,
 }) => {
     const search = (
@@ -70,7 +72,7 @@ const ButtonIcon: FC<ButtonIconProps> = ({
                 place === 'center' && 'm-auto'
             } p-2 rounded-full pseudo-zinc`}
             onClick={onClick}
-            title={type}
+            title={title || type}
             aria-label={ariaLabel}
             aria-pressed={ariaPressed}
             ref={buttonIconRef}
