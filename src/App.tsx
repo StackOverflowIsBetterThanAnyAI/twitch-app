@@ -12,7 +12,7 @@ export const ContextLanguage = createContext<
 >(undefined)
 
 function App() {
-    //TODO: api error handling on screen
+    // TODO: api error handling on screen
     const [language, setLanguage] = useState(
         sessionStorage.getItem('twitch_filtered_language') || 'de'
     )
