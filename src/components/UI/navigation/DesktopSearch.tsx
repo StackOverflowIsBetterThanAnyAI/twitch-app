@@ -5,6 +5,7 @@ type DesktopSearchProps = {
     handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void
     handleFocus: () => void
     handleInput: () => void
+    handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void
     handleSearch: () => void
     searchText: string
 }
@@ -14,6 +15,7 @@ export const DesktopSearch: FC<DesktopSearchProps> = ({
     handleChange,
     handleFocus,
     handleInput,
+    handleKeyDown,
     handleSearch,
     searchText,
 }) => {
@@ -27,6 +29,7 @@ export const DesktopSearch: FC<DesktopSearchProps> = ({
                 onChange={handleChange}
                 onFocus={handleFocus}
                 onInput={handleInput}
+                onKeyDown={handleKeyDown}
                 onBlur={handleBlur}
                 title="Search current Livestreams."
             />

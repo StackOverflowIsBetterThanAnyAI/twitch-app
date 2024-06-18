@@ -14,12 +14,16 @@ import StreamTitle from './StreamTitle'
 import StreamViewerCount from './StreamViewerCount'
 
 import { CLIENT_ID, CLIENT_SECRET } from '../../clientdata/clientdata'
-import { ContextErrorMessage, ContextLanguage } from '../../App'
+import {
+    ContextErrorMessage,
+    ContextLanguage,
+    ContextStreamData,
+} from '../../App'
 import { getEnglishLanguageName } from '../../helper/getEnglishLanguageName'
 
 // TODO: implement function which lets the user filter the results
 
-// TODO: fallback thumbnail if order of streams changes
+// TODO: fallback thumbnail if order of streams changes / on every reload
 
 const bgColors = [
     'bg-gradient-to-tr from-red-400 to-red-800',
@@ -51,9 +55,14 @@ const StreamFeed = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [errorMessage, setErrorMessage] = contextErrorMessage
 
-    const [streamData, setStreamData] = useState<StreamProps | undefined>(
-        undefined
-    )
+    const contextStreamData = useContext(ContextStreamData)
+    if (!contextStreamData) {
+        throw new Error(
+            'ContextStreamData must be used within a ContextStreamData.Provider'
+        )
+    }
+    const [streamData, setStreamData] = contextStreamData
+
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
 
@@ -90,7 +99,7 @@ const StreamFeed = () => {
         } finally {
             setLoading(false)
         }
-    }, [language, setErrorMessage])
+    }, [language, setErrorMessage, setStreamData])
 
     useEffect(() => {
         loadStreams()

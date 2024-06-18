@@ -17,6 +17,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
     user_display_name,
     user_profile_image_url,
 }) => {
+    // TODO: close on escape
     const contextLanguage = useContext(ContextLanguage)
     if (!contextLanguage) {
         throw new Error(
