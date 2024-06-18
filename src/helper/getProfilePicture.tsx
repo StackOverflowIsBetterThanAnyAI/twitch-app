@@ -35,7 +35,8 @@ export const getProfilePicture = async (
         return imageUrl
     } catch (error: any) {
         console.error(
-            'The following error occured while fetching a user profile picture:',
+            'The following error occured while fetching a user profile picture for the user:',
+            user_id,
             error
         )
         return undefined

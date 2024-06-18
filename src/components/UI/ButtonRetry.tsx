@@ -1,4 +1,4 @@
-const ButtonPromise = () => {
+const ButtonRetry = () => {
     return (
         <button
             onClick={() => window.location.reload()}
@@ -12,4 +12,4 @@ const ButtonPromise = () => {
     )
 }
 
-export default ButtonPromise
+export default ButtonRetry

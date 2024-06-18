@@ -2,6 +2,7 @@ import { UserProps } from '../types/UserProps'
 
 export const getUser = async (CLIENT_ID: string): Promise<UserProps | null> => {
     let user: UserProps | null = null
+    // TODO: if this URL does not send back a valid user, the user cannot login, but also does not receive a message, why
     const url = 'https://api.twitch.tv/helix/users'
 
     const hash = window.location.hash

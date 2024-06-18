@@ -14,7 +14,8 @@ import StreamTitle from './StreamTitle'
 import StreamViewerCount from './StreamViewerCount'
 
 import { CLIENT_ID, CLIENT_SECRET } from '../../clientdata/clientdata'
-import { ContextLanguage } from '../../App'
+import { ContextErrorMessage, ContextLanguage } from '../../App'
+import { getEnglishLanguageName } from '../../helper/getEnglishLanguageName'
 
 // TODO: implement function which lets the user filter the results
 
@@ -41,6 +42,15 @@ const StreamFeed = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [language, setLanguage] = contextLanguage
 
+    const contextErrorMessage = useContext(ContextErrorMessage)
+    if (!contextErrorMessage) {
+        throw new Error(
+            'ContextErrorMessage must be used within a ContextErrorMessage.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [errorMessage, setErrorMessage] = contextErrorMessage
+
     const [streamData, setStreamData] = useState<StreamProps | undefined>(
         undefined
     )
@@ -48,17 +58,29 @@ const StreamFeed = () => {
     const [loading, setLoading] = useState(true)
 
     const loadStreams = useCallback(async () => {
+        const url = `https://api.twitch.tv/helix/streams?language=${language}`
         try {
-            const data = await getStreams(CLIENT_ID, CLIENT_SECRET, language)
+            const data = await getStreams(CLIENT_ID, CLIENT_SECRET, url)
             setStreamData(data)
-            if (!data) throw new Error()
+            if (!data) {
+                setErrorMessage([
+                    `There are no ${getEnglishLanguageName(
+                        language
+                    )} Livestreams available at the following URL:`,
+                    url,
+                ])
+                throw new Error(`There are no ${getEnglishLanguageName(
+                    language
+                )} Livestreams available at the following URL:
+                    ${url}`)
+            }
             setError(false)
         } catch (error) {
             setError(true)
         } finally {
             setLoading(false)
         }
-    }, [language])
+    }, [language, setErrorMessage])
 
     useEffect(() => {
         loadStreams()
