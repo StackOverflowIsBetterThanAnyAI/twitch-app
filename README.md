@@ -1,1 +1,1 @@
-An abstract `twitch.tv` clone built with React, TypeScript and Tailwind CSS.
+An abstract `twitch.tv` clone built with React, TypeScript, Tailwind CSS and the public twitch api.
