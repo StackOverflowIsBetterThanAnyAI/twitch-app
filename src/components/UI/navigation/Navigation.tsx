@@ -26,6 +26,7 @@ const Navigation = () => {
     }
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchText(e.target.value)
+        console.log(`searching for ${searchText}`)
     }
     const handleFocus = () => {
         setNavOpacity('opacity-100')
@@ -39,7 +40,10 @@ const Navigation = () => {
         } else if (e.shiftKey && e.key === 'Tab') {
             e.preventDefault()
             buttonIconRef.current?.focus()
-        }
+        } else if (e.key === 'Enter') handleSearch()
+    }
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') handleSearch()
     }
     const handleSearch = () => {
         console.log(`searching for ${searchText}`)
@@ -96,6 +100,7 @@ const Navigation = () => {
                         handleChange={handleChange}
                         handleFocus={handleFocus}
                         handleInput={handleInput}
+                        handleKeyDown={handleKeyDown}
                         handleSearch={handleSearch}
                         searchText={searchText}
                     />
