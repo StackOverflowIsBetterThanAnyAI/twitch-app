@@ -12,6 +12,7 @@ export const getProfilePicture = async (
     const authorizationObject: AuthorizationProps =
         await getTwitchAuthorization(CLIENT_ID, CLIENT_SECRET)
     let { access_token, token_type } = authorizationObject
+    if (access_token === '' && token_type === '') return undefined
 
     token_type =
         token_type.substring(0, 1).toUpperCase() +

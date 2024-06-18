@@ -4,7 +4,19 @@ const plugin = require('tailwindcss/plugin')
 module.exports = {
     content: ['./src/**/*.{js,jsx,ts,tsx}', './index.html'],
     theme: {
-        extend: {},
+        extend: {
+            animation: {
+                fadeOut: 'fadeOut 5s forwards',
+            },
+            keyframes: {
+                fadeOut: {
+                    '0%': { opacity: 0, visibility: 'hidden' },
+                    '10%': { opacity: 1, visibility: 'visible' },
+                    '80%': { opacity: 1, visibility: 'visible' },
+                    '100%': { opacity: 0, visibility: 'hidden' },
+                },
+            },
+        },
     },
     plugins: [
         plugin(function ({ addUtilities }) {

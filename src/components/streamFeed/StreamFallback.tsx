@@ -21,15 +21,13 @@ const StreamFallback = () => {
                 <h3 className="text-base lg:text-lg">
                     Unfortunatelly we cannot fetch the current Livestreams.
                 </h3>
-                {errorMessage && (
-                    <>
-                        <h4 className="text-sm lg:text-base">
-                            {errorMessage[0]}
-                        </h4>
-                        <h4 className="text-sm lg:text-base">
-                            <i>{errorMessage[1]}</i>
-                        </h4>
-                    </>
+                {errorMessage[0] && (
+                    <h4 className="text-sm lg:text-base">{errorMessage[0]}</h4>
+                )}
+                {errorMessage[1] && (
+                    <h4 className="text-sm lg:text-base">
+                        <i>{errorMessage[1]}</i>
+                    </h4>
                 )}
                 <section className="py-2 max-w-lg m-auto">
                     <StreamThumbnail

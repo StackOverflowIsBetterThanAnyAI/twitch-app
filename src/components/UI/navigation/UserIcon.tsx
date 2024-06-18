@@ -46,6 +46,13 @@ export const UserIcon = () => {
     useEffect(() => {
         const isLoggedIn = sessionStorage.getItem('twitch_logged_in')
         isLoggedIn === 'true' && !user && fetchUser()
+        const timer = setTimeout(
+            () =>
+                isLoggedIn === 'false' &&
+                sessionStorage.removeItem('twitch_logged_in'),
+            100
+        )
+        return () => clearTimeout(timer)
     }, [user])
 
     const handleButtonClick = () => {
@@ -115,20 +122,34 @@ export const UserIcon = () => {
                     )}
                 </>
             ) : (
-                <a
-                    href={`https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${ADDRESS}&state=${state}&scope=user:read:email`}
-                    className="rounded-md px-2 pseudo-zinc"
-                    onKeyDown={handleKeyDown}
-                    onClick={handleAnchorClick}
-                    title="Log in"
-                >
-                    <img
-                        src={getImage('', 48, 'PROFILE')}
-                        alt="Settings"
-                        loading="lazy"
-                        width={48}
-                    />
-                </a>
+                <>
+                    <a
+                        href={`https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${ADDRESS}&state=${state}&scope=user:read:email`}
+                        className="rounded-md px-2 pseudo-zinc"
+                        onKeyDown={handleKeyDown}
+                        onClick={handleAnchorClick}
+                        title="Log in"
+                    >
+                        <img
+                            src={getImage('', 48, 'PROFILE')}
+                            alt="Settings"
+                            loading="lazy"
+                            width={48}
+                        />
+                    </a>
+                    {sessionStorage.getItem('twitch_logged_in') === 'false' && (
+                        <div
+                            className={`absolute top-16 right-4 bg-zinc-700 p-2 border-2 border-zinc-50 animate-fadeOut`}
+                        >
+                            <h2 className="text-base lg:text-lg">
+                                Login failed.
+                            </h2>
+                            <h3 className="text-sm lg:text-base">
+                                Please try again later.
+                            </h3>
+                        </div>
+                    )}
+                </>
             )}
         </>
     )

@@ -2,7 +2,6 @@ import { UserProps } from '../types/UserProps'
 
 export const getUser = async (CLIENT_ID: string): Promise<UserProps | null> => {
     let user: UserProps | null = null
-    // TODO: if this URL does not send back a valid user, the user cannot login, but also does not receive a message, why
     const url = 'https://api.twitch.tv/helix/users'
 
     const hash = window.location.hash
@@ -13,16 +12,15 @@ export const getUser = async (CLIENT_ID: string): Promise<UserProps | null> => {
     sessionStorage.setItem('twitch_access_token', access_token || '')
     sessionStorage.setItem('twitch_access_state', access_state || '')
 
-    const checkForDifferentState =
+    const sameState =
         sessionStorage.getItem('twitch_random_state') ===
         sessionStorage.getItem('twitch_access_state')
 
-    sessionStorage.removeItem('twitch_access_state')
-    sessionStorage.removeItem('twitch_random_state')
-    sessionStorage.removeItem('twitch_access_token')
-
-    if (!checkForDifferentState)
+    if (!sameState) {
+        !user && sessionStorage.setItem('twitch_logged_in', 'false')
+        window.location.href = '/'
         throw new Error('The received state does not match the sent state.')
+    }
 
     const authorization = `Bearer ${access_token}`
 
@@ -43,6 +41,7 @@ export const getUser = async (CLIENT_ID: string): Promise<UserProps | null> => {
         if (!data.data.length)
             throw new Error(`No user has been found: ${response.url}`)
         user = data.data[0]
+        sessionStorage.setItem('twitch_logged_in', 'true')
         return user
     } catch (error: any) {
         console.error(
@@ -52,5 +51,9 @@ export const getUser = async (CLIENT_ID: string): Promise<UserProps | null> => {
         return user
     } finally {
         window.location.href = '/'
+
+        sessionStorage.removeItem('twitch_access_state')
+        sessionStorage.removeItem('twitch_random_state')
+        sessionStorage.removeItem('twitch_access_token')
     }
 }

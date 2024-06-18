@@ -60,9 +60,19 @@ const StreamFeed = () => {
     const loadStreams = useCallback(async () => {
         const url = `https://api.twitch.tv/helix/streams?language=${language}`
         try {
-            const data = await getStreams(CLIENT_ID, CLIENT_SECRET, url)
-            setStreamData(data)
-            if (!data) {
+            const data: StreamProps | { error: 'login' } | undefined =
+                await getStreams(CLIENT_ID, CLIENT_SECRET, url)
+            if (data && 'error' in data && data.error === 'login') {
+                setStreamData(undefined)
+                setErrorMessage([
+                    'At the moment there are problems with the login process.',
+                ])
+                throw new Error(
+                    'At the moment there are problems with the login process.'
+                )
+            } else if (data && !('error' in data)) setStreamData(data)
+            else if (!data) {
+                setStreamData(undefined)
                 setErrorMessage([
                     `There are no ${getEnglishLanguageName(
                         language

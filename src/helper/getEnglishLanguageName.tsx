@@ -35,5 +35,5 @@ export const getEnglishLanguageName = (lang: string) => {
         'Turkish',
         'Russian',
     ]
-    return translations[languages.indexOf(lang)]
+    return translations[languages.indexOf(lang)] || ''
 }

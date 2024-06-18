@@ -7,10 +7,11 @@ export const getStreams = async (
     CLIENT_ID: string,
     CLIENT_SECRET: string,
     url: string
-): Promise<StreamProps | undefined> => {
+): Promise<StreamProps | undefined | { error: 'login' }> => {
     const authorizationObject: AuthorizationProps =
         await getTwitchAuthorization(CLIENT_ID, CLIENT_SECRET)
     let { access_token, token_type } = authorizationObject
+    if (access_token === '' && token_type === '') return { error: 'login' }
 
     token_type =
         token_type.substring(0, 1).toUpperCase() +
