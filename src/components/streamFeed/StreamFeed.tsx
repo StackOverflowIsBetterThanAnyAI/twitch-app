@@ -16,6 +16,7 @@ import StreamViewerCount from './StreamViewerCount'
 import { CLIENT_ID, CLIENT_SECRET } from '../../clientdata/clientdata'
 import {
     ContextErrorMessage,
+    ContextFilteredStreamData,
     ContextLanguage,
     ContextStreamData,
 } from '../../App'
@@ -61,7 +62,18 @@ const StreamFeed = () => {
             'ContextStreamData must be used within a ContextStreamData.Provider'
         )
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [streamData, setStreamData] = contextStreamData
+
+    const contextFilteredStreamData = useContext(ContextFilteredStreamData)
+    if (!contextFilteredStreamData) {
+        throw new Error(
+            'ContextFilteredStreamData must be used within a ContextFilteredStreamData.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [filteredStreamData, setFilteredStreamData] =
+        contextFilteredStreamData
 
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
@@ -73,15 +85,19 @@ const StreamFeed = () => {
                 await getStreams(CLIENT_ID, CLIENT_SECRET, url)
             if (data && 'error' in data && data.error === 'login') {
                 setStreamData(undefined)
+                setFilteredStreamData(undefined)
                 setErrorMessage([
                     'At the moment there are problems with the login process.',
                 ])
                 throw new Error(
                     'At the moment there are problems with the login process.'
                 )
-            } else if (data && !('error' in data)) setStreamData(data)
-            else if (!data) {
+            } else if (data && !('error' in data)) {
+                setStreamData(data)
+                setFilteredStreamData(data)
+            } else if (!data) {
                 setStreamData(undefined)
+                setFilteredStreamData(undefined)
                 setErrorMessage([
                     `There are no ${getEnglishLanguageName(
                         language
@@ -99,7 +115,7 @@ const StreamFeed = () => {
         } finally {
             setLoading(false)
         }
-    }, [language, setErrorMessage, setStreamData])
+    }, [language, setErrorMessage, setStreamData, setFilteredStreamData])
 
     useEffect(() => {
         loadStreams()
@@ -121,8 +137,8 @@ const StreamFeed = () => {
 
     return (
         <article className="p-4 gap-4 grid grid-cols-auto-fit-320">
-            {streamData?.data &&
-                streamData.data.map((item, index) => {
+            {filteredStreamData?.data &&
+                filteredStreamData.data.map((item, index) => {
                     const bgColor = bgColors[index % bgColors.length]
                     return (
                         <article key={item.user_id}>

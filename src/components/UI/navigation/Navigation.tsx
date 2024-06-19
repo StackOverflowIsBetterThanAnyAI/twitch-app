@@ -4,7 +4,11 @@ import { HomeIcon } from './HomeIcon'
 import { UserIcon } from './UserIcon'
 import { DesktopSearch } from './DesktopSearch'
 import { MobileSearch } from './MobileSearch'
-import { ContextScreenWidth } from '../../../App'
+import {
+    ContextFilteredStreamData,
+    ContextScreenWidth,
+    ContextStreamData,
+} from '../../../App'
 
 const Navigation = () => {
     const contextScreenWidth = useContext(ContextScreenWidth)
@@ -13,6 +17,26 @@ const Navigation = () => {
             'ContextScreenWidth must be used within a ContextScreenWidth.Provider'
         )
     }
+
+    const contextStreamData = useContext(ContextStreamData)
+    if (!contextStreamData) {
+        throw new Error(
+            'ContextStreamData must be used within a ContextStreamData.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [streamData, setStreamData] = contextStreamData
+
+    const contextFilteredStreamData = useContext(ContextFilteredStreamData)
+    if (!contextFilteredStreamData) {
+        throw new Error(
+            'ContextFilteredStreamData must be used within a ContextFilteredStreamData.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [filteredStreamData, setFilteredStreamData] =
+        contextFilteredStreamData
+
     const [searchText, setSearchText] = useState<string>('')
     const [navOpacity, setNavOpacity] = useState<string>('opacity-100')
     const [blockOpacity, setBlockOpacity] = useState(false)
@@ -24,15 +48,17 @@ const Navigation = () => {
     const handleBlur = () => {
         setBlockOpacity(false)
     }
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchText(e.target.value)
-        console.log(`searching for ${searchText}`)
     }
+
     const handleFocus = () => {
         setNavOpacity('opacity-100')
         setBlockOpacity(true)
     }
     const handleInput = handleFocus
+
     const handleKeyDownMobile = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Escape') {
             buttonIconRef.current?.focus()
@@ -45,9 +71,27 @@ const Navigation = () => {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') handleSearch()
     }
+
     const handleSearch = () => {
-        console.log(`searching for ${searchText}`)
+        const searchTextLowerCase = searchText.toLocaleLowerCase()
+        if (streamData) {
+            const filteredData = streamData.data.filter(
+                (item) =>
+                    item.user_name
+                        .toLowerCase()
+                        .includes(searchTextLowerCase) ||
+                    item.game_name
+                        .toLowerCase()
+                        .includes(searchTextLowerCase) ||
+                    item.title.toLowerCase().includes(searchTextLowerCase) ||
+                    item.tags.some((tag) =>
+                        tag.toLowerCase().includes(searchTextLowerCase)
+                    )
+            )
+            setFilteredStreamData({ data: filteredData })
+        }
     }
+
     const handleToggleMobile = () => {
         setHideSearch((prev) => !prev)
         setAriaPressed((prev) => !prev)

@@ -24,6 +24,14 @@ export const ContextStreamData = createContext<
     | undefined
 >(undefined)
 
+export const ContextFilteredStreamData = createContext<
+    | [
+          StreamProps | undefined,
+          Dispatch<SetStateAction<StreamProps | undefined>>
+      ]
+    | undefined
+>(undefined)
+
 const App = () => {
     const [errorMessage, setErrorMessage] = useState([''])
     const [language, setLanguage] = useState(
@@ -33,6 +41,9 @@ const App = () => {
     const [streamData, setStreamData] = useState<StreamProps | undefined>(
         undefined
     )
+    const [filteredStreamData, setFilteredStreamData] = useState<
+        StreamProps | undefined
+    >(streamData)
 
     return (
         <div className="min-w-80">
@@ -44,10 +55,17 @@ const App = () => {
                         <ContextStreamData.Provider
                             value={[streamData, setStreamData]}
                         >
-                            <Navigation />
-                            <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800">
-                                <StreamFeed />
-                            </main>
+                            <ContextFilteredStreamData.Provider
+                                value={[
+                                    filteredStreamData,
+                                    setFilteredStreamData,
+                                ]}
+                            >
+                                <Navigation />
+                                <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800">
+                                    <StreamFeed />
+                                </main>
+                            </ContextFilteredStreamData.Provider>
                         </ContextStreamData.Provider>
                     </ContextErrorMessage.Provider>
                 </ContextLanguage.Provider>
