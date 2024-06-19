@@ -51,6 +51,8 @@ const Navigation = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchText(e.target.value)
+        // TODO: show possible solutions while typing
+        if (e.target.value.length === 0) setFilteredStreamData(streamData)
     }
 
     const handleFocus = () => {
