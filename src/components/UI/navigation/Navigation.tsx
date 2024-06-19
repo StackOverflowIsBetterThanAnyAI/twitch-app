@@ -2,13 +2,13 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import ButtonIcon from '../ButtonIcon'
 import { HomeIcon } from './HomeIcon'
 import { UserIcon } from './UserIcon'
-import { DesktopSearch } from './DesktopSearch'
 import { MobileSearch } from './MobileSearch'
 import {
     ContextFilteredStreamData,
     ContextScreenWidth,
     ContextStreamData,
 } from '../../../App'
+import DesktopSearch from './DesktopSearch'
 
 const Navigation = () => {
     const contextScreenWidth = useContext(ContextScreenWidth)
@@ -42,6 +42,9 @@ const Navigation = () => {
     const [blockOpacity, setBlockOpacity] = useState(false)
     const [hideSearch, setHideSearch] = useState(true)
     const [ariaPressed, setAriaPressed] = useState(false)
+    const [searchResults, setSearchResults] = useState<any[]>([])
+    const [searchResultsExpanded, setSearchResultsExpanded] = useState(false)
+    const desktopSearchRef = useRef<HTMLDivElement>(null)
     const searchMobileRef = useRef<HTMLInputElement>(null)
     const buttonIconRef = useRef<HTMLButtonElement>(null)
 
@@ -51,27 +54,39 @@ const Navigation = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchText(e.target.value)
-        // TODO: show possible solutions while typing
-        if (e.target.value.length === 0) setFilteredStreamData(streamData)
-    }
+        const searchTextLowerCase = e.target.value.toLocaleLowerCase()
+        if (streamData) {
+            const filteredData = streamData.data.filter(
+                (item) =>
+                    item.user_name
+                        .toLowerCase()
+                        .includes(searchTextLowerCase) ||
+                    item.game_name
+                        .toLowerCase()
+                        .includes(searchTextLowerCase) ||
+                    item.title.toLowerCase().includes(searchTextLowerCase) ||
+                    item.tags.some((tag) =>
+                        tag.toLowerCase().includes(searchTextLowerCase)
+                    )
+            )
 
-    const handleFocus = () => {
-        setNavOpacity('opacity-100')
-        setBlockOpacity(true)
-    }
-    const handleInput = handleFocus
-
-    const handleKeyDownMobile = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Escape') {
-            buttonIconRef.current?.focus()
-            setHideSearch(true)
-        } else if (e.shiftKey && e.key === 'Tab') {
-            e.preventDefault()
-            buttonIconRef.current?.focus()
-        } else if (e.key === 'Enter') handleSearch()
-    }
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter') handleSearch()
+            const results = filteredData.map((item) => ({
+                game_name: item.game_name,
+                user_name: item.user_name,
+                title: item.title,
+                tags: item.tags.filter((tag) =>
+                    tag.toLowerCase().includes(searchTextLowerCase)
+                ),
+            }))
+            setSearchResults(results)
+        }
+        if (e.target.value.length === 0) {
+            setFilteredStreamData(streamData)
+            setSearchResultsExpanded(true)
+            setSearchResults([])
+        } else {
+            setSearchResultsExpanded(true)
+        }
     }
 
     const handleSearch = () => {
@@ -92,6 +107,26 @@ const Navigation = () => {
             )
             setFilteredStreamData({ data: filteredData })
         }
+    }
+
+    const handleFocus = () => {
+        setNavOpacity('opacity-100')
+        setBlockOpacity(true)
+        setSearchResultsExpanded(true)
+    }
+    const handleInput = handleFocus
+
+    const handleKeyDownMobile = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Escape') {
+            buttonIconRef.current?.focus()
+            setHideSearch(true)
+        } else if (e.shiftKey && e.key === 'Tab') {
+            e.preventDefault()
+            buttonIconRef.current?.focus()
+        } else if (e.key === 'Enter') handleSearch()
+    }
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') handleSearch()
     }
 
     const handleToggleMobile = () => {
@@ -132,6 +167,27 @@ const Navigation = () => {
         }
     }, [blockOpacity, navOpacity])
 
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                desktopSearchRef.current &&
+                !desktopSearchRef.current.contains(event.target as Node)
+            ) {
+                setSearchResultsExpanded(false)
+            }
+        }
+
+        if (searchResultsExpanded) {
+            document.addEventListener('mousedown', handleClickOutside)
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [searchResultsExpanded])
+
     return (
         <div className="sticky top-0 z-10">
             <nav
@@ -149,6 +205,9 @@ const Navigation = () => {
                         handleKeyDown={handleKeyDown}
                         handleSearch={handleSearch}
                         searchText={searchText}
+                        searchResults={searchResults}
+                        searchResultsExpanded={searchResultsExpanded}
+                        ref={desktopSearchRef}
                     />
                 ) : (
                     <ButtonIcon
@@ -175,6 +234,7 @@ const Navigation = () => {
                         handleSearch={handleSearch}
                         searchMobileRef={searchMobileRef}
                         searchText={searchText}
+                        searchResults={searchResults}
                     />
                 )}
         </div>

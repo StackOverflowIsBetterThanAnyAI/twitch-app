@@ -151,6 +151,7 @@ const StreamFeed = () => {
                                         key={item.thumbnail_url}
                                     />
                                     <StreamLive
+                                        placement="thumbnail"
                                         type={item.type}
                                         key={`${item.user_id}${item.type}`}
                                     />

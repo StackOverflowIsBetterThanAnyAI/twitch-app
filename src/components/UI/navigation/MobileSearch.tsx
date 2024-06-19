@@ -8,6 +8,7 @@ type MobileSearchProps = {
     handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void
     handleSearch: () => void
     searchMobileRef: RefObject<HTMLInputElement>
+    searchResults: any[]
     searchText: string
 }
 
@@ -19,6 +20,7 @@ export const MobileSearch: FC<MobileSearchProps> = ({
     handleKeyDown,
     handleSearch,
     searchMobileRef,
+    searchResults,
     searchText,
 }) => {
     return (
