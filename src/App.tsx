@@ -51,7 +51,7 @@ const App = () => {
     >(streamData)
 
     return (
-        <div className="min-w-80">
+        <div className="min-w-72 min-h-screen bg-zinc-800">
             <ContextScreenWidth.Provider value={screenWidth}>
                 <ContextLanguage.Provider value={[language, setLanguage]}>
                     <ContextErrorMessage.Provider
@@ -70,7 +70,7 @@ const App = () => {
                                     value={[searchText, setSearchText]}
                                 >
                                     <Navigation />
-                                    <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800">
+                                    <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 px-2">
                                         <StreamFeed />
                                     </main>
                                 </ContextSearchText.Provider>

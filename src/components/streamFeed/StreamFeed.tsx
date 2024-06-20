@@ -18,6 +18,7 @@ import {
     ContextErrorMessage,
     ContextFilteredStreamData,
     ContextLanguage,
+    ContextScreenWidth,
     ContextStreamData,
 } from '../../App'
 import { getEnglishLanguageName } from '../../helper/getEnglishLanguageName'
@@ -70,6 +71,13 @@ const StreamFeed = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [filteredStreamData, setFilteredStreamData] =
         contextFilteredStreamData
+
+    const contextScreenWidth = useContext(ContextScreenWidth)
+    if (!contextScreenWidth) {
+        throw new Error(
+            'ContextScreenWidth must be used within a ContextScreenWidth.Provider'
+        )
+    }
 
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
@@ -132,7 +140,13 @@ const StreamFeed = () => {
     }
 
     return (
-        <article className="p-4 gap-4 grid grid-cols-auto-fit-320">
+        <article
+            className={`p-4 gap-4 ${
+                contextScreenWidth === 'MOBILE'
+                    ? 'grid grid-cols-1'
+                    : 'grid grid-cols-auto-fit-320'
+            }`}
+        >
             {filteredStreamData?.data &&
                 filteredStreamData.data.map((item, index) => {
                     const bgColor = bgColors[index % bgColors.length]
