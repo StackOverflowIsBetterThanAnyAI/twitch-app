@@ -22,10 +22,6 @@ import {
 } from '../../App'
 import { getEnglishLanguageName } from '../../helper/getEnglishLanguageName'
 
-// TODO: implement function which lets the user filter the results
-
-// TODO: fallback thumbnail if order of streams changes / on every reload
-
 const bgColors = [
     'bg-gradient-to-tr from-red-400 to-red-800',
     'bg-gradient-to-tr from-cyan-400 to-cyan-800',
@@ -121,7 +117,7 @@ const StreamFeed = () => {
         loadStreams()
         const refresh = setInterval(() => {
             loadStreams()
-        }, 180000)
+        }, 120000)
         return () => {
             clearInterval(refresh)
         }
@@ -148,15 +144,16 @@ const StreamFeed = () => {
                                         thumbnail_url={item.thumbnail_url}
                                         user_name={item.user_name}
                                         stream_game={item.game_name}
-                                        key={item.thumbnail_url}
+                                        key={`${item.user_id} - thumbnail`}
                                     />
                                     <StreamLive
                                         placement="thumbnail"
                                         type={item.type}
-                                        key={`${item.user_id}${item.type}`}
+                                        key={`${item.user_id} - live`}
                                     />
                                     <StreamViewerCount
                                         viewer_count={item.viewer_count}
+                                        key={`${item.user_id} - viewer_count`}
                                     />
                                 </section>
                             </div>
@@ -164,16 +161,26 @@ const StreamFeed = () => {
                                 <StreamProfilePicture
                                     user_id={item.user_id}
                                     user_name={item.user_name}
+                                    key={`${item.user_id} - profile_picture`}
                                 />
                                 <section className="col-span-4">
-                                    <StreamChannel user_name={item.user_name} />
-                                    <StreamTitle title={item.title} />
-                                    <StreamGame game_name={item.game_name} />
+                                    <StreamChannel
+                                        user_name={item.user_name}
+                                        key={`${item.user_id} - channel`}
+                                    />
+                                    <StreamTitle
+                                        title={item.title}
+                                        key={`${item.user_id} - title`}
+                                    />
+                                    <StreamGame
+                                        game_name={item.game_name}
+                                        key={`${item.user_id} - game`}
+                                    />
                                     <div className="flex flex-wrap w-full">
                                         {item.tags.map((item, index) => (
                                             <StreamTags
                                                 item={item}
-                                                key={`${item}${index}`}
+                                                key={`${item}${index} - tag`}
                                             />
                                         ))}
                                     </div>

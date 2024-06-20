@@ -2,10 +2,11 @@ import { useContext, useEffect, useRef, useState } from 'react'
 import ButtonIcon from '../ButtonIcon'
 import { HomeIcon } from './HomeIcon'
 import { UserIcon } from './UserIcon'
-import { MobileSearch } from './MobileSearch'
+import MobileSearch from './MobileSearch'
 import {
     ContextFilteredStreamData,
     ContextScreenWidth,
+    ContextSearchText,
     ContextStreamData,
 } from '../../../App'
 import DesktopSearch from './DesktopSearch'
@@ -37,7 +38,14 @@ const Navigation = () => {
     const [filteredStreamData, setFilteredStreamData] =
         contextFilteredStreamData
 
-    const [searchText, setSearchText] = useState<string>('')
+    const contextSearchText = useContext(ContextSearchText)
+    if (!contextSearchText) {
+        throw new Error(
+            'ContextSearchText must be used within a ContextSearchText.Provider'
+        )
+    }
+    const [searchText, setSearchText] = contextSearchText
+
     const [navOpacity, setNavOpacity] = useState<string>('opacity-100')
     const [blockOpacity, setBlockOpacity] = useState(false)
     const [hideSearch, setHideSearch] = useState(true)
@@ -45,6 +53,7 @@ const Navigation = () => {
     const [searchResults, setSearchResults] = useState<any[]>([])
     const [searchResultsExpanded, setSearchResultsExpanded] = useState(false)
     const desktopSearchRef = useRef<HTMLDivElement>(null)
+    const mobileSearchRef = useRef<HTMLDivElement>(null)
     const searchMobileRef = useRef<HTMLInputElement>(null)
     const buttonIconRef = useRef<HTMLButtonElement>(null)
 
@@ -87,6 +96,10 @@ const Navigation = () => {
         } else {
             setSearchResultsExpanded(true)
         }
+    }
+
+    const handleClickCompletion = (name: string) => {
+        setSearchText(name)
     }
 
     const handleSearch = () => {
@@ -170,8 +183,10 @@ const Navigation = () => {
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (
-                desktopSearchRef.current &&
-                !desktopSearchRef.current.contains(event.target as Node)
+                (desktopSearchRef.current &&
+                    !desktopSearchRef.current.contains(event.target as Node)) ||
+                (mobileSearchRef.current &&
+                    !mobileSearchRef.current.contains(event.target as Node))
             ) {
                 setSearchResultsExpanded(false)
             }
@@ -200,11 +215,11 @@ const Navigation = () => {
                     <DesktopSearch
                         handleBlur={handleBlur}
                         handleChange={handleChange}
+                        handleClick={handleClickCompletion}
                         handleFocus={handleFocus}
                         handleInput={handleInput}
                         handleKeyDown={handleKeyDown}
                         handleSearch={handleSearch}
-                        searchText={searchText}
                         searchResults={searchResults}
                         searchResultsExpanded={searchResultsExpanded}
                         ref={desktopSearchRef}
@@ -228,13 +243,15 @@ const Navigation = () => {
                     <MobileSearch
                         handleBlur={handleBlur}
                         handleChange={handleChange}
+                        handleClick={handleClickCompletion}
                         handleFocus={handleFocus}
                         handleInput={handleInput}
                         handleKeyDown={handleKeyDownMobile}
                         handleSearch={handleSearch}
                         searchMobileRef={searchMobileRef}
-                        searchText={searchText}
                         searchResults={searchResults}
+                        searchResultsExpanded={searchResultsExpanded}
+                        ref={mobileSearchRef}
                     />
                 )}
         </div>

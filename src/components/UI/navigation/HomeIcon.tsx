@@ -9,6 +9,7 @@ export const HomeIcon = () => {
             'ContextScreenWidth must be used within a ContextScreenWidth.Provider'
         )
     }
+
     const handleKeyDown = (e: React.KeyboardEvent<HTMLAnchorElement>) => {
         if (e.key === ' ') {
             const target = e.target as HTMLElement

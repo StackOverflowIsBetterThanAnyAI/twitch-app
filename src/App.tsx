@@ -32,12 +32,17 @@ export const ContextFilteredStreamData = createContext<
     | undefined
 >(undefined)
 
+export const ContextSearchText = createContext<
+    [string, Dispatch<SetStateAction<string>>] | undefined
+>(undefined)
+
 const App = () => {
     const [errorMessage, setErrorMessage] = useState([''])
     const [language, setLanguage] = useState(
         sessionStorage.getItem('twitch_filtered_language') || 'de'
     )
     const screenWidth = useScreenWidth()
+    const [searchText, setSearchText] = useState<string>('')
     const [streamData, setStreamData] = useState<StreamProps | undefined>(
         undefined
     )
@@ -61,10 +66,14 @@ const App = () => {
                                     setFilteredStreamData,
                                 ]}
                             >
-                                <Navigation />
-                                <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800">
-                                    <StreamFeed />
-                                </main>
+                                <ContextSearchText.Provider
+                                    value={[searchText, setSearchText]}
+                                >
+                                    <Navigation />
+                                    <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800">
+                                        <StreamFeed />
+                                    </main>
+                                </ContextSearchText.Provider>
                             </ContextFilteredStreamData.Provider>
                         </ContextStreamData.Provider>
                     </ContextErrorMessage.Provider>
