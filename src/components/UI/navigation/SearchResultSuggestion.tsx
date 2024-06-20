@@ -16,10 +16,10 @@ const SearchResultSuggestion: FC<SearchResultSuggestionProps> = ({
         <div
             className="outline outline-zinc-700 rounded-lg bg-zinc-900 flex flex-col overflow-scroll"
             style={{
-                maxHeight: '384px',
+                maxHeight: '377px',
                 minHeight: `clamp(0px, ${
                     searchResults.length * 60 + 17
-                }px, 384px)`,
+                }px, 377px)`,
             }}
         >
             {searchResults.map((item, index) => (
