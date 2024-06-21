@@ -5,14 +5,17 @@ import { LANGUAGES } from '../../../constants'
 import Icon from '../Icon'
 import { getLanguageIndex } from '../../../helper/getLanguageIndex'
 import FilterLanguagePopup from './FIlterLanguagePopup'
+import { ContextFilterLanguageExpanded } from './UserIcon'
 
 type SettingsPopupProps = {
+    handleButtonKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => void
     popupRef: React.MutableRefObject<HTMLDivElement | null>
     user_display_name: string
     user_profile_image_url: string
 }
 
 const SettingsPopup: FC<SettingsPopupProps> = ({
+    handleButtonKeyDown,
     popupRef,
     user_display_name,
     user_profile_image_url,
@@ -32,7 +35,18 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
             'ContextScreenWidth must be used within a ContextScreenWidth.Provider'
         )
     }
-    const [filterLanguageExpanded, setFilterLanguageExpanded] = useState(false)
+
+    const contextFilterLanguageExpanded = useContext(
+        ContextFilterLanguageExpanded
+    )
+    if (!contextFilterLanguageExpanded) {
+        throw new Error(
+            'ContextFilterLanguageExpanded must be used within a ContextFilterLanguageExpanded.Provider'
+        )
+    }
+    const [filterLanguageExpanded, setFilterLanguageExpanded] =
+        contextFilterLanguageExpanded
+
     const [currentIndex, setCurrentIndex] = useState<number>(
         getLanguageIndex(language) === 0 ? 1 : 0
     )
@@ -51,7 +65,10 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
             sessionStorage.setItem('twitch_filtered_language', target.value)
             setDisabledIndex(getLanguageIndex(target.value))
         }
-        if (e.key === 'Escape') setFilterLanguageExpanded(false)
+        if (e.key === 'Escape') {
+            e.stopPropagation()
+            setFilterLanguageExpanded(false)
+        }
         if (e.key === 'ArrowDown') {
             e.preventDefault()
             if (currentIndex === LANGUAGES.length - 1) {
@@ -133,8 +150,10 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
             if (
                 popupLanguageRef.current &&
                 !popupLanguageRef.current.contains(event.target as Node) &&
+                filterLanguageExpanded &&
                 event.key === 'Escape'
             ) {
+                event.stopPropagation()
                 setFilterLanguageExpanded(false)
             }
         }
@@ -148,7 +167,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
         return () => {
             document.removeEventListener('keydown', handleEscape)
         }
-    }, [filterLanguageExpanded])
+    }, [filterLanguageExpanded, setFilterLanguageExpanded])
 
     return (
         <div
@@ -183,6 +202,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
                     <button
                         className="rounded-md p-1 pseudo-zinc w-full flex justify-between gap-4 items-center"
                         onClick={handleClickFilterLanguage}
+                        onKeyDown={handleButtonKeyDown}
                         autoFocus
                     >
                         <div className="flex flex-row justify-start items-center gap-2">
@@ -196,6 +216,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
                     <button
                         className="rounded-md p-1 pseudo-zinc w-full flex justify-start gap-2 items-center"
                         onClick={handleLogout}
+                        onKeyDown={handleButtonKeyDown}
                     >
                         <Icon type="Logout" />
                         <h3 className="text-base lg:text-lg">Log out</h3>

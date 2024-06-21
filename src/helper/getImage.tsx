@@ -15,16 +15,16 @@ export const getImage = (
             width: '240',
         },
         TABLET_SMALL: {
-            height: '180',
-            width: '320',
+            height: '243',
+            width: '432',
         },
         TABLET: {
-            height: '180',
-            width: '320',
+            height: '243',
+            width: '432',
         },
         DESKTOP: {
-            height: '180',
-            width: '320',
+            height: '243',
+            width: '432',
         },
     }
 

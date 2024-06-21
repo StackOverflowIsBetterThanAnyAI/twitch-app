@@ -1,12 +1,24 @@
 import { ADDRESS, CLIENT_ID } from './../../../clientdata/clientdata'
-import { useEffect, useRef, useState } from 'react'
+import {
+    Dispatch,
+    SetStateAction,
+    createContext,
+    useEffect,
+    useRef,
+    useState,
+} from 'react'
 import { getImage } from '../../../helper/getImage'
 import { UserProps } from '../../../types/UserProps'
 import { getUser } from '../../../helper/getUser'
 import SettingsPopup from './SettingsPopup'
 import { getRandomChars } from '../../../helper/getRandomChars'
 
+export const ContextFilterLanguageExpanded = createContext<
+    [boolean, Dispatch<SetStateAction<boolean>>] | undefined
+>(undefined)
+
 export const UserIcon = () => {
+    const [filterLanguageExpanded, setFilterLanguageExpanded] = useState(false)
     const [state, setState] = useState('')
     const [user, setUser] = useState<UserProps | null>(() => {
         const storedUser = sessionStorage.getItem('twitch_user')
@@ -57,6 +69,14 @@ export const UserIcon = () => {
 
     const handleButtonClick = () => {
         setDropdownActive((prev) => !prev)
+        setFilterLanguageExpanded(false)
+    }
+
+    const closeDropdown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+        if (e.key === 'Escape') {
+            e.stopPropagation()
+            setDropdownActive(false)
+        }
     }
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLAnchorElement>) => {
@@ -77,6 +97,7 @@ export const UserIcon = () => {
                 !buttonRef.current.contains(event.target as Node)
             ) {
                 setDropdownActive(false)
+                setFilterLanguageExpanded(false)
             }
         }
 
@@ -91,66 +112,94 @@ export const UserIcon = () => {
         }
     }, [dropdownActive])
 
+    useEffect(() => {
+        const handleEscape = (event: KeyboardEvent) => {
+            if (
+                popupRef.current &&
+                !popupRef.current.contains(event.target as Node) &&
+                !filterLanguageExpanded
+            ) {
+                setDropdownActive(false)
+            }
+        }
+
+        if (dropdownActive && !filterLanguageExpanded) {
+            document.addEventListener('keydown', handleEscape)
+        } else {
+            document.removeEventListener('keydown', handleEscape)
+        }
+
+        return () => {
+            document.removeEventListener('keydown', handleEscape)
+        }
+    }, [dropdownActive, filterLanguageExpanded])
+
     return (
         <>
-            {user?.profile_image_url ? (
-                <>
-                    <button
-                        className="rounded-md px-2 pseudo-zinc"
-                        onClick={handleButtonClick}
-                        ref={buttonRef}
-                    >
-                        <img
-                            src={getImage(
-                                user?.profile_image_url || '',
-                                48,
-                                'PROFILE'
-                            )}
-                            alt="Settings"
-                            title="Settings"
-                            loading="lazy"
-                            width={48}
-                            className="rounded-full"
-                        />
-                    </button>
-                    {dropdownActive && (
-                        <SettingsPopup
-                            popupRef={popupRef}
-                            user_display_name={user.display_name}
-                            user_profile_image_url={user.profile_image_url}
-                        />
-                    )}
-                </>
-            ) : (
-                <>
-                    <a
-                        href={`https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${ADDRESS}&state=${state}&scope=user:read:email`}
-                        className="rounded-md px-2 pseudo-zinc"
-                        onKeyDown={handleKeyDown}
-                        onClick={handleAnchorClick}
-                        title="Log in"
-                    >
-                        <img
-                            src={getImage('', 48, 'PROFILE')}
-                            alt="Settings"
-                            loading="lazy"
-                            width={48}
-                        />
-                    </a>
-                    {sessionStorage.getItem('twitch_logged_in') === 'false' && (
-                        <div
-                            className={`absolute top-16 right-4 bg-zinc-700 p-2 border-2 border-zinc-50 animate-fadeOut`}
+            <ContextFilterLanguageExpanded.Provider
+                value={[filterLanguageExpanded, setFilterLanguageExpanded]}
+            >
+                {user?.profile_image_url ? (
+                    <>
+                        <button
+                            className="rounded-md px-2 pseudo-zinc"
+                            onClick={handleButtonClick}
+                            ref={buttonRef}
                         >
-                            <h2 className="text-base lg:text-lg">
-                                Login failed.
-                            </h2>
-                            <h3 className="text-sm lg:text-base">
-                                Please try again later.
-                            </h3>
-                        </div>
-                    )}
-                </>
-            )}
+                            <img
+                                src={getImage(
+                                    user?.profile_image_url || '',
+                                    48,
+                                    'PROFILE'
+                                )}
+                                alt="Settings"
+                                title="Settings"
+                                loading="lazy"
+                                width={48}
+                                className="rounded-full"
+                            />
+                        </button>
+                        {dropdownActive && (
+                            <SettingsPopup
+                                handleButtonKeyDown={closeDropdown}
+                                popupRef={popupRef}
+                                user_display_name={user.display_name}
+                                user_profile_image_url={user.profile_image_url}
+                            />
+                        )}
+                    </>
+                ) : (
+                    <>
+                        <a
+                            href={`https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${ADDRESS}&state=${state}&scope=user:read:email`}
+                            className="rounded-md px-2 pseudo-zinc"
+                            onKeyDown={handleKeyDown}
+                            onClick={handleAnchorClick}
+                            title="Log in"
+                        >
+                            <img
+                                src={getImage('', 48, 'PROFILE')}
+                                alt="Settings"
+                                loading="lazy"
+                                width={48}
+                            />
+                        </a>
+                        {sessionStorage.getItem('twitch_logged_in') ===
+                            'false' && (
+                            <div
+                                className={`absolute top-16 right-4 bg-zinc-700 p-2 border-2 border-zinc-50 animate-fadeOut`}
+                            >
+                                <h2 className="text-base lg:text-lg">
+                                    Login failed.
+                                </h2>
+                                <h3 className="text-sm lg:text-base">
+                                    Please try again later.
+                                </h3>
+                            </div>
+                        )}
+                    </>
+                )}
+            </ContextFilterLanguageExpanded.Provider>
         </>
     )
 }

@@ -151,7 +151,8 @@ const StreamFeed = () => {
                 filteredStreamData.data.map((item, index) => {
                     const bgColor = bgColors[index % bgColors.length]
                     return (
-                        <article key={item.user_id}>
+                        // TODO: set dynamically calculated max width
+                        <article key={item.user_id} className="max-w-[440px]">
                             <div className={`rounded-xl ${bgColor}`}>
                                 <section className="relative transform transition duration-150 ease-in-out hover:translate-x-2 hover:-translate-y-2">
                                     <StreamThumbnail
