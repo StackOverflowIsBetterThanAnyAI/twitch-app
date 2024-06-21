@@ -63,7 +63,7 @@ const Navigation = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchText(e.target.value)
-        const searchTextLowerCase = e.target.value.toLocaleLowerCase()
+        const searchTextLowerCase = e.target.value.toLowerCase()
         if (streamData) {
             const filteredData = streamData.data.filter(
                 (item) =>
@@ -103,8 +103,9 @@ const Navigation = () => {
     }
 
     const handleSearch = () => {
-        const searchTextLowerCase = searchText.toLocaleLowerCase()
+        const searchTextLowerCase = searchText.toLowerCase()
         if (streamData) {
+            // TODO: helper function
             const filteredData = streamData.data.filter(
                 (item) =>
                     item.user_name
