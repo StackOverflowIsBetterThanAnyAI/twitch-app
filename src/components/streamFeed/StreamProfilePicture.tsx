@@ -27,8 +27,8 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
         const fetchImageUrl = async () => {
             try {
                 const data = await getProfilePicture(
-                    CLIENT_ID,
-                    CLIENT_SECRET,
+                    CLIENT_ID || '',
+                    CLIENT_SECRET || '',
                     user_id || ''
                 )
                 if (!data) {

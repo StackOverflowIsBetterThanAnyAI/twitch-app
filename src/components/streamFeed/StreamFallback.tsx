@@ -32,7 +32,7 @@ const StreamFallback = () => {
                 <section className="py-2 max-w-lg m-auto">
                     <StreamThumbnail
                         thumbnail_url={fallbackThumbnailImage}
-                        user_name="no current"
+                        user_name="no current Livestreams"
                     />
                     <ButtonRetry />
                 </section>

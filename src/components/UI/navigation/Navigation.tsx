@@ -34,7 +34,6 @@ const Navigation = () => {
             'ContextFilteredStreamData must be used within a ContextFilteredStreamData.Provider'
         )
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [filteredStreamData, setFilteredStreamData] =
         contextFilteredStreamData
 

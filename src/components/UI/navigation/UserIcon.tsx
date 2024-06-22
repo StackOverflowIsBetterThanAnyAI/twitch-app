@@ -37,7 +37,7 @@ export const UserIcon = () => {
 
     const fetchUser = async () => {
         try {
-            const data = await getUser(CLIENT_ID)
+            const data = await getUser(CLIENT_ID || '')
             if (!data)
                 throw new Error('Unable to fetch the currently logged in user')
             setUser(data)
@@ -165,13 +165,20 @@ export const UserIcon = () => {
                                 popupRef={popupRef}
                                 user_display_name={user.display_name}
                                 user_profile_image_url={user.profile_image_url}
+                                userIsPartner={
+                                    user.broadcaster_type === 'partner'
+                                }
                             />
                         )}
                     </>
                 ) : (
                     <>
                         <a
-                            href={`https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${CLIENT_ID}&redirect_uri=${ADDRESS}&state=${state}&scope=user:read:email`}
+                            href={`https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${
+                                CLIENT_ID || ''
+                            }&redirect_uri=${
+                                ADDRESS || 'http://localhost:3000'
+                            }&state=${state}&scope=user:read:email`}
                             className="rounded-md px-2 pseudo-zinc"
                             onKeyDown={handleKeyDown}
                             onClick={handleAnchorClick}

@@ -10,6 +10,7 @@ import { ContextFilterLanguageExpanded } from './UserIcon'
 type SettingsPopupProps = {
     handleButtonKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => void
     popupRef: React.MutableRefObject<HTMLDivElement | null>
+    userIsPartner: boolean
     user_display_name: string
     user_profile_image_url: string
 }
@@ -17,6 +18,7 @@ type SettingsPopupProps = {
 const SettingsPopup: FC<SettingsPopupProps> = ({
     handleButtonKeyDown,
     popupRef,
+    userIsPartner,
     user_display_name,
     user_profile_image_url,
 }) => {
@@ -26,7 +28,6 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
             'ContextLanguage must be used within a ContextLanguage.Provider'
         )
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [language, setLanguage] = contextLanguage
 
     const contextScreenWidth = useContext(ContextScreenWidth)
@@ -186,7 +187,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
                     selectLanguageRef={selectLanguageRef}
                 />
             ) : (
-                <div className="flex flex-col gap-2 min-w-36 max-w-80">
+                <div className="flex flex-col gap-2 min-w-36 max-w-72">
                     <div className="flex border-b pb-2 items-center gap-2">
                         <ProfilePicture
                             user_display_name={user_display_name}
@@ -198,6 +199,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
                         >
                             {user_display_name}
                         </h2>
+                        {userIsPartner && <Icon type="Partner" />}
                     </div>
                     <button
                         className="rounded-md p-1 pseudo-zinc w-full flex justify-between gap-4 items-center"

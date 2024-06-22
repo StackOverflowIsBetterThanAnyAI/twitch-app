@@ -50,7 +50,6 @@ const StreamFeed = () => {
             'ContextErrorMessage must be used within a ContextErrorMessage.Provider'
         )
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [errorMessage, setErrorMessage] = contextErrorMessage
 
     const contextStreamData = useContext(ContextStreamData)
@@ -85,7 +84,7 @@ const StreamFeed = () => {
         const url = `https://api.twitch.tv/helix/streams?language=${language}`
         try {
             const data: StreamProps | { error: 'login' } | undefined =
-                await getStreams(CLIENT_ID, CLIENT_SECRET, url)
+                await getStreams(CLIENT_ID || '', CLIENT_SECRET || '', url)
             if (data && 'error' in data && data.error === 'login') {
                 setStreamData(undefined)
                 setFilteredStreamData(undefined)
