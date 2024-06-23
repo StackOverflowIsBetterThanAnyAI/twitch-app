@@ -10,6 +10,7 @@ import {
     ContextStreamData,
 } from '../../../App'
 import DesktopSearch from './DesktopSearch'
+import { getSearchFilter } from '../../../helper/getSearchFilter'
 
 const Navigation = () => {
     const contextScreenWidth = useContext(ContextScreenWidth)
@@ -113,23 +114,10 @@ const Navigation = () => {
     }
 
     const handleSearch = () => {
-        const searchTextLowerCase = searchText.toLowerCase()
         if (streamData) {
-            // TODO: helper function
-            const filteredData = streamData.data.filter(
-                (item) =>
-                    item.user_name
-                        .toLowerCase()
-                        .includes(searchTextLowerCase) ||
-                    item.game_name
-                        .toLowerCase()
-                        .includes(searchTextLowerCase) ||
-                    item.title.toLowerCase().includes(searchTextLowerCase) ||
-                    item.tags.some((tag) =>
-                        tag.toLowerCase().includes(searchTextLowerCase)
-                    )
-            )
-            setFilteredStreamData({ data: filteredData })
+            setFilteredStreamData({
+                data: getSearchFilter(searchText, streamData)!,
+            })
         }
     }
 
