@@ -34,6 +34,7 @@ const Navigation = () => {
             'ContextFilteredStreamData must be used within a ContextFilteredStreamData.Provider'
         )
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [filteredStreamData, setFilteredStreamData] =
         contextFilteredStreamData
 
@@ -62,19 +63,29 @@ const Navigation = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchText(e.target.value)
-        const searchTextLowerCase = e.target.value.toLowerCase()
+        const searchTextLowerCase = e.target.value
+            .toLowerCase()
+            .replaceAll(' ', '')
         if (streamData) {
             const filteredData = streamData.data.filter(
                 (item) =>
                     item.user_name
                         .toLowerCase()
+                        .replaceAll(' ', '')
                         .includes(searchTextLowerCase) ||
                     item.game_name
                         .toLowerCase()
+                        .replaceAll(' ', '')
                         .includes(searchTextLowerCase) ||
-                    item.title.toLowerCase().includes(searchTextLowerCase) ||
+                    item.title
+                        .toLowerCase()
+                        .replaceAll(' ', '')
+                        .includes(searchTextLowerCase) ||
                     item.tags.some((tag) =>
-                        tag.toLowerCase().includes(searchTextLowerCase)
+                        tag
+                            .toLowerCase()
+                            .replaceAll(' ', '')
+                            .includes(searchTextLowerCase)
                     )
             )
 
