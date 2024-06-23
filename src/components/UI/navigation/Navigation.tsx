@@ -64,40 +64,21 @@ const Navigation = () => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchText(e.target.value)
-        const searchTextLowerCase = e.target.value
-            .toLowerCase()
-            .replaceAll(' ', '')
         if (streamData) {
-            const filteredData = streamData.data.filter(
-                (item) =>
-                    item.user_name
-                        .toLowerCase()
-                        .replaceAll(' ', '')
-                        .includes(searchTextLowerCase) ||
-                    item.game_name
-                        .toLowerCase()
-                        .replaceAll(' ', '')
-                        .includes(searchTextLowerCase) ||
-                    item.title
-                        .toLowerCase()
-                        .replaceAll(' ', '')
-                        .includes(searchTextLowerCase) ||
-                    item.tags.some((tag) =>
+            const results = getSearchFilter(e.target.value, streamData)!.map(
+                (item) => ({
+                    game_name: item.game_name,
+                    user_name: item.user_name,
+                    title: item.title,
+                    tags: item.tags.filter((tag) =>
                         tag
                             .toLowerCase()
-                            .replaceAll(' ', '')
-                            .includes(searchTextLowerCase)
-                    )
+                            .includes(
+                                e.target.value.toLowerCase().replaceAll(' ', '')
+                            )
+                    ),
+                })
             )
-
-            const results = filteredData.map((item) => ({
-                game_name: item.game_name,
-                user_name: item.user_name,
-                title: item.title,
-                tags: item.tags.filter((tag) =>
-                    tag.toLowerCase().includes(searchTextLowerCase)
-                ),
-            }))
             setSearchResults(results)
         }
         if (e.target.value.length === 0) {
