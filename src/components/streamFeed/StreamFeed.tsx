@@ -22,6 +22,7 @@ import {
     ContextStreamData,
 } from '../../App'
 import { getEnglishLanguageName } from '../../helper/getEnglishLanguageName'
+import StreamNoResults from './StreamNoResults'
 
 const bgColors = [
     'bg-gradient-to-tr from-red-400 to-red-800',
@@ -145,7 +146,7 @@ const StreamFeed = () => {
                     : 'grid grid-cols-auto-fit-320'
             }`}
         >
-            {filteredStreamData?.data &&
+            {filteredStreamData && filteredStreamData.data.length > 0 ? (
                 filteredStreamData.data.map((item, index) => {
                     const bgColor = bgColors[index % bgColors.length]
                     return (
@@ -201,7 +202,10 @@ const StreamFeed = () => {
                             </section>
                         </article>
                     )
-                })}
+                })
+            ) : (
+                <StreamNoResults />
+            )}
         </article>
     )
 }
