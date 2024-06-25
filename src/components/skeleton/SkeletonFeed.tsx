@@ -5,7 +5,7 @@ import SkeletonThumbnail from './SkeletonThumbnail'
 const SkeletonFeed = () => {
     const skeletonArray = Array.from({ length: 20 }, (_, i) => i)
     return (
-        <article className="p-4 gap-4 grid grid-cols-auto-fit-320">
+        <article className="p-4 gap-4 grid grid-cols-auto-fill-320">
             {skeletonArray.map((item) => {
                 return (
                     <article key={item}>

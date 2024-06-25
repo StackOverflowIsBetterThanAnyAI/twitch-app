@@ -1,0 +1,27 @@
+.search-icon .search-path {
+    transition: stroke 0.5s ease-in-out, fill 0.5s ease-in-out;
+}
+
+.search-button .search-icon {
+    transition: transform 0.25s ease-in-out;
+}
+
+.search-button:not(:disabled):hover .search-icon {
+    transform: rotate(15deg);
+}
+
+.search-button:not(:disabled):hover .search-path {
+    stroke: #a439f0;
+}
+
+.search-button:not(:disabled):active .search-path {
+    stroke: gainsboro;
+}
+
+.search-button:not(:disabled):hover .search-icon {
+    fill: gainsboro;
+}
+
+.search-button:not(:disabled):active .search-icon {
+    fill: none;
+}

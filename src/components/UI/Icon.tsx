@@ -73,7 +73,7 @@ const Icon: FC<IconProps> = ({ code, language, type }) => {
     )
     const search = (
         <svg
-            className="w-6 h-6 text-gray-800 dark:text-white"
+            className="w-6 h-6 text-gray-800 dark:text-white search-icon"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -82,6 +82,7 @@ const Icon: FC<IconProps> = ({ code, language, type }) => {
             viewBox="0 0 24 24"
         >
             <path
+                className="search-path"
                 stroke="gainsboro"
                 strokeLinecap="round"
                 strokeWidth="2"

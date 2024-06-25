@@ -3,6 +3,7 @@ import { ContextSearchText } from '../../../App'
 import { SearchProps } from '../../../types/SearchProps'
 import Icon from '../Icon'
 import SearchResultSuggestion from './SearchResultSuggestion'
+import './search.css'
 
 const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
     (
@@ -46,7 +47,7 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
                         title="Search current Livestreams."
                     />
                     <button
-                        className={`px-2 pseudo-zinc rounded-md ${
+                        className={`px-2 pseudo-zinc rounded-md search-button ${
                             searchText
                                 ? 'hover:cursor-pointer'
                                 : 'hover:cursor-not-allowed'
@@ -58,7 +59,6 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
                         <Icon type="Search" />
                     </button>
                 </div>
-
                 {searchResults.length > 0 && searchResultsExpanded && (
                     <div
                         className="absolute mx-auto left-0 right-0 w-[249px] text-slate-300"

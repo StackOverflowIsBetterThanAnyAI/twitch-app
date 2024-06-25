@@ -21,9 +21,9 @@ module.exports = {
     plugins: [
         plugin(function ({ addUtilities }) {
             const newUtilities = {
-                '.grid-cols-auto-fit-320': {
+                '.grid-cols-auto-fill-320': {
                     'grid-template-columns':
-                        'repeat(auto-fit, minmax(320px, 1fr))',
+                        'repeat(auto-fill, minmax(320px, 1fr))',
                 },
             }
             addUtilities(newUtilities, ['responsive'])

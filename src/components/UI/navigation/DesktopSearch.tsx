@@ -3,6 +3,7 @@ import { ContextSearchText } from '../../../App'
 import { SearchProps } from '../../../types/SearchProps'
 import Icon from '../Icon'
 import SearchResultSuggestion from './SearchResultSuggestion'
+import './search.css'
 
 const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
     (
@@ -48,7 +49,7 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
                             searchText
                                 ? 'hover:cursor-pointer'
                                 : 'hover:cursor-not-allowed active:bg-zinc-800 active:outline-0'
-                        } pseudo-zinc`}
+                        } pseudo-zinc search-button`}
                         title={
                             searchText
                                 ? 'Search current Livestreams.'

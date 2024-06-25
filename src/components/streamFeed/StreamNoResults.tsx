@@ -3,7 +3,7 @@ import StreamThumbnail from './StreamThumbnail'
 
 const StreamNoResults = () => {
     return (
-        <article className="p-4 md:p-12 lg:p-12 text-center text-slate-300">
+        <article className="m-auto p-4 md:p-12 lg:p-12 text-center text-slate-300">
             <section>
                 <h2 className="text-lg lg:text-xl font-bold mb-2">
                     There are no current Livestreams which match your keywords.

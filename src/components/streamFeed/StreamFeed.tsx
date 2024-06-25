@@ -148,9 +148,11 @@ const StreamFeed = () => {
     return (
         <article
             className={`p-4 gap-4 ${
-                contextScreenWidth === 'MOBILE'
-                    ? 'grid grid-cols-1'
-                    : 'grid grid-cols-auto-fit-320'
+                filteredStreamData && filteredStreamData.data.length > 0
+                    ? contextScreenWidth === 'MOBILE'
+                        ? 'grid grid-cols-1'
+                        : 'grid grid-cols-auto-fill-320'
+                    : 'flex'
             }`}
         >
             {filteredStreamData && filteredStreamData.data.length > 0 ? (
@@ -158,6 +160,9 @@ const StreamFeed = () => {
                     const bgColor = bgColors[index % bgColors.length]
                     return (
                         // TODO: set dynamically calculated max width
+                        // TODO: focus trap
+                        // TODO: make search suggestions clickable by keyboard
+                        // TODO: skip navigation
                         <article key={item.user_id} className="max-w-[440px]">
                             <div className={`rounded-xl ${bgColor}`}>
                                 <section className="relative transform transition duration-150 ease-in-out hover:translate-x-2 hover:-translate-y-2">
