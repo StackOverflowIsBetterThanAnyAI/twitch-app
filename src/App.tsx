@@ -1,8 +1,15 @@
-import { Dispatch, SetStateAction, createContext, useState } from 'react'
+import {
+    Dispatch,
+    SetStateAction,
+    createContext,
+    useEffect,
+    useState,
+} from 'react'
 import StreamFeed from './components/streamFeed/StreamFeed'
 import Navigation from './components/UI/navigation/Navigation'
 import { useScreenWidth } from './hooks/useScreenWidth'
 import { StreamProps } from './types/StreamProps'
+import { getEnglishLanguageName } from './helper/getEnglishLanguageName'
 
 export const ContextScreenWidth = createContext<
     'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP' | undefined
@@ -49,6 +56,12 @@ const App = () => {
     const [filteredStreamData, setFilteredStreamData] = useState<
         StreamProps | undefined
     >(streamData)
+
+    useEffect(() => {
+        document.title = `Twitch-App | ${getEnglishLanguageName(
+            language
+        )} Livestreams`
+    }, [language])
 
     return (
         <div className="min-w-72 min-h-screen bg-zinc-800">
