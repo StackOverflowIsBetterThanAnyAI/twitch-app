@@ -51,6 +51,7 @@ const StreamFeed = () => {
             'ContextErrorMessage must be used within a ContextErrorMessage.Provider'
         )
     }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [errorMessage, setErrorMessage] = contextErrorMessage
 
     const contextStreamData = useContext(ContextStreamData)
@@ -97,7 +98,7 @@ const StreamFeed = () => {
                 )
             } else if (data && !('error' in data)) {
                 setStreamData(data)
-                setFilteredStreamData(data)
+                filteredStreamData === undefined && setFilteredStreamData(data)
             } else if (!data) {
                 setStreamData(undefined)
                 setFilteredStreamData(undefined)
@@ -118,7 +119,13 @@ const StreamFeed = () => {
         } finally {
             setLoading(false)
         }
-    }, [language, setErrorMessage, setStreamData, setFilteredStreamData])
+    }, [
+        language,
+        setErrorMessage,
+        setStreamData,
+        setFilteredStreamData,
+        filteredStreamData,
+    ])
 
     useEffect(() => {
         loadStreams()

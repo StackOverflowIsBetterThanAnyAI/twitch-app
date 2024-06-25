@@ -14,7 +14,7 @@ const SearchResultSuggestion: FC<SearchResultSuggestionProps> = ({
 }) => {
     return (
         <div
-            className="outline outline-zinc-700 rounded-lg bg-zinc-900 flex flex-col overflow-scroll"
+            className="outline outline-zinc-700 rounded-lg bg-zinc-900 flex flex-col overflow-auto"
             style={{
                 maxHeight: '377px',
                 minHeight: `clamp(0px, ${
