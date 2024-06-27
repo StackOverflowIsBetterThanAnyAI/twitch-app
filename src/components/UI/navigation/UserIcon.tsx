@@ -1,6 +1,7 @@
 import { ADDRESS, CLIENT_ID } from './../../../clientdata/clientdata'
 import {
     Dispatch,
+    FC,
     SetStateAction,
     createContext,
     useEffect,
@@ -17,7 +18,12 @@ export const ContextFilterLanguageExpanded = createContext<
     [boolean, Dispatch<SetStateAction<boolean>>] | undefined
 >(undefined)
 
-export const UserIcon = () => {
+type UserIconProps = {
+    anchorRef: React.RefObject<HTMLAnchorElement>
+    buttonRef: React.RefObject<HTMLButtonElement>
+}
+
+export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
     const [filterLanguageExpanded, setFilterLanguageExpanded] = useState(false)
     const [state, setState] = useState('')
     const [user, setUser] = useState<UserProps | null>(() => {
@@ -27,7 +33,6 @@ export const UserIcon = () => {
     const [dropdownActive, setDropdownActive] = useState(false)
 
     const popupRef = useRef<HTMLDivElement | null>(null)
-    const buttonRef = useRef<HTMLButtonElement | null>(null)
 
     const settingState = () => {
         const randomState = getRandomChars()
@@ -61,8 +66,11 @@ export const UserIcon = () => {
         const timer = setTimeout(
             () =>
                 isLoggedIn === 'false' &&
-                sessionStorage.removeItem('twitch_logged_in'),
-            100
+                (sessionStorage.removeItem('twitch_logged_in'),
+                sessionStorage.removeItem('twitch_access_state'),
+                sessionStorage.removeItem('twitch_access_token'),
+                sessionStorage.removeItem('twitch_user')),
+            0
         )
         return () => clearTimeout(timer)
     }, [user])
@@ -76,6 +84,7 @@ export const UserIcon = () => {
         if (e.key === 'Escape') {
             e.stopPropagation()
             setDropdownActive(false)
+            buttonRef?.current?.focus()
         }
     }
 
@@ -110,7 +119,7 @@ export const UserIcon = () => {
         return () => {
             document.removeEventListener('mousedown', handleClickOutside)
         }
-    }, [dropdownActive])
+    }, [buttonRef, dropdownActive])
 
     useEffect(() => {
         const handleEscape = (event: KeyboardEvent) => {
@@ -183,6 +192,7 @@ export const UserIcon = () => {
                             onKeyDown={handleKeyDown}
                             onClick={handleAnchorClick}
                             title="Log in"
+                            ref={anchorRef}
                         >
                             <img
                                 src={getImage('', 48, 'PROFILE')}

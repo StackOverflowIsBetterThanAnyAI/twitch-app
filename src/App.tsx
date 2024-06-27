@@ -43,6 +43,10 @@ export const ContextSearchText = createContext<
     [string, Dispatch<SetStateAction<string>>] | undefined
 >(undefined)
 
+export const ContextSEOSearchText = createContext<
+    [string, Dispatch<SetStateAction<string>>] | undefined
+>(undefined)
+
 const App = () => {
     const [errorMessage, setErrorMessage] = useState([''])
     const [language, setLanguage] = useState(
@@ -50,6 +54,7 @@ const App = () => {
     )
     const screenWidth = useScreenWidth()
     const [searchText, setSearchText] = useState<string>('')
+    const [seoSearchText, setSEOSearchText] = useState<string>('')
     const [streamData, setStreamData] = useState<StreamProps | undefined>(
         undefined
     )
@@ -60,8 +65,8 @@ const App = () => {
     useEffect(() => {
         document.title = `Twitch-App | ${getEnglishLanguageName(
             language
-        )} Livestreams`
-    }, [language])
+        )} Livestreams${seoSearchText ? `: ${seoSearchText}` : ''}`
+    }, [language, seoSearchText])
 
     return (
         <div className="min-w-72 min-h-screen bg-zinc-800">
@@ -82,10 +87,17 @@ const App = () => {
                                 <ContextSearchText.Provider
                                     value={[searchText, setSearchText]}
                                 >
-                                    <Navigation />
-                                    <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 px-2">
-                                        <StreamFeed />
-                                    </main>
+                                    <ContextSEOSearchText.Provider
+                                        value={[
+                                            seoSearchText,
+                                            setSEOSearchText,
+                                        ]}
+                                    >
+                                        <Navigation />
+                                        <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 px-2">
+                                            <StreamFeed />
+                                        </main>
+                                    </ContextSEOSearchText.Provider>
                                 </ContextSearchText.Provider>
                             </ContextFilteredStreamData.Provider>
                         </ContextStreamData.Provider>

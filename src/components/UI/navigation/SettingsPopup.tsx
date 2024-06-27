@@ -1,5 +1,9 @@
 import { FC, useContext, useEffect, useRef, useState } from 'react'
-import { ContextLanguage, ContextScreenWidth } from '../../../App'
+import {
+    ContextLanguage,
+    ContextSEOSearchText,
+    ContextScreenWidth,
+} from '../../../App'
 import ProfilePicture from './ProfilePicture'
 import { LANGUAGES } from '../../../constants'
 import Icon from '../Icon'
@@ -48,6 +52,15 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
     const [filterLanguageExpanded, setFilterLanguageExpanded] =
         contextFilterLanguageExpanded
 
+    const contextSEOSearchText = useContext(ContextSEOSearchText)
+    if (!contextSEOSearchText) {
+        throw new Error(
+            'ContextSEOSearchText must be used within a ContextSEOSearchText.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [seoSearchText, setSEOSearchText] = contextSEOSearchText
+
     const [currentIndex, setCurrentIndex] = useState<number>(
         getLanguageIndex(language) === 0 ? 1 : 0
     )
@@ -65,6 +78,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
             setLanguage(target.value)
             sessionStorage.setItem('twitch_filtered_language', target.value)
             setDisabledIndex(getLanguageIndex(target.value))
+            setSEOSearchText('')
         }
         if (e.key === 'Escape') {
             e.stopPropagation()
@@ -127,6 +141,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
             setLanguage(selectedValue)
             sessionStorage.setItem('twitch_filtered_language', selectedValue)
             setDisabledIndex(getLanguageIndex(selectedValue))
+            setSEOSearchText('')
         }
     }
 
@@ -169,6 +184,38 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
             document.removeEventListener('keydown', handleEscape)
         }
     }, [filterLanguageExpanded, setFilterLanguageExpanded])
+
+    useEffect(() => {
+        if (filterLanguageExpanded) return
+
+        const buttons = popupRef.current?.querySelectorAll('button')
+        if (!buttons || buttons.length === 0) return
+
+        const firstButton = buttons[0]
+        const lastButton = buttons[buttons.length - 1]
+
+        const handleFocusTrap = (e: KeyboardEvent) => {
+            if (e.key !== 'Tab') return
+
+            if (e.shiftKey) {
+                if (document.activeElement === firstButton) {
+                    e.preventDefault()
+                    lastButton.focus()
+                }
+            } else {
+                if (document.activeElement === lastButton) {
+                    e.preventDefault()
+                    firstButton.focus()
+                }
+            }
+        }
+
+        document.addEventListener('keydown', handleFocusTrap)
+
+        return () => {
+            document.removeEventListener('keydown', handleFocusTrap)
+        }
+    }, [filterLanguageExpanded, popupRef])
 
     return (
         <div

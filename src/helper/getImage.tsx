@@ -11,20 +11,20 @@ export const getImage = (
     const cacheBuster = Date.now()
     const sizesThumbnail = {
         MOBILE: {
-            height: '135',
-            width: '240',
+            height: '189',
+            width: '336',
         },
         TABLET_SMALL: {
-            height: '243',
-            width: '432',
+            height: '162',
+            width: '288',
         },
         TABLET: {
             height: '243',
             width: '432',
         },
         DESKTOP: {
-            height: '243',
-            width: '432',
+            height: '216',
+            width: '384',
         },
     }
 

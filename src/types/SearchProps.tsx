@@ -8,6 +8,12 @@ export type SearchProps = {
     handleInput: () => void
     handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void
     handleSearch: () => void
+    handleSearchDoubleClick: () => void
+    handleSearchKeyDown: (
+        e: React.KeyboardEvent<HTMLButtonElement>,
+        name: string
+    ) => void
+    inputRef?: RefObject<HTMLInputElement>
     searchResults: any[]
     searchResultsExpanded: boolean
     searchMobileRef?: RefObject<HTMLInputElement>

@@ -18,6 +18,7 @@ import {
     ContextErrorMessage,
     ContextFilteredStreamData,
     ContextLanguage,
+    ContextSEOSearchText,
     ContextScreenWidth,
     ContextStreamData,
 } from '../../App'
@@ -79,8 +80,18 @@ const StreamFeed = () => {
         )
     }
 
+    const contextSEOSearchText = useContext(ContextSEOSearchText)
+    if (!contextSEOSearchText) {
+        throw new Error(
+            'ContextSEOSearchText must be used within a ContextSEOSearchText.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [seoSearchText, setSEOSearchText] = contextSEOSearchText
+
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
+    const [prevLanguage, setPrevLanguage] = useState(language)
 
     const loadStreams = useCallback(async () => {
         const url = `https://api.twitch.tv/helix/streams?language=${language}`
@@ -98,7 +109,9 @@ const StreamFeed = () => {
                 )
             } else if (data && !('error' in data)) {
                 setStreamData(data)
+                prevLanguage !== language && setFilteredStreamData(data)
                 filteredStreamData === undefined && setFilteredStreamData(data)
+                setPrevLanguage(language)
             } else if (!data) {
                 setStreamData(undefined)
                 setFilteredStreamData(undefined)
@@ -120,11 +133,12 @@ const StreamFeed = () => {
             setLoading(false)
         }
     }, [
+        filteredStreamData,
         language,
+        prevLanguage,
         setErrorMessage,
         setStreamData,
         setFilteredStreamData,
-        filteredStreamData,
     ])
 
     useEffect(() => {
@@ -146,79 +160,89 @@ const StreamFeed = () => {
     }
 
     return (
-        <article
-            className={`p-4 gap-4 ${
-                filteredStreamData && filteredStreamData.data.length > 0
-                    ? contextScreenWidth === 'MOBILE'
-                        ? 'grid grid-cols-1'
-                        : 'grid grid-cols-auto-fill-320'
-                    : 'flex'
-            }`}
-        >
+        <>
             {filteredStreamData && filteredStreamData.data.length > 0 ? (
-                filteredStreamData.data.map((item, index) => {
-                    const bgColor = bgColors[index % bgColors.length]
-                    return (
-                        // TODO: set dynamically calculated max width
-                        // TODO: focus trap
-                        // TODO: make search suggestions clickable by keyboard
-                        // TODO: skip navigation
-                        <article key={item.user_id} className="max-w-[440px]">
-                            <div className={`rounded-xl ${bgColor}`}>
-                                <section className="relative transform transition duration-150 ease-in-out hover:translate-x-2 hover:-translate-y-2">
-                                    <StreamThumbnail
-                                        thumbnail_url={item.thumbnail_url}
-                                        user_name={item.user_name}
-                                        stream_game={item.game_name}
-                                        key={`${item.user_id} - thumbnail`}
-                                    />
-                                    <StreamLive
-                                        placement="thumbnail"
-                                        type={item.type}
-                                        key={`${item.user_id} - live`}
-                                    />
-                                    <StreamViewerCount
-                                        viewer_count={item.viewer_count}
-                                        key={`${item.user_id} - viewer_count`}
-                                    />
-                                </section>
-                            </div>
-                            <section className="grid grid-cols-5 grid-rows-1 w-full pt-2">
-                                <StreamProfilePicture
-                                    user_id={item.user_id}
-                                    user_name={item.user_name}
-                                    key={`${item.user_id} - profile_picture`}
-                                />
-                                <section className="col-span-4">
-                                    <StreamChannel
-                                        user_name={item.user_name}
-                                        key={`${item.user_id} - channel`}
-                                    />
-                                    <StreamTitle
-                                        title={item.title}
-                                        key={`${item.user_id} - title`}
-                                    />
-                                    <StreamGame
-                                        game_name={item.game_name}
-                                        key={`${item.user_id} - game`}
-                                    />
-                                    <div className="flex flex-wrap w-full">
-                                        {item.tags.map((item, index) => (
-                                            <StreamTags
-                                                item={item}
-                                                key={`${item}${index} - tag`}
+                <>
+                    <h1 className="px-4 pt-2 text-xl lg:text-2xl">
+                        <span className="text-purple-400">
+                            {getEnglishLanguageName(language)} Livestreams
+                        </span>{' '}
+                        <span className="text-slate-300">{`you might like${
+                            seoSearchText ? `: ${seoSearchText}` : ''
+                        }`}</span>
+                    </h1>
+                    <article
+                        className={`p-4 gap-4 ${
+                            contextScreenWidth === 'MOBILE'
+                                ? 'grid grid-cols-1'
+                                : contextScreenWidth === 'TABLET_SMALL'
+                                ? 'grid grid-cols-2'
+                                : 'grid grid-cols-auto-fill-284'
+                        }`}
+                    >
+                        {filteredStreamData.data.map((item, index) => {
+                            const bgColor = bgColors[index % bgColors.length]
+                            return (
+                                <article key={item.user_id}>
+                                    <div className={`rounded-xl ${bgColor}`}>
+                                        <section className="relative transform transition duration-150 ease-in-out hover:translate-x-2 hover:-translate-y-2">
+                                            <StreamThumbnail
+                                                thumbnail_url={
+                                                    item.thumbnail_url
+                                                }
+                                                user_name={item.user_name}
+                                                stream_game={item.game_name}
+                                                key={`${item.user_id} - thumbnail`}
                                             />
-                                        ))}
+                                            <StreamLive
+                                                placement="thumbnail"
+                                                type={item.type}
+                                                key={`${item.user_id} - live`}
+                                            />
+                                            <StreamViewerCount
+                                                viewer_count={item.viewer_count}
+                                                key={`${item.user_id} - viewer_count`}
+                                            />
+                                        </section>
                                     </div>
-                                </section>
-                            </section>
-                        </article>
-                    )
-                })
+                                    <section className="grid grid-cols-5 grid-rows-1 w-full pt-2">
+                                        <StreamProfilePicture
+                                            user_id={item.user_id}
+                                            user_name={item.user_name}
+                                            key={`${item.user_id} - profile_picture`}
+                                        />
+                                        <section className="col-span-4">
+                                            <StreamChannel
+                                                user_name={item.user_name}
+                                                key={`${item.user_id} - channel`}
+                                            />
+                                            <StreamTitle
+                                                title={item.title}
+                                                key={`${item.user_id} - title`}
+                                            />
+                                            <StreamGame
+                                                game_name={item.game_name}
+                                                key={`${item.user_id} - game`}
+                                            />
+                                            <div className="flex flex-wrap w-full">
+                                                {item.tags.map((tag, index) => (
+                                                    <StreamTags
+                                                        item={tag}
+                                                        key={`${tag}${index} - tag`}
+                                                    />
+                                                ))}
+                                            </div>
+                                        </section>
+                                    </section>
+                                </article>
+                            )
+                        })}
+                    </article>
+                </>
             ) : (
                 <StreamNoResults />
             )}
-        </article>
+        </>
     )
 }
 

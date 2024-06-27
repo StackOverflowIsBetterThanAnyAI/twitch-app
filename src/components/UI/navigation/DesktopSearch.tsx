@@ -1,4 +1,4 @@
-import { forwardRef, useContext } from 'react'
+import { forwardRef, useContext, useEffect, useRef } from 'react'
 import { ContextSearchText } from '../../../App'
 import { SearchProps } from '../../../types/SearchProps'
 import Icon from '../Icon'
@@ -15,6 +15,9 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
             handleInput,
             handleKeyDown,
             handleSearch,
+            handleSearchDoubleClick,
+            handleSearchKeyDown,
+            inputRef,
             searchResults,
             searchResultsExpanded,
         },
@@ -29,12 +32,62 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [searchText, setSearchText] = contextSearchText
 
+        const buttonRef = useRef<HTMLButtonElement | null>(null)
+        const searchResultsRef = useRef<HTMLDivElement | null>(null)
+
+        useEffect(() => {
+            const handleFocusTrap = (e: KeyboardEvent) => {
+                if (searchText.length === 0) return
+
+                if (e.key !== 'Tab') return
+
+                const focusableElements = [
+                    inputRef?.current,
+                    buttonRef.current,
+                    ...(searchResultsRef.current
+                        ? Array.from(
+                              searchResultsRef.current.querySelectorAll(
+                                  'button'
+                              )
+                          )
+                        : []),
+                ].filter((el) => el !== null) as (
+                    | HTMLInputElement
+                    | HTMLButtonElement
+                )[]
+
+                if (focusableElements.length === 0) return
+
+                const firstElement = focusableElements[0]
+                const lastElement =
+                    focusableElements[focusableElements.length - 1]
+
+                if (e.shiftKey) {
+                    if (document.activeElement === firstElement) {
+                        e.preventDefault()
+                        lastElement.focus()
+                    }
+                } else {
+                    if (document.activeElement === lastElement) {
+                        e.preventDefault()
+                        firstElement.focus()
+                    }
+                }
+            }
+
+            document.addEventListener('keydown', handleFocusTrap)
+
+            return () => {
+                document.removeEventListener('keydown', handleFocusTrap)
+            }
+        }, [inputRef, searchResults, searchResultsExpanded, searchText])
+
         return (
             <div className="flex flex-col py-1 gap-1" ref={ref}>
                 <div className="flex flex-row outline outline-zinc-700 rounded-lg my-auto w-[249px]">
                     <input
                         type="search"
-                        placeholder="Search"
+                        placeholder="Search Livestreams"
                         className="bg-zinc-900 text-slate-300 caret-zinc-300 px-2 m-1 rounded-l-md pseudo-zinc"
                         value={searchText}
                         onChange={handleChange}
@@ -43,6 +96,7 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
                         onKeyDown={handleKeyDown}
                         onBlur={handleBlur}
                         title="Search current Livestreams."
+                        ref={inputRef}
                     />
                     <button
                         className={`m-auto p-1 rounded-full mr-1 my-1 ${
@@ -58,6 +112,7 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
                         onClick={handleSearch}
                         disabled={!searchText}
                         aria-disabled={!searchText}
+                        ref={buttonRef}
                     >
                         <Icon type="Search" />
                     </button>
@@ -65,8 +120,10 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
                 {searchResults.length > 0 && searchResultsExpanded && (
                     <SearchResultSuggestion
                         handleClick={handleClick}
-                        handleSearch={handleSearch}
+                        handleSearchDoubleClick={handleSearchDoubleClick}
+                        handleSearchKeyDown={handleSearchKeyDown!}
                         searchResults={searchResults}
+                        ref={searchResultsRef}
                     />
                 )}
             </div>

@@ -1,4 +1,4 @@
-import { forwardRef, useContext } from 'react'
+import { forwardRef, useContext, useEffect, useRef } from 'react'
 import { ContextSearchText } from '../../../App'
 import { SearchProps } from '../../../types/SearchProps'
 import Icon from '../Icon'
@@ -15,6 +15,8 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
             handleInput,
             handleKeyDown,
             handleSearch,
+            handleSearchDoubleClick,
+            handleSearchKeyDown,
             searchMobileRef,
             searchResults,
             searchResultsExpanded,
@@ -29,6 +31,54 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [searchText, setSearchText] = contextSearchText
+
+        const buttonRef = useRef<HTMLButtonElement | null>(null)
+        const searchResultsRef = useRef<HTMLDivElement | null>(null)
+
+        useEffect(() => {
+            const handleFocusTrap = (e: KeyboardEvent) => {
+                if (e.key !== 'Tab') return
+
+                const focusableElements = [
+                    searchMobileRef?.current,
+                    buttonRef.current,
+                    ...(searchResultsRef.current
+                        ? Array.from(
+                              searchResultsRef.current.querySelectorAll(
+                                  'button'
+                              )
+                          )
+                        : []),
+                ].filter((el) => el !== null) as (
+                    | HTMLInputElement
+                    | HTMLButtonElement
+                )[]
+
+                if (focusableElements.length === 0) return
+
+                const firstElement = focusableElements[0]
+                const lastElement =
+                    focusableElements[focusableElements.length - 1]
+
+                if (e.shiftKey) {
+                    if (document.activeElement === firstElement) {
+                        e.preventDefault()
+                        lastElement.focus()
+                    }
+                } else {
+                    if (document.activeElement === lastElement) {
+                        e.preventDefault()
+                        firstElement.focus()
+                    }
+                }
+            }
+
+            document.addEventListener('keydown', handleFocusTrap)
+
+            return () => {
+                document.removeEventListener('keydown', handleFocusTrap)
+            }
+        }, [searchMobileRef, searchResults, searchResultsExpanded])
 
         return (
             <>
@@ -55,6 +105,7 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
                         onClick={handleSearch}
                         disabled={!searchText}
                         aria-disabled={!searchText}
+                        ref={buttonRef}
                     >
                         <Icon type="Search" />
                     </button>
@@ -66,8 +117,10 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
                     >
                         <SearchResultSuggestion
                             handleClick={handleClick}
-                            handleSearch={handleSearch}
+                            handleSearchDoubleClick={handleSearchDoubleClick}
+                            handleSearchKeyDown={handleSearchKeyDown}
                             searchResults={searchResults}
+                            ref={searchResultsRef}
                         />
                     </div>
                 )}
