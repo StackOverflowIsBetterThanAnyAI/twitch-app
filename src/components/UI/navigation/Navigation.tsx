@@ -112,20 +112,26 @@ const Navigation = () => {
     }
 
     const handleSearch = () => {
+        const filteredData = getSearchFilter(searchText, streamData)
         if (streamData) {
             setFilteredStreamData({
-                data: getSearchFilter(searchText, streamData)!,
+                data: filteredData!,
             })
-            setSEOSearchText(searchText)
+            filteredData && filteredData.length > 0
+                ? setSEOSearchText(searchText)
+                : setSEOSearchText('')
         }
     }
 
     const handleSearchDoubleClick = () => {
+        const filteredData = getSearchFilter(searchText, streamData, true)
         if (streamData) {
             setFilteredStreamData({
-                data: getSearchFilter(searchText, streamData, true)!,
+                data: filteredData!,
             })
-            setSEOSearchText(searchText)
+            filteredData && filteredData.length > 0
+                ? setSEOSearchText(searchText)
+                : setSEOSearchText('')
         }
     }
 
@@ -133,11 +139,14 @@ const Navigation = () => {
         e: React.KeyboardEvent<HTMLButtonElement>,
         name: string
     ) => {
+        const filteredData = getSearchFilter(name, streamData, true)
         if (streamData && (e.key === ' ' || e.key === 'Enter')) {
             setFilteredStreamData({
-                data: getSearchFilter(name, streamData, true)!,
+                data: filteredData!,
             })
-            setSEOSearchText(name)
+            filteredData && filteredData.length > 0
+                ? setSEOSearchText(name)
+                : setSEOSearchText('')
         }
     }
 

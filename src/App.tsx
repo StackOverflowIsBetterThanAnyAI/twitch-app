@@ -65,7 +65,7 @@ const App = () => {
     useEffect(() => {
         document.title = `Twitch-App | ${getEnglishLanguageName(
             language
-        )} Livestreams${seoSearchText ? `: ${seoSearchText}` : ''}`
+        )} Livestreams${seoSearchText ? ` | ${seoSearchText}` : ''}`
     }, [language, seoSearchText])
 
     return (
