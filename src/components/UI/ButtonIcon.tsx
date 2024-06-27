@@ -1,4 +1,5 @@
 import { FC, RefObject } from 'react'
+import './remove.css'
 
 type ButtonIconProps = {
     ariaLabel: string
@@ -60,7 +61,7 @@ const ButtonIcon: FC<ButtonIconProps> = ({
     )
     const remove = (
         <svg
-            className="w-[20px] h-[20px] text-gray-800 dark:text-white"
+            className="w-[20px] h-[20px] text-gray-800 dark:text-white remove-icon"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
@@ -69,6 +70,7 @@ const ButtonIcon: FC<ButtonIconProps> = ({
             viewBox="0 0 24 24"
         >
             <path
+                className="remove-path"
                 stroke="gainsboro"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -93,7 +95,7 @@ const ButtonIcon: FC<ButtonIconProps> = ({
         <button
             className={`${place === 'center' && 'm-auto'} p-2 rounded-full ${
                 secondary ? 'pseudo-zinc-secondary' : 'pseudo-zinc'
-            }`}
+            } ${type === 'Remove' ? 'remove-button' : ''}`}
             onClick={onClick}
             title={title || type}
             aria-label={ariaLabel}

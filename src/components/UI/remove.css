@@ -1,0 +1,19 @@
+.remove-icon .remove-path {
+    transition: stroke 0.5s ease-in-out, fill 0.5s ease-in-out;
+}
+
+.remove-button .remove-icon {
+    transition: transform 0.25s ease-in-out;
+}
+
+.remove-button:not(:disabled):hover .remove-icon {
+    transform: rotate(90deg);
+}
+
+.remove-button:not(:disabled):hover .remove-path {
+    stroke: #a439f0;
+}
+
+.remove-button:not(:disabled):active .remove-path {
+    stroke: gainsboro;
+}
