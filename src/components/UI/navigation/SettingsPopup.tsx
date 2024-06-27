@@ -3,6 +3,7 @@ import {
     ContextLanguage,
     ContextSEOSearchText,
     ContextScreenWidth,
+    ContextSearchText,
 } from '../../../App'
 import ProfilePicture from './ProfilePicture'
 import { LANGUAGES } from '../../../constants'
@@ -52,6 +53,15 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
     const [filterLanguageExpanded, setFilterLanguageExpanded] =
         contextFilterLanguageExpanded
 
+    const contextSearchText = useContext(ContextSearchText)
+    if (!contextSearchText) {
+        throw new Error(
+            'ContextSearchText must be used within a ContextSearchText.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [searchText, setSearchText] = contextSearchText
+
     const contextSEOSearchText = useContext(ContextSEOSearchText)
     if (!contextSEOSearchText) {
         throw new Error(
@@ -79,6 +89,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
             sessionStorage.setItem('twitch_filtered_language', target.value)
             setDisabledIndex(getLanguageIndex(target.value))
             setSEOSearchText('')
+            setSearchText('')
         }
         if (e.key === 'Escape') {
             e.stopPropagation()
@@ -142,6 +153,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
             sessionStorage.setItem('twitch_filtered_language', selectedValue)
             setDisabledIndex(getLanguageIndex(selectedValue))
             setSEOSearchText('')
+            setSearchText('')
         }
     }
 

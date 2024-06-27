@@ -75,7 +75,7 @@ const Navigation = () => {
         setBlockOpacity(false)
         if (searchText.length === 0) {
             setFilteredStreamData(streamData)
-            setSearchResultsExpanded(true)
+            setSearchResultsExpanded(false)
             setSearchResults([])
             setSEOSearchText('')
         }
@@ -102,6 +102,8 @@ const Navigation = () => {
         }
         if (e.target.value.length > 0) {
             setSearchResultsExpanded(true)
+        } else {
+            setSearchResultsExpanded(false)
         }
     }
 
