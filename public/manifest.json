@@ -2,7 +2,7 @@
     "name": "Twitch-App",
     "manifest_version": 3,
     "version": "1.0.0",
-    "description": "Twitch-App",
+    "description": "An abstract `twitch.tv` clone built with React, TypeScript, Tailwind CSS and the public twitch api.",
     "author": "Michael Münzenhofer",
     "icons": {
         "128": "favicon.png"
