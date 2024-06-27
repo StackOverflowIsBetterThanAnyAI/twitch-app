@@ -47,6 +47,14 @@ export const ContextSEOSearchText = createContext<
     [string, Dispatch<SetStateAction<string>>] | undefined
 >(undefined)
 
+export const ContextDisableFocusTrap = createContext<
+    [boolean, Dispatch<SetStateAction<boolean>>] | undefined
+>(undefined)
+
+export const ContextSearchResults = createContext<
+    [any[], Dispatch<SetStateAction<any[]>>] | undefined
+>(undefined)
+
 const App = () => {
     const [errorMessage, setErrorMessage] = useState([''])
     const [language, setLanguage] = useState(
@@ -61,6 +69,8 @@ const App = () => {
     const [filteredStreamData, setFilteredStreamData] = useState<
         StreamProps | undefined
     >(streamData)
+    const [focusTrapDisabled, setFocusTrapDisabled] = useState(false)
+    const [searchResults, setSearchResults] = useState<any[]>([])
 
     useEffect(() => {
         document.title = `Twitch-App | ${getEnglishLanguageName(
@@ -93,10 +103,24 @@ const App = () => {
                                             setSEOSearchText,
                                         ]}
                                     >
-                                        <Navigation />
-                                        <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 px-2">
-                                            <StreamFeed />
-                                        </main>
+                                        <ContextDisableFocusTrap.Provider
+                                            value={[
+                                                focusTrapDisabled,
+                                                setFocusTrapDisabled,
+                                            ]}
+                                        >
+                                            <ContextSearchResults.Provider
+                                                value={[
+                                                    searchResults,
+                                                    setSearchResults,
+                                                ]}
+                                            >
+                                                <Navigation />
+                                                <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 px-2">
+                                                    <StreamFeed />
+                                                </main>
+                                            </ContextSearchResults.Provider>
+                                        </ContextDisableFocusTrap.Provider>
                                     </ContextSEOSearchText.Provider>
                                 </ContextSearchText.Provider>
                             </ContextFilteredStreamData.Provider>

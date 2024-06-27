@@ -6,8 +6,9 @@ type ButtonIconProps = {
     buttonIconRef?: RefObject<HTMLButtonElement>
     onClick: () => void
     place: 'center' | 'left'
+    secondary?: boolean
     title?: string
-    type: 'Search' | 'Back'
+    type: 'Search' | 'Back' | 'Remove'
 }
 
 const ButtonIcon: FC<ButtonIconProps> = ({
@@ -16,6 +17,7 @@ const ButtonIcon: FC<ButtonIconProps> = ({
     buttonIconRef,
     onClick,
     place,
+    secondary = false,
     title,
     type,
 }) => {
@@ -56,6 +58,25 @@ const ButtonIcon: FC<ButtonIconProps> = ({
             />
         </svg>
     )
+    const remove = (
+        <svg
+            className="w-[20px] h-[20px] text-gray-800 dark:text-white"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            fill="none"
+            viewBox="0 0 24 24"
+        >
+            <path
+                stroke="gainsboro"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18 17.94 6M18 18 6.06 6"
+            />
+        </svg>
+    )
 
     const icon = (() => {
         switch (type) {
@@ -63,14 +84,16 @@ const ButtonIcon: FC<ButtonIconProps> = ({
                 return search
             case 'Back':
                 return back
+            case 'Remove':
+                return remove
         }
     })()
 
     return (
         <button
-            className={`${
-                place === 'center' && 'm-auto'
-            } p-2 rounded-full pseudo-zinc`}
+            className={`${place === 'center' && 'm-auto'} p-2 rounded-full ${
+                secondary ? 'pseudo-zinc-secondary' : 'pseudo-zinc'
+            }`}
             onClick={onClick}
             title={title || type}
             aria-label={ariaLabel}

@@ -38,6 +38,14 @@ module.exports = {
         },
         function ({ addUtilities }) {
             addUtilities({
+                '.pseudo-zinc-secondary': {
+                    '@apply hover:cursor-pointer hover:bg-zinc-700 focus-visible:bg-zinc-700 focus-visible:outline focus-visible:outline-zinc-400 focus-visible:outline-2 active:bg-zinc-600 active:outline active:outline-zinc-500 active:outline-2':
+                        {},
+                },
+            })
+        },
+        function ({ addUtilities }) {
+            addUtilities({
                 '.pseudo-zinc-retry': {
                     '@apply hover:cursor-pointer hover:bg-zinc-50 hover:text-zinc-800 focus-visible:outline-4 active:outline-offset-2 active:bg-zinc-200 active:text-zinc-800':
                         {},

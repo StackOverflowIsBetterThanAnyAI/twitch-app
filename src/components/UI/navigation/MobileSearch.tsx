@@ -1,5 +1,9 @@
 import { forwardRef, useContext, useEffect, useRef } from 'react'
-import { ContextSearchText } from '../../../App'
+import {
+    ContextDisableFocusTrap,
+    ContextSearchResults,
+    ContextSearchText,
+} from '../../../App'
 import { SearchProps } from '../../../types/SearchProps'
 import Icon from '../Icon'
 import SearchResultSuggestion from './SearchResultSuggestion'
@@ -18,7 +22,6 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
             handleSearchDoubleClick,
             handleSearchKeyDown,
             searchMobileRef,
-            searchResults,
             searchResultsExpanded,
         },
         ref
@@ -32,12 +35,33 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [searchText, setSearchText] = contextSearchText
 
+        const contextDisableFocusTrap = useContext(ContextDisableFocusTrap)
+        if (!contextDisableFocusTrap) {
+            throw new Error(
+                'ContextDisableFocusTrap must be used within a ContextDisableFocusTrap.Provider'
+            )
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [focusTrapDisabled, setFocusTrapDisabled] =
+            contextDisableFocusTrap
+
+        const contextSearchResults = useContext(ContextSearchResults)
+        if (!contextSearchResults) {
+            throw new Error(
+                'ContextSearchResults must be used within a ContextSearchResults.Provider'
+            )
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [searchResults, setSearchResults] = contextSearchResults
+
         const buttonRef = useRef<HTMLButtonElement | null>(null)
         const searchResultsRef = useRef<HTMLDivElement | null>(null)
 
         useEffect(() => {
             const handleFocusTrap = (e: KeyboardEvent) => {
                 if (e.key !== 'Tab') return
+
+                if (focusTrapDisabled) return
 
                 const focusableElements = [
                     searchMobileRef?.current,
@@ -78,7 +102,12 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
             return () => {
                 document.removeEventListener('keydown', handleFocusTrap)
             }
-        }, [searchMobileRef, searchResults, searchResultsExpanded])
+        }, [
+            focusTrapDisabled,
+            searchMobileRef,
+            searchResults,
+            searchResultsExpanded,
+        ])
 
         return (
             <>
@@ -119,7 +148,6 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
                             handleClick={handleClick}
                             handleSearchDoubleClick={handleSearchDoubleClick}
                             handleSearchKeyDown={handleSearchKeyDown}
-                            searchResults={searchResults}
                             ref={searchResultsRef}
                         />
                     </div>

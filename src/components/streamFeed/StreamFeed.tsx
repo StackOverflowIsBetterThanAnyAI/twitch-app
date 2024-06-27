@@ -20,10 +20,12 @@ import {
     ContextLanguage,
     ContextSEOSearchText,
     ContextScreenWidth,
+    ContextSearchText,
     ContextStreamData,
 } from '../../App'
 import { getEnglishLanguageName } from '../../helper/getEnglishLanguageName'
 import StreamNoResults from './StreamNoResults'
+import ButtonIcon from '../UI/ButtonIcon'
 
 const bgColors = [
     'bg-gradient-to-tr from-red-400 to-red-800',
@@ -80,6 +82,15 @@ const StreamFeed = () => {
         )
     }
 
+    const contextSearchText = useContext(ContextSearchText)
+    if (!contextSearchText) {
+        throw new Error(
+            'ContextSearchText must be used within a ContextSearchText.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [searchText, setSearchText] = contextSearchText
+
     const contextSEOSearchText = useContext(ContextSEOSearchText)
     if (!contextSEOSearchText) {
         throw new Error(
@@ -92,6 +103,12 @@ const StreamFeed = () => {
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
     const [prevLanguage, setPrevLanguage] = useState(language)
+
+    const removeFilter = () => {
+        setSEOSearchText('')
+        setSearchText('')
+        setFilteredStreamData(streamData)
+    }
 
     const loadStreams = useCallback(async () => {
         const url = `https://api.twitch.tv/helix/streams?language=${language}`
@@ -165,12 +182,28 @@ const StreamFeed = () => {
                 <>
                     <h1 className="px-4 pt-2 text-xl lg:text-2xl">
                         <span className="text-purple-400">
-                            {getEnglishLanguageName(language)} Livestreams
-                        </span>{' '}
-                        <span className="text-slate-300">{`you might like${
-                            seoSearchText ? `: ${seoSearchText}` : ''
-                        }`}</span>
+                            {getEnglishLanguageName(language)} Livestreams{' '}
+                        </span>
+                        <span className="text-slate-300">
+                            {`you might like${
+                                seoSearchText ? `: ${seoSearchText}` : ''
+                            }`}
+                        </span>
                     </h1>
+                    {seoSearchText && (
+                        <div className="flex items-center px-4 pt-1">
+                            <h2 className="text-lg lg:text-xl text-slate-300 pr-2">
+                                Clear filter:
+                            </h2>
+                            <ButtonIcon
+                                ariaLabel="Remove filter."
+                                onClick={removeFilter}
+                                place="left"
+                                secondary
+                                type="Remove"
+                            />
+                        </div>
+                    )}
                     <article
                         className={`p-4 gap-4 ${
                             contextScreenWidth === 'MOBILE'

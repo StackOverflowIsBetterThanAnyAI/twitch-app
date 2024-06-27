@@ -4,9 +4,11 @@ import { HomeIcon } from './HomeIcon'
 import { UserIcon } from './UserIcon'
 import MobileSearch from './MobileSearch'
 import {
+    ContextDisableFocusTrap,
     ContextFilteredStreamData,
     ContextSEOSearchText,
     ContextScreenWidth,
+    ContextSearchResults,
     ContextSearchText,
     ContextStreamData,
 } from '../../../App'
@@ -57,11 +59,28 @@ const Navigation = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [seoSearchText, setSEOSearchText] = contextSEOSearchText
 
+    const contextDisableFocusTrap = useContext(ContextDisableFocusTrap)
+    if (!contextDisableFocusTrap) {
+        throw new Error(
+            'ContextDisableFocusTrap must be used within a ContextDisableFocusTrap.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [focusTrapDisabled, setFocusTrapDisabled] = contextDisableFocusTrap
+
+    const contextSearchResults = useContext(ContextSearchResults)
+    if (!contextSearchResults) {
+        throw new Error(
+            'ContextSearchResults must be used within a ContextSearchResults.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [searchResults, setSearchResults] = contextSearchResults
+
     const [navOpacity, setNavOpacity] = useState<string>('opacity-100')
     const [blockOpacity, setBlockOpacity] = useState(false)
     const [hideSearch, setHideSearch] = useState(true)
     const [ariaPressed, setAriaPressed] = useState(false)
-    const [searchResults, setSearchResults] = useState<any[]>([])
     const [searchResultsExpanded, setSearchResultsExpanded] = useState(false)
     const desktopSearchRef = useRef<HTMLDivElement>(null)
     const mobileSearchRef = useRef<HTMLDivElement>(null)
@@ -82,6 +101,7 @@ const Navigation = () => {
     }
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFocusTrapDisabled(false)
         setSearchText(e.target.value)
         if (streamData) {
             const results = getSearchFilter(e.target.value, streamData)!.map(
@@ -103,7 +123,10 @@ const Navigation = () => {
         if (e.target.value.length > 0) {
             setSearchResultsExpanded(true)
         } else {
+            setFilteredStreamData(streamData)
             setSearchResultsExpanded(false)
+            setSearchResults([])
+            setSEOSearchText('')
         }
     }
 
@@ -162,6 +185,8 @@ const Navigation = () => {
         if (e.key === 'Escape') {
             if (searchText.length > 0) {
                 setSearchText('')
+                setSearchResults([])
+                setSearchResultsExpanded(false)
             } else {
                 buttonIconRef.current?.focus()
                 setHideSearch(true)
@@ -177,6 +202,8 @@ const Navigation = () => {
         if (e.key === 'Escape') {
             if (searchText.length > 0) {
                 setSearchText('')
+                setSearchResults([])
+                setSearchResultsExpanded(false)
             } else {
                 userIconRef?.current?.focus()
                 anchorRef?.current?.focus()
@@ -299,7 +326,6 @@ const Navigation = () => {
                         handleSearchDoubleClick={handleSearchDoubleClick}
                         handleSearchKeyDown={handleSearchKeyDown}
                         inputRef={inputRef}
-                        searchResults={searchResults}
                         searchResultsExpanded={searchResultsExpanded}
                         ref={desktopSearchRef}
                     />
@@ -330,7 +356,6 @@ const Navigation = () => {
                         handleSearchDoubleClick={handleSearchDoubleClick}
                         handleSearchKeyDown={handleSearchKeyDown}
                         searchMobileRef={searchMobileRef}
-                        searchResults={searchResults}
                         searchResultsExpanded={searchResultsExpanded}
                         ref={mobileSearchRef}
                     />

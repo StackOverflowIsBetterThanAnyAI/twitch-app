@@ -1,5 +1,9 @@
 import { forwardRef, useContext, useEffect, useRef } from 'react'
-import { ContextSearchText } from '../../../App'
+import {
+    ContextDisableFocusTrap,
+    ContextSearchResults,
+    ContextSearchText,
+} from '../../../App'
 import { SearchProps } from '../../../types/SearchProps'
 import Icon from '../Icon'
 import SearchResultSuggestion from './SearchResultSuggestion'
@@ -18,7 +22,6 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
             handleSearchDoubleClick,
             handleSearchKeyDown,
             inputRef,
-            searchResults,
             searchResultsExpanded,
         },
         ref
@@ -32,12 +35,33 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [searchText, setSearchText] = contextSearchText
 
+        const contextDisableFocusTrap = useContext(ContextDisableFocusTrap)
+        if (!contextDisableFocusTrap) {
+            throw new Error(
+                'ContextDisableFocusTrap must be used within a ContextDisableFocusTrap.Provider'
+            )
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [focusTrapDisabled, setFocusTrapDisabled] =
+            contextDisableFocusTrap
+
+        const contextSearchResults = useContext(ContextSearchResults)
+        if (!contextSearchResults) {
+            throw new Error(
+                'ContextSearchResults must be used within a ContextSearchResults.Provider'
+            )
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [searchResults, setSearchResults] = contextSearchResults
+
         const buttonRef = useRef<HTMLButtonElement | null>(null)
         const searchResultsRef = useRef<HTMLDivElement | null>(null)
 
         useEffect(() => {
             const handleFocusTrap = (e: KeyboardEvent) => {
                 if (searchText.length === 0) return
+
+                if (focusTrapDisabled) return
 
                 if (e.key !== 'Tab') return
 
@@ -80,7 +104,13 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
             return () => {
                 document.removeEventListener('keydown', handleFocusTrap)
             }
-        }, [inputRef, searchResults, searchResultsExpanded, searchText])
+        }, [
+            focusTrapDisabled,
+            inputRef,
+            searchResults,
+            searchResultsExpanded,
+            searchText,
+        ])
 
         return (
             <div className="flex flex-col py-1 gap-1" ref={ref}>
@@ -122,7 +152,6 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
                         handleClick={handleClick}
                         handleSearchDoubleClick={handleSearchDoubleClick}
                         handleSearchKeyDown={handleSearchKeyDown!}
-                        searchResults={searchResults}
                         ref={searchResultsRef}
                     />
                 )}

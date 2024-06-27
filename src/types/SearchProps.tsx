@@ -14,7 +14,6 @@ export type SearchProps = {
         name: string
     ) => void
     inputRef?: RefObject<HTMLInputElement>
-    searchResults: any[]
     searchResultsExpanded: boolean
     searchMobileRef?: RefObject<HTMLInputElement>
 }
