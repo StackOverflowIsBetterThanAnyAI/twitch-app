@@ -60,9 +60,6 @@ export const ContextFocusInput = createContext<
 >(undefined)
 
 const App = () => {
-    // TODO: encrypt api keys?
-    // TODO: deploy to GitHub pages
-    // TODO: => next.js or mongodb or regexp
     const [errorMessage, setErrorMessage] = useState([''])
     const [language, setLanguage] = useState(
         sessionStorage.getItem('twitch_filtered_language') || 'de'
