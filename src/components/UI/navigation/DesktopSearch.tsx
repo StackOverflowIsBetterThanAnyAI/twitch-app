@@ -1,6 +1,7 @@
 import { forwardRef, useContext, useEffect, useRef } from 'react'
 import {
     ContextDisableFocusTrap,
+    ContextFocusInput,
     ContextSearchResults,
     ContextSearchText,
 } from '../../../App'
@@ -53,6 +54,15 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [searchResults, setSearchResults] = contextSearchResults
+
+        const contextFocusInput = useContext(ContextFocusInput)
+        if (!contextFocusInput) {
+            throw new Error(
+                'ContextFocusInput must be used within a ContextFocusInput.Provider'
+            )
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [inputFocussed, setInputFocussed] = contextFocusInput
 
         const buttonRef = useRef<HTMLButtonElement | null>(null)
         const searchResultsRef = useRef<HTMLDivElement | null>(null)
@@ -111,6 +121,13 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
             searchResultsExpanded,
             searchText,
         ])
+
+        useEffect(() => {
+            if (inputFocussed && inputRef?.current) {
+                inputRef.current.focus()
+                setInputFocussed(false)
+            }
+        }, [inputFocussed, inputRef, setInputFocussed])
 
         return (
             <div className="flex flex-col py-1 gap-1" ref={ref}>

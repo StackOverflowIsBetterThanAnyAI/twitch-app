@@ -55,7 +55,14 @@ export const ContextSearchResults = createContext<
     [any[], Dispatch<SetStateAction<any[]>>] | undefined
 >(undefined)
 
+export const ContextFocusInput = createContext<
+    [boolean, Dispatch<SetStateAction<boolean>>] | undefined
+>(undefined)
+
 const App = () => {
+    // TODO: encrypt api keys?
+    // TODO: deploy to GitHub pages
+    // TODO: => next.js or mongodb or regexp
     const [errorMessage, setErrorMessage] = useState([''])
     const [language, setLanguage] = useState(
         sessionStorage.getItem('twitch_filtered_language') || 'de'
@@ -71,6 +78,7 @@ const App = () => {
     >(streamData)
     const [focusTrapDisabled, setFocusTrapDisabled] = useState(false)
     const [searchResults, setSearchResults] = useState<any[]>([])
+    const [inputFocussed, setInputFocussed] = useState(false)
 
     useEffect(() => {
         document.title = `Twitch-App | ${getEnglishLanguageName(
@@ -115,10 +123,17 @@ const App = () => {
                                                     setSearchResults,
                                                 ]}
                                             >
-                                                <Navigation />
-                                                <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 px-2">
-                                                    <StreamFeed />
-                                                </main>
+                                                <ContextFocusInput.Provider
+                                                    value={[
+                                                        inputFocussed,
+                                                        setInputFocussed,
+                                                    ]}
+                                                >
+                                                    <Navigation />
+                                                    <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 px-2">
+                                                        <StreamFeed />
+                                                    </main>
+                                                </ContextFocusInput.Provider>
                                             </ContextSearchResults.Provider>
                                         </ContextDisableFocusTrap.Provider>
                                     </ContextSEOSearchText.Provider>

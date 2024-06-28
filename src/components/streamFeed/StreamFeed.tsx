@@ -17,6 +17,7 @@ import { CLIENT_ID, CLIENT_SECRET } from '../../clientdata/clientdata'
 import {
     ContextErrorMessage,
     ContextFilteredStreamData,
+    ContextFocusInput,
     ContextLanguage,
     ContextSEOSearchText,
     ContextScreenWidth,
@@ -100,6 +101,15 @@ const StreamFeed = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [seoSearchText, setSEOSearchText] = contextSEOSearchText
 
+    const contextFocusInput = useContext(ContextFocusInput)
+    if (!contextFocusInput) {
+        throw new Error(
+            'ContextFocusInput must be used within a ContextFocusInput.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [inputFocussed, setInputFocussed] = contextFocusInput
+
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
     const [prevLanguage, setPrevLanguage] = useState(language)
@@ -108,6 +118,7 @@ const StreamFeed = () => {
         setSEOSearchText('')
         setSearchText('')
         setFilteredStreamData(streamData)
+        setInputFocussed(true)
     }
 
     const loadStreams = useCallback(async () => {

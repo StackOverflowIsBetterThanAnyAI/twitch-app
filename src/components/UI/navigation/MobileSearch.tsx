@@ -1,6 +1,7 @@
 import { forwardRef, useContext, useEffect, useRef } from 'react'
 import {
     ContextDisableFocusTrap,
+    ContextFocusInput,
     ContextSearchResults,
     ContextSearchText,
 } from '../../../App'
@@ -53,6 +54,15 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [searchResults, setSearchResults] = contextSearchResults
+
+        const contextFocusInput = useContext(ContextFocusInput)
+        if (!contextFocusInput) {
+            throw new Error(
+                'ContextFocusInput must be used within a ContextFocusInput.Provider'
+            )
+        }
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const [inputFocussed, setInputFocussed] = contextFocusInput
 
         const buttonRef = useRef<HTMLButtonElement | null>(null)
         const searchResultsRef = useRef<HTMLDivElement | null>(null)
@@ -108,6 +118,13 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
             searchResults,
             searchResultsExpanded,
         ])
+
+        useEffect(() => {
+            if (inputFocussed && searchMobileRef?.current) {
+                searchMobileRef.current.focus()
+                setInputFocussed(false)
+            }
+        }, [inputFocussed, searchMobileRef, setInputFocussed])
 
         return (
             <>

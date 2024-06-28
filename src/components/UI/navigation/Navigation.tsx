@@ -6,6 +6,7 @@ import MobileSearch from './MobileSearch'
 import {
     ContextDisableFocusTrap,
     ContextFilteredStreamData,
+    ContextFocusInput,
     ContextSEOSearchText,
     ContextScreenWidth,
     ContextSearchResults,
@@ -76,6 +77,15 @@ const Navigation = () => {
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [searchResults, setSearchResults] = contextSearchResults
+
+    const contextFocusInput = useContext(ContextFocusInput)
+    if (!contextFocusInput) {
+        throw new Error(
+            'ContextFocusInput must be used within a ContextFocusInput.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [inputFocussed, setInputFocussed] = contextFocusInput
 
     const [navOpacity, setNavOpacity] = useState<string>('opacity-100')
     const [blockOpacity, setBlockOpacity] = useState(false)
@@ -305,6 +315,17 @@ const Navigation = () => {
             document.removeEventListener('mousedown', handleClickOutside)
         }
     }, [contextScreenWidth, searchResultsExpanded])
+
+    useEffect(() => {
+        if (
+            (contextScreenWidth === 'MOBILE' ||
+                contextScreenWidth === 'TABLET_SMALL') &&
+            inputFocussed
+        ) {
+            setHideSearch(false)
+            setAriaPressed(true)
+        }
+    }, [contextScreenWidth, inputFocussed])
 
     return (
         <div className="sticky top-0 z-10">
