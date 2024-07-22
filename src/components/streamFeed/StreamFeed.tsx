@@ -12,8 +12,6 @@ import StreamTags from './StreamTags'
 import StreamThumbnail from './StreamThumbnail'
 import StreamTitle from './StreamTitle'
 import StreamViewerCount from './StreamViewerCount'
-
-import { CLIENT_ID, CLIENT_SECRET } from '../../clientdata/clientdata'
 import {
     ContextErrorMessage,
     ContextFilteredStreamData,
@@ -122,10 +120,9 @@ const StreamFeed = () => {
     }
 
     const loadStreams = useCallback(async () => {
-        const url = `https://api.twitch.tv/helix/streams?language=${language}`
         try {
             const data: StreamProps | { error: 'login' } | undefined =
-                await getStreams(CLIENT_ID || '', CLIENT_SECRET || '', url)
+                await getStreams(language)
             if (data && 'error' in data && data.error === 'login') {
                 setStreamData(undefined)
                 setFilteredStreamData(undefined)
@@ -146,13 +143,13 @@ const StreamFeed = () => {
                 setErrorMessage([
                     `There are no ${getEnglishLanguageName(
                         language
-                    )} Livestreams available at the following URL:`,
-                    url,
+                    )} Livestreams available.`,
                 ])
-                throw new Error(`There are no ${getEnglishLanguageName(
-                    language
-                )} Livestreams available at the following URL:
-                    ${url}`)
+                throw new Error(
+                    `There are no ${getEnglishLanguageName(
+                        language
+                    )} Livestreams available.`
+                )
             }
             setError(false)
         } catch (error) {

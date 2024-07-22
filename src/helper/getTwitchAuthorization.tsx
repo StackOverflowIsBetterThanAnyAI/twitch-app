@@ -1,23 +1,11 @@
-import { AuthorizationProps } from '../types/AuthorizationProps'
+import axios from 'axios'
 
-export const getTwitchAuthorization = async (
-    CLIENT_ID: string,
-    CLIENT_SECRET: string
-): Promise<AuthorizationProps> => {
-    const url = `https://id.twitch.tv/oauth2/token?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&grant_type=client_credentials`
-
+export const getTwitchAuthorization = async () => {
     try {
-        const response = await fetch(url, {
-            method: 'POST',
-        })
-        if (!response.ok) throw new Error(`${response.status}`)
-        const data: AuthorizationProps = await response.json()
-        return data
-    } catch (error: any) {
-        console.error(
-            'The following error occured during the Athorization:',
-            error
-        )
+        const response = await axios.get('/api/auth')
+        return response.data
+    } catch (error) {
+        console.error('Error fetching authorization:', error)
         return { access_token: '', expires_in: 0, token_type: '' }
     }
 }
