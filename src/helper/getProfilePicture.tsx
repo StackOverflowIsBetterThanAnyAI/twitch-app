@@ -1,42 +1,34 @@
+import axios from 'axios'
 import { AuthorizationProps } from '../types/AuthorizationProps'
-import { ProfilePictureProps } from '../types/ProfilePictureProps'
 import { getTwitchAuthorization } from './getTwitchAuthorization'
 
 export const getProfilePicture = async (
-    CLIENT_ID: string,
-    CLIENT_SECRET: string,
     user_id: string
 ): Promise<string | undefined> => {
-    const url = `https://api.twitch.tv/helix/users?id=${user_id}`
-
     const authorizationObject: AuthorizationProps =
-        await getTwitchAuthorization(CLIENT_ID, CLIENT_SECRET)
+        await getTwitchAuthorization()
     let { access_token, token_type } = authorizationObject
-    if (access_token === '' && token_type === '') return undefined
+    if (!access_token || !token_type) return undefined
 
     token_type =
         token_type.substring(0, 1).toUpperCase() +
         token_type.substring(1, token_type.length)
 
-    const authorization = `${token_type} ${access_token}`
-
-    const headers = {
-        authorization,
-        'Client-ID': CLIENT_ID,
-    }
-
     try {
-        const response = await fetch(url, {
-            headers,
-            method: 'GET',
+        const response = await axios.post('/api/profile-picture', {
+            access_token,
+            token_type,
+            user_id,
         })
-        if (!response.ok) throw new Error(`${response.status} ${response.url}`)
-        const data: ProfilePictureProps = await response.json()
-        const imageUrl: string = data.data[0].profile_image_url
-        return imageUrl
-    } catch (error: any) {
+
+        if (response.status !== 200 || typeof response.data !== 'object') {
+            throw new Error(`${response.status}`)
+        }
+
+        return response.data.imageUrl
+    } catch (error) {
         console.error(
-            'The following error occured while fetching a user profile picture for the user:',
+            'The following error occurred while fetching a user profile picture for the user:',
             user_id,
             error
         )

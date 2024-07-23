@@ -1,4 +1,3 @@
-import { ADDRESS, CLIENT_ID } from './../../../clientdata/clientdata'
 import {
     Dispatch,
     FC,
@@ -19,7 +18,7 @@ export const ContextFilterLanguageExpanded = createContext<
 >(undefined)
 
 type UserIconProps = {
-    anchorRef: React.RefObject<HTMLAnchorElement>
+    anchorRef: React.RefObject<HTMLButtonElement>
     buttonRef: React.RefObject<HTMLButtonElement>
 }
 
@@ -31,6 +30,7 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
         return storedUser ? JSON.parse(storedUser) : null
     })
     const [dropdownActive, setDropdownActive] = useState(false)
+    const [redirectUrl, setRedirectUrl] = useState<string | null>(null)
 
     const popupRef = useRef<HTMLDivElement | null>(null)
 
@@ -42,7 +42,7 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
 
     const fetchUser = async () => {
         try {
-            const data = await getUser(CLIENT_ID || '')
+            const data = await getUser()
             if (!data)
                 throw new Error('Unable to fetch the currently logged in user')
             setUser(data)
@@ -88,7 +88,7 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
         }
     }
 
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLAnchorElement>) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
         if (e.key === ' ') {
             const target = e.target as HTMLElement
             target.click()
@@ -96,6 +96,27 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
             settingState()
         }
     }
+
+    useEffect(() => {
+        const getAuthUrl = async () => {
+            if (state.length) {
+                try {
+                    const response = await fetch(`/api/auth-url?state=${state}`)
+                    const data = await response.json()
+                    setRedirectUrl(data.url)
+                } catch (error) {
+                    console.error('Error fetching auth URL:', error)
+                }
+            }
+        }
+        getAuthUrl()
+    }, [state])
+
+    useEffect(() => {
+        if (redirectUrl) {
+            window.location.href = redirectUrl
+        }
+    }, [redirectUrl])
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -182,12 +203,7 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
                     </>
                 ) : (
                     <>
-                        <a
-                            href={`https://id.twitch.tv/oauth2/authorize?response_type=token&client_id=${
-                                CLIENT_ID || ''
-                            }&redirect_uri=${
-                                ADDRESS || 'http://localhost:3000'
-                            }&state=${state}&scope=user:read:email`}
+                        <button
                             className="rounded-md px-2 pseudo-zinc"
                             onKeyDown={handleKeyDown}
                             onClick={handleAnchorClick}
@@ -200,20 +216,7 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
                                 loading="lazy"
                                 width={48}
                             />
-                        </a>
-                        {sessionStorage.getItem('twitch_logged_in') ===
-                            'false' && (
-                            <div
-                                className={`absolute top-16 right-4 bg-zinc-700 p-2 border-2 border-zinc-50 animate-fadeOut`}
-                            >
-                                <h2 className="text-base lg:text-lg">
-                                    Login failed.
-                                </h2>
-                                <h3 className="text-sm lg:text-base">
-                                    Please try again later.
-                                </h3>
-                            </div>
-                        )}
+                        </button>
                     </>
                 )}
             </ContextFilterLanguageExpanded.Provider>

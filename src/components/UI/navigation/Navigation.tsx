@@ -97,7 +97,7 @@ const Navigation = () => {
     const searchMobileRef = useRef<HTMLInputElement>(null)
     const buttonIconRef = useRef<HTMLButtonElement>(null)
     const userIconRef = useRef<HTMLButtonElement>(null)
-    const anchorRef = useRef<HTMLAnchorElement>(null)
+    const anchorRef = useRef<HTMLButtonElement>(null)
     const inputRef = useRef<HTMLInputElement>(null)
 
     const handleBlur = () => {
