@@ -179,6 +179,42 @@ const StreamFeed = () => {
         }
     }, [loadStreams])
 
+    useEffect(() => {
+        const focusTrap = (e: KeyboardEvent) => {
+            const focusableStreamButtons =
+                document.querySelectorAll('button.streamfeed')
+
+            const firstFocusableElement =
+                focusableStreamButtons[0] as HTMLButtonElement
+            const lastFocusableElement = focusableStreamButtons[
+                focusableStreamButtons.length - 1
+            ] as HTMLButtonElement
+
+            if (!['Tab', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return
+
+            if ((e.shiftKey && e.key === 'Tab') || e.key === 'ArrowLeft') {
+                if (document.activeElement === firstFocusableElement) {
+                    e.preventDefault()
+                    lastFocusableElement?.focus()
+                }
+            } else if (
+                (!e.shiftKey && e.key === 'Tab') ||
+                e.key === 'ArrowRight'
+            ) {
+                if (document.activeElement === lastFocusableElement) {
+                    e.preventDefault()
+                    firstFocusableElement?.focus()
+                }
+            }
+        }
+
+        document.addEventListener('keydown', focusTrap)
+
+        return () => {
+            document.removeEventListener('keydown', focusTrap)
+        }
+    }, [])
+
     if (error) {
         return <StreamFallback />
     }

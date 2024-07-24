@@ -80,7 +80,7 @@ const StreamGame: FC<StreamGameProps> = ({ game_name }) => {
     }
     return (
         <button
-            className="text-slate-300 text-sm lg:text-base rounded-md pr-1 pseudo-zinc-purple"
+            className="text-slate-300 text-sm lg:text-base rounded-md pr-1 pseudo-zinc-purple streamfeed"
             onClick={handleClick}
         >
             {game_name}
