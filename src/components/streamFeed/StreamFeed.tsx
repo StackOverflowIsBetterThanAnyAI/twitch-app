@@ -181,8 +181,11 @@ const StreamFeed = () => {
 
     useEffect(() => {
         const focusTrap = (e: KeyboardEvent) => {
-            const focusableStreamButtons =
+            if (!['Tab', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return
+
+            const focusableStreamButtons = Array.from(
                 document.querySelectorAll('button.streamfeed')
+            )
 
             const firstFocusableElement =
                 focusableStreamButtons[0] as HTMLButtonElement
@@ -190,12 +193,26 @@ const StreamFeed = () => {
                 focusableStreamButtons.length - 1
             ] as HTMLButtonElement
 
-            if (!['Tab', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return
+            const findCurrentButtonIndex = (button: HTMLButtonElement) => {
+                return focusableStreamButtons.indexOf(button)
+            }
+
+            if (
+                !document.activeElement ||
+                !focusableStreamButtons.includes(document.activeElement)
+            )
+                return
 
             if ((e.shiftKey && e.key === 'Tab') || e.key === 'ArrowLeft') {
                 if (document.activeElement === firstFocusableElement) {
                     e.preventDefault()
                     lastFocusableElement?.focus()
+                } else {
+                    e.preventDefault()
+                    const currentIndex = findCurrentButtonIndex(
+                        document.activeElement as HTMLButtonElement
+                    )
+                    focusableStreamButtons[currentIndex - 1]?.focus()
                 }
             } else if (
                 (!e.shiftKey && e.key === 'Tab') ||
@@ -204,6 +221,12 @@ const StreamFeed = () => {
                 if (document.activeElement === lastFocusableElement) {
                     e.preventDefault()
                     firstFocusableElement?.focus()
+                } else {
+                    e.preventDefault()
+                    const currentIndex = findCurrentButtonIndex(
+                        document.activeElement as HTMLButtonElement
+                    )
+                    focusableStreamButtons[currentIndex + 1]?.focus()
                 }
             }
         }
