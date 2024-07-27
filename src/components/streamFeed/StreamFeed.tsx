@@ -214,7 +214,7 @@ const StreamFeed = () => {
                 return focusableStreamButtons.indexOf(button)
             }
 
-            if ((e.shiftKey && e.key === 'Tab') || e.key === 'ArrowLeft') {
+            if (e.shiftKey && e.key === 'Tab') {
                 if (document.activeElement === firstFocusableElement) {
                     e.preventDefault()
                     lastFocusableElement?.focus()
@@ -225,10 +225,7 @@ const StreamFeed = () => {
                     )
                     focusableStreamButtons[currentIndex - 1]?.focus()
                 }
-            } else if (
-                (!e.shiftKey && e.key === 'Tab') ||
-                e.key === 'ArrowRight'
-            ) {
+            } else if (!e.shiftKey && e.key === 'Tab') {
                 if (document.activeElement === lastFocusableElement) {
                     e.preventDefault()
                     firstStreamFeedFocusableElement?.focus()
