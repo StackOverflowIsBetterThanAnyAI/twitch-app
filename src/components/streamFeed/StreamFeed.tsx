@@ -183,12 +183,29 @@ const StreamFeed = () => {
         const focusTrap = (e: KeyboardEvent) => {
             if (!['Tab', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return
 
-            const focusableStreamButtons = Array.from(
-                document.querySelectorAll('button.streamfeed')
+            const focusableStreamButtons: HTMLButtonElement[] = Array.from(
+                document.querySelectorAll('button.streamfeed, .navigation')
             )
+
+            const focusableNavigationButtons = Array.from(
+                document.querySelectorAll('.navigation')
+            )
+
+            if (
+                !document.activeElement ||
+                !focusableStreamButtons.includes(
+                    document.activeElement as HTMLButtonElement
+                )
+            )
+                return
 
             const firstFocusableElement =
                 focusableStreamButtons[0] as HTMLButtonElement
+
+            const firstStreamFeedFocusableElement = focusableStreamButtons[
+                focusableNavigationButtons.length
+            ] as HTMLButtonElement
+
             const lastFocusableElement = focusableStreamButtons[
                 focusableStreamButtons.length - 1
             ] as HTMLButtonElement
@@ -196,12 +213,6 @@ const StreamFeed = () => {
             const findCurrentButtonIndex = (button: HTMLButtonElement) => {
                 return focusableStreamButtons.indexOf(button)
             }
-
-            if (
-                !document.activeElement ||
-                !focusableStreamButtons.includes(document.activeElement)
-            )
-                return
 
             if ((e.shiftKey && e.key === 'Tab') || e.key === 'ArrowLeft') {
                 if (document.activeElement === firstFocusableElement) {
@@ -220,7 +231,7 @@ const StreamFeed = () => {
             ) {
                 if (document.activeElement === lastFocusableElement) {
                     e.preventDefault()
-                    firstFocusableElement?.focus()
+                    firstStreamFeedFocusableElement?.focus()
                 } else {
                     e.preventDefault()
                     const currentIndex = findCurrentButtonIndex(

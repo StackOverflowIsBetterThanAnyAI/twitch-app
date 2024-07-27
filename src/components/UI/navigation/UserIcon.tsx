@@ -151,7 +151,7 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
                 {user?.profile_image_url ? (
                     <>
                         <button
-                            className="rounded-md px-2 pseudo-zinc"
+                            className="rounded-md px-2 pseudo-zinc navigation"
                             onClick={handleButtonClick}
                             ref={buttonRef}
                         >
@@ -188,7 +188,7 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
                             }&redirect_uri=${
                                 ADDRESS || 'http://localhost:3000'
                             }&state=${state}&scope=user:read:email`}
-                            className="rounded-md px-2 pseudo-zinc"
+                            className="rounded-md px-2 pseudo-zinc navigation"
                             onKeyDown={handleKeyDown}
                             onClick={handleAnchorClick}
                             title="Log in"
