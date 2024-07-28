@@ -81,7 +81,7 @@ const StreamChannel: FC<StreamChannelProps> = ({ user_name }) => {
 
     return (
         <button
-            className="text-slate-300 font-medium text-base lg:text-lg rounded-md pr-1 pseudo-zinc-purple streamfeed"
+            className="text-slate-300 font-medium text-base lg:text-lg rounded-md pr-1 pseudo-zinc-purple streamfeed streamchannel"
             onClick={handleClick}
         >
             {user_name}

@@ -181,7 +181,12 @@ const StreamFeed = () => {
 
     useEffect(() => {
         const focusTrap = (e: KeyboardEvent) => {
-            if (!['Tab', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return
+            if (
+                !['Tab', 'ArrowLeft', 'ArrowRight'].includes(e.key) ||
+                error ||
+                filteredStreamData?.data.length === 0
+            )
+                return
 
             const focusableStreamButtons: HTMLButtonElement[] = Array.from(
                 document.querySelectorAll('button.streamfeed, .navigation')
@@ -236,6 +241,70 @@ const StreamFeed = () => {
                     )
                     focusableStreamButtons[currentIndex + 1]?.focus()
                 }
+            } else if (e.key === 'ArrowRight') {
+                const upcommingFocusableStreamButtons =
+                    focusableStreamButtons.splice(
+                        findCurrentButtonIndex(
+                            document.activeElement as HTMLButtonElement
+                        ) + 1
+                    )
+
+                const previousFocusableStreamButtons =
+                    focusableStreamButtons.splice(
+                        0,
+                        findCurrentButtonIndex(
+                            document.activeElement as HTMLButtonElement
+                        )
+                    )
+
+                const category = Array.from(document.activeElement.classList)[
+                    Array.from(document.activeElement.classList).length - 1
+                ]
+
+                const upcomingElement =
+                    upcommingFocusableStreamButtons.filter((item) =>
+                        Array.from(item.classList).includes(category)
+                    )[0] ??
+                    previousFocusableStreamButtons.filter((item) =>
+                        Array.from(item.classList).includes(category)
+                    )[0] ??
+                    undefined
+
+                upcomingElement && upcomingElement.focus()
+            } else if (e.key === 'ArrowLeft') {
+                const upcommingFocusableStreamButtons =
+                    focusableStreamButtons.splice(
+                        findCurrentButtonIndex(
+                            document.activeElement as HTMLButtonElement
+                        ) + 1
+                    )
+
+                const previousFocusableStreamButtons =
+                    focusableStreamButtons.splice(
+                        0,
+                        findCurrentButtonIndex(
+                            document.activeElement as HTMLButtonElement
+                        )
+                    )
+
+                const category = Array.from(document.activeElement.classList)[
+                    Array.from(document.activeElement.classList).length - 1
+                ]
+
+                const previousElement =
+                    previousFocusableStreamButtons
+                        .reverse()
+                        .filter((item) =>
+                            Array.from(item.classList).includes(category)
+                        )[0] ??
+                    upcommingFocusableStreamButtons
+                        .reverse()
+                        .filter((item) =>
+                            Array.from(item.classList).includes(category)
+                        )[0] ??
+                    undefined
+
+                previousElement && previousElement.focus()
             }
         }
 
