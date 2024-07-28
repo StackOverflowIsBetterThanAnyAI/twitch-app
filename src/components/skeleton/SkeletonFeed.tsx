@@ -23,6 +23,8 @@ const SkeletonFeed = () => {
                 className={`p-4 gap-4 ${
                     contextScreenWidth === 'MOBILE'
                         ? 'grid grid-cols-1'
+                        : contextScreenWidth === 'TABLET_SMALL'
+                        ? 'grid grid-cols-2'
                         : 'grid grid-cols-auto-fill-284'
                 }`}
             >
