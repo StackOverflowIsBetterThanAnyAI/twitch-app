@@ -132,7 +132,7 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
                     <input
                         type="search"
                         placeholder="Search"
-                        className="bg-zinc-900 text-slate-300 caret-zinc-300 px-2 rounded-md pseudo-zinc"
+                        className="bg-zinc-900 text-slate-300 caret-zinc-300 px-2 rounded-md pseudo-zinc navigation"
                         value={searchText}
                         onChange={handleChange}
                         onFocus={handleFocus}
