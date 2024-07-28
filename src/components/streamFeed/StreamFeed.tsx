@@ -313,7 +313,7 @@ const StreamFeed = () => {
         return () => {
             document.removeEventListener('keydown', focusTrap)
         }
-    }, [])
+    }, [error, filteredStreamData])
 
     if (error) {
         return <StreamFallback />
