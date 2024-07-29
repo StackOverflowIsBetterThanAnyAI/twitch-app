@@ -2,7 +2,7 @@
 
 describe('twitch-app is live for small screen sizes', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:3000')
+        cy.visit('/')
         cy.viewport(412, 914)
     })
 

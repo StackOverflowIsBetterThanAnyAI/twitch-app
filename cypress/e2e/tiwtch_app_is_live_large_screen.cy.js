@@ -2,7 +2,7 @@
 
 describe('twitch-app is live for large screen sizes', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:3000')
+        cy.visit('/')
     })
 
     it('displays the navigation bar for large screen sizes', () => {
