@@ -130,7 +130,11 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
         }, [inputFocussed, inputRef, setInputFocussed])
 
         return (
-            <div className="flex flex-col py-1 gap-1" ref={ref}>
+            <div
+                className="flex flex-col py-1 gap-1"
+                ref={ref}
+                data-testid="navigation-searchbar-container"
+            >
                 <div className="flex flex-row outline outline-zinc-700 rounded-lg my-auto w-[249px]">
                     <input
                         type="search"

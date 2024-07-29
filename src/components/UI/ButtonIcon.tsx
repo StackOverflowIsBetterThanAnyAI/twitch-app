@@ -103,6 +103,9 @@ const ButtonIcon: FC<ButtonIconProps> = ({
             aria-label={ariaLabel}
             aria-pressed={ariaPressed}
             ref={buttonIconRef}
+            data-testid={
+                type === 'Search' ? 'navigation-searchbar-toggle' : undefined
+            }
         >
             {icon}
         </button>

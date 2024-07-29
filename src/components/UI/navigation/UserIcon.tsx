@@ -193,6 +193,7 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
                             onClick={handleAnchorClick}
                             title="Log in"
                             ref={anchorRef}
+                            data-testid="navigation-login-anchor"
                         >
                             <img
                                 src={getImage('', 48, 'PROFILE')}
