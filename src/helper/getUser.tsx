@@ -1,8 +1,8 @@
+import axios from 'axios'
 import { UserProps } from '../types/UserProps'
 
-export const getUser = async (CLIENT_ID: string): Promise<UserProps | null> => {
+export const getUser = async (): Promise<UserProps | null> => {
     let user: UserProps | null = null
-    const url = 'https://api.twitch.tv/helix/users'
 
     const hash = window.location.hash
     const params = new URLSearchParams(hash.substring(1))
@@ -22,25 +22,20 @@ export const getUser = async (CLIENT_ID: string): Promise<UserProps | null> => {
         throw new Error('The received state does not match the sent state.')
     }
 
-    const authorization = `Bearer ${access_token}`
-
-    const headers = {
-        authorization,
-        'Client-ID': CLIENT_ID,
-    }
-
     try {
-        const response = await fetch(url, {
-            headers,
-            method: 'GET',
-        })
+        const response = await axios.post(
+            'https://twitch-backend.vercel.app/api/user',
+            {
+                access_token,
+                access_state,
+                random_state: sessionStorage.getItem('twitch_random_state'),
+            }
+        )
 
-        if (!response.ok) throw new Error(`${response.status} ${response.url}`)
+        if (response.status !== 200 || typeof response !== 'object')
+            throw new Error(`${response.status}`)
 
-        const data = await response.json()
-        if (!data.data.length)
-            throw new Error(`No user has been found: ${response.url}`)
-        user = data.data[0]
+        user = response.data
         sessionStorage.setItem('twitch_logged_in', 'true')
         return user
     } catch (error: any) {
@@ -48,6 +43,7 @@ export const getUser = async (CLIENT_ID: string): Promise<UserProps | null> => {
             'The following error occured while fetching the currently logged in user',
             error
         )
+        sessionStorage.setItem('twitch_logged_in', 'false')
         return user
     } finally {
         window.location.href = '/'

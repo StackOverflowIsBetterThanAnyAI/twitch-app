@@ -1,18 +1,15 @@
+import axios from 'axios'
+
 import { AuthorizationProps } from '../types/AuthorizationProps'
 
-export const getTwitchAuthorization = async (
-    CLIENT_ID: string,
-    CLIENT_SECRET: string
-): Promise<AuthorizationProps> => {
-    const url = `https://id.twitch.tv/oauth2/token?client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&grant_type=client_credentials`
-
+export const getTwitchAuthorization = async (): Promise<AuthorizationProps> => {
     try {
-        const response = await fetch(url, {
-            method: 'POST',
-        })
-        if (!response.ok) throw new Error(`${response.status}`)
-        const data: AuthorizationProps = await response.json()
-        return data
+        const response = await axios.get(
+            'https://twitch-backend.vercel.app/api/auth'
+        )
+        if (response.status !== 200 || typeof response.data !== 'object')
+            throw new Error(`${response.status}`)
+        return response.data
     } catch (error: any) {
         console.error(
             'The following error occured during the Athorization:',

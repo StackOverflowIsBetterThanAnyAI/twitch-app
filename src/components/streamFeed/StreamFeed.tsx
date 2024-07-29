@@ -12,8 +12,6 @@ import StreamTags from './StreamTags'
 import StreamThumbnail from './StreamThumbnail'
 import StreamTitle from './StreamTitle'
 import StreamViewerCount from './StreamViewerCount'
-
-import { CLIENT_ID, CLIENT_SECRET } from '../../clientdata/clientdata'
 import {
     ContextErrorMessage,
     ContextFilteredStreamData,
@@ -125,7 +123,7 @@ const StreamFeed = () => {
         const url = `https://api.twitch.tv/helix/streams?language=${language}`
         try {
             const data: StreamProps | { error: 'login' } | undefined =
-                await getStreams(CLIENT_ID || '', CLIENT_SECRET || '', url)
+                await getStreams(url)
             if (data && 'error' in data && data.error === 'login') {
                 setStreamData(undefined)
                 setFilteredStreamData(undefined)
