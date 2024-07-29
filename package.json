@@ -22,6 +22,8 @@
         "start": "react-scripts start",
         "build": "react-scripts build"
     },
+    "author": "Michael Münzenhofer",
+    "license": "MIT",
     "eslintConfig": {
         "extends": [
             "react-app"
