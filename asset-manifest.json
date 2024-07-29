@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/twitch-app/static/css/main.d378ed85.css",
+    "main.js": "/twitch-app/static/js/main.f0a18cae.js",
+    "index.html": "/twitch-app/index.html",
+    "main.d378ed85.css.map": "/twitch-app/static/css/main.d378ed85.css.map",
+    "main.f0a18cae.js.map": "/twitch-app/static/js/main.f0a18cae.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d378ed85.css",
+    "static/js/main.f0a18cae.js"
+  ]
+}
