@@ -21,7 +21,7 @@ export const HomeIcon = () => {
     return (
         <a
             href="/"
-            className="flex flex-row px-2 rounded-md pseudo-zinc"
+            className="flex flex-row px-2 rounded-md pseudo-zinc navigation"
             onKeyDown={handleKeyDown}
             title="Homepage"
         >

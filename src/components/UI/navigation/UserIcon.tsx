@@ -174,7 +174,7 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
                 {user?.profile_image_url ? (
                     <>
                         <button
-                            className="rounded-md px-2 pseudo-zinc"
+                            className="rounded-md px-2 pseudo-zinc navigation"
                             onClick={handleButtonClick}
                             ref={buttonRef}
                         >
@@ -207,16 +207,20 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
                     <>
                         <button
                             className="rounded-md px-2 pseudo-zinc"
-                            onKeyDown={handleKeyDown}
-                            onClick={handleAnchorClick}
-                            title="Log in"
-                            ref={anchorRef}
+                            onClick={handleButtonClick}
+                            ref={buttonRef}
                         >
                             <img
-                                src={getImage('', 48, 'PROFILE')}
+                                src={getImage(
+                                    user?.profile_image_url || '',
+                                    48,
+                                    'PROFILE'
+                                )}
                                 alt="Settings"
+                                title="Settings"
                                 loading="lazy"
                                 width={48}
+                                className="rounded-full"
                             />
                         </button>
                     </>

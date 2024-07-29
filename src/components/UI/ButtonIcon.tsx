@@ -95,7 +95,9 @@ const ButtonIcon: FC<ButtonIconProps> = ({
         <button
             className={`${place === 'center' && 'm-auto'} p-2 rounded-full ${
                 secondary ? 'pseudo-zinc-secondary' : 'pseudo-zinc'
-            } ${type === 'Remove' ? 'remove-button' : ''}`}
+            } ${type === 'Remove' ? 'remove-button' : ''} ${
+                type === 'Search' ? 'navigation' : ''
+            }`}
             onClick={onClick}
             title={title || type}
             aria-label={ariaLabel}
