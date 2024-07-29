@@ -206,9 +206,11 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
                 ) : (
                     <>
                         <button
-                            className="rounded-md px-2 pseudo-zinc"
-                            onClick={handleButtonClick}
-                            ref={buttonRef}
+                            className="rounded-md px-2 pseudo-zinc navigation"
+                            onKeyDown={handleKeyDown}
+                            onClick={handleAnchorClick}
+                            title="Log in"
+                            ref={anchorRef}
                         >
                             <img
                                 src={getImage(
