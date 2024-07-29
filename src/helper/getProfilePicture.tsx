@@ -15,11 +15,14 @@ export const getProfilePicture = async (
         token_type.substring(1, token_type.length)
 
     try {
-        const response = await axios.post('/api/profile-picture', {
-            access_token,
-            token_type,
-            user_id,
-        })
+        const response = await axios.post(
+            'https://twitch-backend.vercel.app/api/profile-picture',
+            {
+                access_token,
+                token_type,
+                user_id,
+            }
+        )
 
         if (response.status !== 200 || typeof response.data !== 'object') {
             throw new Error(`${response.status}`)

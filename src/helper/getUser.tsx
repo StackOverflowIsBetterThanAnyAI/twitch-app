@@ -23,11 +23,14 @@ export const getUser = async (): Promise<UserProps | null> => {
     }
 
     try {
-        const response = await axios.post('/api/user', {
-            access_token,
-            access_state,
-            random_state: sessionStorage.getItem('twitch_random_state'),
-        })
+        const response = await axios.post(
+            'https://twitch-backend.vercel.app/api/user',
+            {
+                access_token,
+                access_state,
+                random_state: sessionStorage.getItem('twitch_random_state'),
+            }
+        )
 
         if (response.status !== 200 || typeof response !== 'object')
             throw new Error(`${response.status}`)

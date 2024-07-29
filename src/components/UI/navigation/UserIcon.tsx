@@ -101,7 +101,9 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
         const getAuthUrl = async () => {
             if (state.length) {
                 try {
-                    const response = await fetch(`/api/auth-url?state=${state}`)
+                    const response = await fetch(
+                        `https://twitch-backend.vercel.app/api/auth-url?state=${state}`
+                    )
                     const data = await response.json()
                     setRedirectUrl(data.url)
                 } catch (error) {

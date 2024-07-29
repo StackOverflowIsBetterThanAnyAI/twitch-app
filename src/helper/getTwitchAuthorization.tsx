@@ -4,7 +4,9 @@ import { AuthorizationProps } from '../types/AuthorizationProps'
 
 export const getTwitchAuthorization = async (): Promise<AuthorizationProps> => {
     try {
-        const response = await axios.get('/api/auth')
+        const response = await axios.get(
+            'https://twitch-backend.vercel.app/api/auth'
+        )
         if (response.status !== 200 || typeof response.data !== 'object')
             throw new Error(`${response.status}`)
         return response.data

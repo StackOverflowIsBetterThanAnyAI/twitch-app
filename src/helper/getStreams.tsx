@@ -16,11 +16,14 @@ export const getStreams = async (
         token_type.substring(1, token_type.length)
 
     try {
-        const response = await axios.post('/api/streams', {
-            access_token,
-            token_type,
-            url,
-        })
+        const response = await axios.post(
+            'https://twitch-backend.vercel.app/api/streams',
+            {
+                access_token,
+                token_type,
+                url,
+            }
+        )
 
         if (response.status !== 200 || typeof response.data !== 'object') {
             throw new Error(`${response.status}`)
