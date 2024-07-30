@@ -24,6 +24,7 @@ export const HomeIcon = () => {
             className="flex flex-row px-2 rounded-md pseudo-zinc navigation"
             onKeyDown={handleKeyDown}
             title="Homepage"
+            data-testid="navigation-homepage-anchor"
         >
             <img src={logo} alt="Twitch-App Homepage" loading="lazy" />
             {(contextScreenWidth === 'TABLET' ||

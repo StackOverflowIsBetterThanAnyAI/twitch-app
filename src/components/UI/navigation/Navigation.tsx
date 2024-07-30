@@ -328,10 +328,11 @@ const Navigation = () => {
     }, [contextScreenWidth, inputFocussed])
 
     return (
-        <div className="sticky top-0 z-10">
+        <div className="sticky top-0 z-10" data-testid="navigation-container">
             <nav
                 className={`bg-zinc-900 text-slate-300 flex justify-between py-2 px-4 h-16
             transition-opacity duration-500 ease-in-out ${navOpacity}`}
+                data-testid="navigation"
             >
                 <HomeIcon />
                 {contextScreenWidth === 'TABLET' ||
