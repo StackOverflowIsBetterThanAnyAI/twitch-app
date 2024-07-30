@@ -1,8 +1,6 @@
 import { FC, useContext, useEffect, useState } from 'react'
 import { getProfilePicture } from '../../helper/getProfilePicture'
 
-import { CLIENT_ID, CLIENT_SECRET } from '../../clientdata/clientdata'
-
 import { getImage } from '../../helper/getImage'
 import { ContextScreenWidth } from '../../App'
 
@@ -26,11 +24,7 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
     useEffect(() => {
         const fetchImageUrl = async () => {
             try {
-                const data = await getProfilePicture(
-                    CLIENT_ID || '',
-                    CLIENT_SECRET || '',
-                    user_id || ''
-                )
+                const data = await getProfilePicture(user_id || '')
                 if (!data) {
                     throw new Error()
                 } else setImageUrl(data)

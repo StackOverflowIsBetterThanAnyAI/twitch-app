@@ -84,7 +84,7 @@ const App = () => {
     }, [language, seoSearchText])
 
     return (
-        <div className="min-w-72 min-h-screen bg-zinc-800">
+        <div className="min-w-64 min-h-screen bg-zinc-800">
             <ContextScreenWidth.Provider value={screenWidth}>
                 <ContextLanguage.Provider value={[language, setLanguage]}>
                     <ContextErrorMessage.Provider
