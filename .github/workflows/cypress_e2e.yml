@@ -1,5 +1,10 @@
 name: Cypress e2e tests
-on: [push]
+
+on:
+    push:
+    schedule:
+        - cron: '0 * * * *'
+
 jobs:
     cypress-run:
         runs-on: ubuntu-latest
