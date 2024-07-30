@@ -65,27 +65,20 @@ describe('twitch-app is live for small screen sizes', () => {
     })
 
     it('displays the login button for small screen sizes', () => {
-        cy.get('[data-testid="navigation-login-anchor"]').should(
+        cy.get('[data-testid="navigation-login-button"]').should(
             'have.length',
             1
         )
 
-        cy.get('[data-testid="navigation-login-anchor"]')
-            .invoke('attr', 'href')
-            .should(
-                'include',
-                'https://id.twitch.tv/oauth2/authorize?response_type=token&client_id='
-            )
-
-        cy.get('[data-testid="navigation-login-anchor"]')
+        cy.get('[data-testid="navigation-login-button"]')
             .invoke('attr', 'title')
             .should('eq', 'Log in')
 
-        cy.get('[data-testid="navigation-login-anchor"]')
+        cy.get('[data-testid="navigation-login-button"]')
             .children()
             .should('have.length', 1)
 
-        cy.get('[data-testid="navigation-login-anchor"]')
+        cy.get('[data-testid="navigation-login-button"]')
             .children()
             .invoke('attr', 'alt')
             .should('eq', 'Settings')
