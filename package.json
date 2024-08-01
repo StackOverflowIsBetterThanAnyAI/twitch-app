@@ -5,7 +5,7 @@
     "private": true,
     "prettier": "prettier-es5",
     "dependencies": {
-        "@types/node": "^16.18.97",
+        "@types/node": "^22.0.2",
         "@types/react": "^18.3.1",
         "@types/react-dom": "^18.3.0",
         "autoprefixer": "^10.4.19",
