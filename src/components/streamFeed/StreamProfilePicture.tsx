@@ -38,11 +38,10 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
     const imageWidth = (() => {
         switch (contextScreenWidth) {
             case 'MOBILE':
-                return 40
             case 'TABLET_SMALL':
                 return 48
             case 'TABLET':
-                return 48
+                return 52
             case 'DESKTOP':
                 return 54
         }
@@ -53,8 +52,8 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
             src={getImage(imageUrl, { size: contextScreenWidth }, 'PROFILE')}
             alt={user_name}
             title={user_name}
-            className="rounded-full p-1 col-span-1 mx-auto"
-            width={imageWidth}
+            className="rounded-full col-span-1 mx-auto"
+            style={{ width: `max(${imageWidth}px, 80%)` }}
             loading="lazy"
         />
     )

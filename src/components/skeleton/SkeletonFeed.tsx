@@ -32,7 +32,7 @@ const SkeletonFeed = () => {
                     return (
                         <article key={item} className="max-w-[440px]">
                             <SkeletonThumbnail />
-                            <section className="grid grid-cols-5 grid-rows-1 w-full">
+                            <section className="grid grid-cols-minmax-36 grid-rows-1 w-full">
                                 <SkeletonProfilePicture />
                                 <section className="col-span-4">
                                     <SkeletonChannelInfo />

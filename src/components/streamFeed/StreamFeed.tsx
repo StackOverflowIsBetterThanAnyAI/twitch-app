@@ -383,7 +383,7 @@ const StreamFeed = () => {
                                             />
                                         </section>
                                     </div>
-                                    <section className="grid grid-cols-5 grid-rows-1 w-full pt-2">
+                                    <section className="grid grid-cols-minmax-36 grid-rows-1 gap-2 w-full pt-2">
                                         <StreamProfilePicture
                                             user_id={item.user_id}
                                             user_name={item.user_name}
