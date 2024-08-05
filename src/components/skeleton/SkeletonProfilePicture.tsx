@@ -1,6 +1,9 @@
 const SkeletonProfilePicture = () => {
     return (
-        <div className="rounded-full p-1 col-span-1 mx-auto animate-pulse bg-zinc-50 w-12 h-12"></div>
+        <div
+            className="rounded-full p-1 col-span-1 mx-auto animate-pulse bg-zinc-50"
+            style={{ width: 'min(48px, 80%)', aspectRatio: '1/1' }}
+        ></div>
     )
 }
 
