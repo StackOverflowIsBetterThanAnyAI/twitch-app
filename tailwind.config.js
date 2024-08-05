@@ -19,6 +19,16 @@ module.exports = {
         },
     },
     plugins: [
+        function ({ addUtilities }) {
+            const newUtilities = {
+                '.grid-cols-minmax-36': {
+                    'grid-template-columns':
+                        'minmax(36px, 1fr) 1fr 1fr 1fr 1fr',
+                },
+            }
+
+            addUtilities(newUtilities)
+        },
         plugin(function ({ addUtilities }) {
             const newUtilities = {
                 '.grid-cols-auto-fill-284': {
