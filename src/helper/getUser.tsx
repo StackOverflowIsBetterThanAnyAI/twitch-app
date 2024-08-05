@@ -18,7 +18,7 @@ export const getUser = async (): Promise<UserProps | null> => {
 
     if (!sameState) {
         !user && sessionStorage.setItem('twitch_logged_in', 'false')
-        window.location.href = '/twitch-app'
+        window.location.href = '/'
         throw new Error('The received state does not match the sent state.')
     }
 
@@ -46,7 +46,7 @@ export const getUser = async (): Promise<UserProps | null> => {
         sessionStorage.setItem('twitch_logged_in', 'false')
         return user
     } finally {
-        window.location.href = '/twitch-app'
+        window.location.href = '/'
 
         sessionStorage.removeItem('twitch_access_state')
         sessionStorage.removeItem('twitch_random_state')

@@ -28,7 +28,7 @@ describe('twitch-app is live for small screen sizes', () => {
 
         cy.get('[data-testid="navigation-homepage-anchor"]')
             .invoke('attr', 'href')
-            .should('eq', '/twitch-app')
+            .should('eq', '/')
 
         cy.get('[data-testid="navigation-homepage-anchor"]')
             .children()
