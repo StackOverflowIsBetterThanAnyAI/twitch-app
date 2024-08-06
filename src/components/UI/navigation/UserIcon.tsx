@@ -209,7 +209,6 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
                             className="rounded-md px-2 pseudo-zinc navigation"
                             onKeyDown={handleKeyDown}
                             onClick={handleAnchorClick}
-                            title="Log in"
                             ref={anchorRef}
                             data-testid="navigation-login-button"
                         >
@@ -219,8 +218,8 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
                                     48,
                                     'PROFILE'
                                 )}
-                                alt="Settings"
-                                title="Settings"
+                                alt="Log in"
+                                title="Log in"
                                 loading="lazy"
                                 width={48}
                                 className="rounded-full"
