@@ -89,8 +89,6 @@ const App = () => {
         )} Livestreams${seoSearchText ? ` | ${seoSearchText}` : ''}`
     }, [language, seoSearchText])
 
-    console.log(screenWidth)
-
     return (
         <div className="min-w-64 min-h-screen bg-zinc-800">
             <ContextScreenWidth.Provider value={screenWidth}>
