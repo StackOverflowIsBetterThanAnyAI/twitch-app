@@ -8,6 +8,11 @@ module.exports = {
             animation: {
                 fadeOut: 'fadeOut 5s forwards',
             },
+            colors: {
+                zinc: {
+                    925: '#161617',
+                },
+            },
             keyframes: {
                 fadeOut: {
                     '0%': { opacity: 0, visibility: 'hidden' },
