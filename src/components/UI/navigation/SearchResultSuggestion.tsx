@@ -1,6 +1,6 @@
 import { forwardRef, useContext } from 'react'
 import StreamLive from '../../streamFeed/StreamLive'
-import { ContextSearchResults } from '../../../App'
+import { ContextScreenWidth, ContextSearchResults } from '../../../App'
 
 type SearchResultSuggestionProps = {
     handleClick: (name: string) => void
@@ -15,6 +15,13 @@ const SearchResultSuggestion = forwardRef<
     HTMLDivElement,
     SearchResultSuggestionProps
 >(({ handleClick, handleSearchDoubleClick, handleSearchKeyDown }, ref) => {
+    const contextScreenWidth = useContext(ContextScreenWidth)
+    if (!contextScreenWidth) {
+        throw new Error(
+            'ContextScreenWidth must be used within a ContextScreenWidth.Provider'
+        )
+    }
+
     const contextSearchResults = useContext(ContextSearchResults)
     if (!contextSearchResults) {
         throw new Error(
@@ -47,7 +54,11 @@ const SearchResultSuggestion = forwardRef<
                         title={`${item.user_name}${
                             item.tags.length ? ` (${item.tags.join(', ')})` : ''
                         }`}
-                        onClick={() => handleClick(item.user_name)}
+                        onClick={
+                            contextScreenWidth === 'DESKTOP'
+                                ? () => handleClick(item.user_name)
+                                : handleSearchDoubleClick
+                        }
                         onDoubleClick={handleSearchDoubleClick}
                         onKeyDown={(e) =>
                             handleSearchKeyDown(e, item.user_name)

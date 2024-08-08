@@ -60,6 +60,10 @@ export const ContextFocusInput = createContext<
     [boolean, Dispatch<SetStateAction<boolean>>] | undefined
 >(undefined)
 
+export const ContextHideSearch = createContext<
+    [boolean, Dispatch<SetStateAction<boolean>>] | undefined
+>(undefined)
+
 const App = () => {
     const [errorMessage, setErrorMessage] = useState([''])
     const [language, setLanguage] = useState(
@@ -77,6 +81,7 @@ const App = () => {
     const [focusTrapDisabled, setFocusTrapDisabled] = useState(false)
     const [searchResults, setSearchResults] = useState<any[]>([])
     const [inputFocussed, setInputFocussed] = useState(false)
+    const [hideSearch, setHideSearch] = useState(true)
 
     useEffect(() => {
         document.title = `Twitch-App | ${getEnglishLanguageName(
@@ -127,11 +132,35 @@ const App = () => {
                                                         setInputFocussed,
                                                     ]}
                                                 >
-                                                    <Navigation />
-                                                    <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 px-2">
-                                                        <StreamFeed />
-                                                    </main>
-                                                    <Footer />
+                                                    <ContextHideSearch.Provider
+                                                        value={[
+                                                            hideSearch,
+                                                            setHideSearch,
+                                                        ]}
+                                                    >
+                                                        <Navigation />
+                                                        <div
+                                                            className="grid"
+                                                            style={{
+                                                                minHeight: `calc(100vh - 64px - ${
+                                                                    (screenWidth ===
+                                                                        'MOBILE' ||
+                                                                        screenWidth ===
+                                                                            'TABLET_SMALL') &&
+                                                                    !hideSearch
+                                                                        ? '40px'
+                                                                        : '0px'
+                                                                })`,
+                                                                gridTemplateRows:
+                                                                    '1fr auto',
+                                                            }}
+                                                        >
+                                                            <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 px-2">
+                                                                <StreamFeed />
+                                                            </main>
+                                                            <Footer />
+                                                        </div>
+                                                    </ContextHideSearch.Provider>
                                                 </ContextFocusInput.Provider>
                                             </ContextSearchResults.Provider>
                                         </ContextDisableFocusTrap.Provider>
