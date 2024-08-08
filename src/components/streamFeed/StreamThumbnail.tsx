@@ -4,12 +4,14 @@ import { ContextScreenWidth } from '../../App'
 
 type StreamThumbnailProps = {
     stream_game?: string
+    testid?: string
     thumbnail_url: string
     user_name: string
 }
 
 const StreamThumbnail: FC<StreamThumbnailProps> = ({
     stream_game,
+    testid,
     thumbnail_url,
     user_name,
 }) => {
@@ -40,6 +42,7 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
                             ? `${user_name} streams ${stream_game}`
                             : user_name
                     }
+                    data-testid={testid}
                 />
             ) : (
                 <img
@@ -54,6 +57,7 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
                     className="rounded-xl w-full"
                     loading="lazy"
                     onLoad={() => setLoaded(true)}
+                    data-testid={testid}
                 />
             )}
         </>

@@ -10,10 +10,11 @@ import {
 import { getSearchFilter } from '../../helper/getSearchFilter'
 
 type StreamChannelProps = {
+    testid?: string
     user_name: string
 }
 
-const StreamChannel: FC<StreamChannelProps> = ({ user_name }) => {
+const StreamChannel: FC<StreamChannelProps> = ({ testid, user_name }) => {
     const contextStreamData = useContext(ContextStreamData)
     if (!contextStreamData) {
         throw new Error(
@@ -84,6 +85,7 @@ const StreamChannel: FC<StreamChannelProps> = ({ user_name }) => {
             className="text-slate-300 text-left max-w-full text-ellipsis whitespace-nowrap overflow-hidden font-medium text-base lg:text-lg rounded-md pr-1 pseudo-zinc-purple streamfeed streamchannel"
             onClick={handleClick}
             title={user_name}
+            data-testid={testid}
         >
             {user_name}
         </button>

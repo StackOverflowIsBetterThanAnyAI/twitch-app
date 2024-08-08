@@ -11,9 +11,10 @@ import {
 
 type StreamGameProps = {
     game_name: string
+    testid?: string
 }
 
-const StreamGame: FC<StreamGameProps> = ({ game_name }) => {
+const StreamGame: FC<StreamGameProps> = ({ game_name, testid }) => {
     const contextStreamData = useContext(ContextStreamData)
     if (!contextStreamData) {
         throw new Error(
@@ -83,6 +84,7 @@ const StreamGame: FC<StreamGameProps> = ({ game_name }) => {
             className="text-slate-300 text-left max-w-full text-ellipsis whitespace-nowrap overflow-hidden text-sm lg:text-base rounded-md pr-1 pseudo-zinc-purple streamfeed streamgame"
             onClick={handleClick}
             title={game_name}
+            data-testid={testid}
         >
             {game_name}
         </button>

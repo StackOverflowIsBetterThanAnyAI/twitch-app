@@ -327,7 +327,10 @@ const StreamFeed = () => {
         <>
             {filteredStreamData && filteredStreamData.data.length > 0 ? (
                 <>
-                    <h1 className="px-4 pt-2 text-xl lg:text-2xl">
+                    <h1
+                        className="px-4 pt-2 text-xl lg:text-2xl"
+                        data-testid="streamfeed-heading"
+                    >
                         <span className="text-purple-400">
                             {getEnglishLanguageName(language)} Livestreams{' '}
                         </span>
@@ -359,11 +362,15 @@ const StreamFeed = () => {
                                 ? 'grid grid-cols-2'
                                 : 'grid grid-cols-auto-fill-284'
                         }`}
+                        data-testid="streamfeed-container"
                     >
                         {filteredStreamData.data.map((item, index) => {
                             const bgColor = bgColors[index % bgColors.length]
                             return (
-                                <article key={item.user_id}>
+                                <article
+                                    key={item.user_id}
+                                    data-testid={`streamfeed-article-${index}`}
+                                >
                                     <div className={`rounded-xl ${bgColor}`}>
                                         <section className="relative transform transition duration-150 ease-in-out hover:translate-x-2 hover:-translate-y-2">
                                             <StreamThumbnail
@@ -373,15 +380,18 @@ const StreamFeed = () => {
                                                 user_name={item.user_name}
                                                 stream_game={item.game_name}
                                                 key={`${item.user_id} - thumbnail`}
+                                                testid={`streamfeed-thumbnail-${index}`}
                                             />
                                             <StreamLive
                                                 placement="thumbnail"
                                                 type={item.type}
                                                 key={`${item.user_id} - live`}
+                                                testid={`streamfeed-live-${index}`}
                                             />
                                             <StreamViewerCount
                                                 viewer_count={item.viewer_count}
                                                 key={`${item.user_id} - viewer_count`}
+                                                testid={`streamfeed-viewercount-${index}`}
                                             />
                                         </section>
                                     </div>
@@ -390,25 +400,30 @@ const StreamFeed = () => {
                                             user_id={item.user_id}
                                             user_name={item.user_name}
                                             key={`${item.user_id} - profile_picture`}
+                                            testid={`streamfeed-profilepicture-${index}`}
                                         />
                                         <section className="col-span-4">
                                             <StreamChannel
                                                 user_name={item.user_name}
                                                 key={`${item.user_id} - channel`}
+                                                testid={`streamfeed-channel-${index}`}
                                             />
                                             <StreamTitle
                                                 title={item.title}
                                                 key={`${item.user_id} - title`}
+                                                testid={`streamfeed-title-${index}`}
                                             />
                                             <StreamGame
                                                 game_name={item.game_name}
                                                 key={`${item.user_id} - game`}
+                                                testid={`streamfeed-game-${index}`}
                                             />
                                             <div className="flex flex-wrap w-full">
                                                 {item.tags.map((tag, index) => (
                                                     <StreamTags
                                                         item={tag}
                                                         key={`${tag}${index} - tag`}
+                                                        testid={`streamfeed-tags-${index}`}
                                                     />
                                                 ))}
                                             </div>

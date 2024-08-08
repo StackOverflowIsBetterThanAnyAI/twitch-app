@@ -5,11 +5,13 @@ import { getImage } from '../../helper/getImage'
 import { ContextScreenWidth } from '../../App'
 
 type StreamProfilePictureProps = {
+    testid?: string
     user_id: string
     user_name: string
 }
 
 const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
+    testid,
     user_id,
     user_name,
 }) => {
@@ -55,6 +57,7 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
             className="rounded-full col-span-1 mx-auto"
             style={{ width: `max(${imageWidth}px, 80%)` }}
             loading="lazy"
+            data-testid={testid}
         />
     )
 }
