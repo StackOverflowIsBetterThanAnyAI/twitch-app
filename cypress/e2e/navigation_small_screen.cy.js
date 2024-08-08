@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-describe('twitch-app is live for small screen sizes', () => {
+describe('twitch-app contains navigation bar for small screen sizes', () => {
     beforeEach(() => {
         cy.visit('/')
         cy.viewport(412, 914)
