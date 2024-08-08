@@ -128,10 +128,20 @@ const App = () => {
                                                     ]}
                                                 >
                                                     <Navigation />
-                                                    <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 px-2">
-                                                        <StreamFeed />
-                                                    </main>
-                                                    <Footer />
+                                                    <div
+                                                        className="grid"
+                                                        style={{
+                                                            minHeight:
+                                                                'calc(100vh - 64px)',
+                                                            gridTemplateRows:
+                                                                '1fr auto',
+                                                        }}
+                                                    >
+                                                        <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 px-2">
+                                                            <StreamFeed />
+                                                        </main>
+                                                        <Footer />
+                                                    </div>
                                                 </ContextFocusInput.Provider>
                                             </ContextSearchResults.Provider>
                                         </ContextDisableFocusTrap.Provider>
