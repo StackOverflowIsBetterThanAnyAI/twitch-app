@@ -7,6 +7,7 @@ import {
     ContextDisableFocusTrap,
     ContextFilteredStreamData,
     ContextFocusInput,
+    ContextHideSearch,
     ContextSEOSearchText,
     ContextScreenWidth,
     ContextSearchResults,
@@ -87,9 +88,16 @@ const Navigation = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [inputFocussed, setInputFocussed] = contextFocusInput
 
+    const contextHideSearch = useContext(ContextHideSearch)
+    if (!contextHideSearch) {
+        throw new Error(
+            'ContextHideSearch must be used within a ContextHideSearch.Provider'
+        )
+    }
+    const [hideSearch, setHideSearch] = contextHideSearch
+
     const [navOpacity, setNavOpacity] = useState<string>('opacity-100')
     const [blockOpacity, setBlockOpacity] = useState(false)
-    const [hideSearch, setHideSearch] = useState(true)
     const [ariaPressed, setAriaPressed] = useState(false)
     const [searchResultsExpanded, setSearchResultsExpanded] = useState(false)
     const desktopSearchRef = useRef<HTMLDivElement>(null)
@@ -325,7 +333,7 @@ const Navigation = () => {
             setHideSearch(false)
             setAriaPressed(true)
         }
-    }, [contextScreenWidth, inputFocussed])
+    }, [contextScreenWidth, inputFocussed, setHideSearch])
 
     return (
         <div className="sticky top-0 z-10" data-testid="navigation-container">

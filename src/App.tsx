@@ -60,6 +60,10 @@ export const ContextFocusInput = createContext<
     [boolean, Dispatch<SetStateAction<boolean>>] | undefined
 >(undefined)
 
+export const ContextHideSearch = createContext<
+    [boolean, Dispatch<SetStateAction<boolean>>] | undefined
+>(undefined)
+
 const App = () => {
     const [errorMessage, setErrorMessage] = useState([''])
     const [language, setLanguage] = useState(
@@ -77,12 +81,15 @@ const App = () => {
     const [focusTrapDisabled, setFocusTrapDisabled] = useState(false)
     const [searchResults, setSearchResults] = useState<any[]>([])
     const [inputFocussed, setInputFocussed] = useState(false)
+    const [hideSearch, setHideSearch] = useState(true)
 
     useEffect(() => {
         document.title = `Twitch-App | ${getEnglishLanguageName(
             language
         )} Livestreams${seoSearchText ? ` | ${seoSearchText}` : ''}`
     }, [language, seoSearchText])
+
+    console.log(screenWidth)
 
     return (
         <div className="min-w-64 min-h-screen bg-zinc-800">
@@ -127,21 +134,35 @@ const App = () => {
                                                         setInputFocussed,
                                                     ]}
                                                 >
-                                                    <Navigation />
-                                                    <div
-                                                        className="grid"
-                                                        style={{
-                                                            minHeight:
-                                                                'calc(100vh - 64px)',
-                                                            gridTemplateRows:
-                                                                '1fr auto',
-                                                        }}
+                                                    <ContextHideSearch.Provider
+                                                        value={[
+                                                            hideSearch,
+                                                            setHideSearch,
+                                                        ]}
                                                     >
-                                                        <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 px-2">
-                                                            <StreamFeed />
-                                                        </main>
-                                                        <Footer />
-                                                    </div>
+                                                        <Navigation />
+                                                        <div
+                                                            className="grid"
+                                                            style={{
+                                                                minHeight: `calc(100vh - 64px - ${
+                                                                    (screenWidth ===
+                                                                        'MOBILE' ||
+                                                                        screenWidth ===
+                                                                            'TABLET_SMALL') &&
+                                                                    !hideSearch
+                                                                        ? '40px'
+                                                                        : '0px'
+                                                                })`,
+                                                                gridTemplateRows:
+                                                                    '1fr auto',
+                                                            }}
+                                                        >
+                                                            <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 px-2">
+                                                                <StreamFeed />
+                                                            </main>
+                                                            <Footer />
+                                                        </div>
+                                                    </ContextHideSearch.Provider>
                                                 </ContextFocusInput.Provider>
                                             </ContextSearchResults.Provider>
                                         </ContextDisableFocusTrap.Provider>
