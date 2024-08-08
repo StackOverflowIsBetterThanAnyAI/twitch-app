@@ -54,11 +54,7 @@ const SearchResultSuggestion = forwardRef<
                         title={`${item.user_name}${
                             item.tags.length ? ` (${item.tags.join(', ')})` : ''
                         }`}
-                        onClick={
-                            contextScreenWidth === 'DESKTOP'
-                                ? () => handleClick(item.user_name)
-                                : handleSearchDoubleClick
-                        }
+                        onClick={() => handleClick(item.user_name)}
                         onDoubleClick={handleSearchDoubleClick}
                         onKeyDown={(e) =>
                             handleSearchKeyDown(e, item.user_name)
