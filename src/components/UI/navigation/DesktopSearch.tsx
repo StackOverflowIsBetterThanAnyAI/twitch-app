@@ -139,7 +139,7 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
                     <input
                         type="search"
                         placeholder="Search Livestreams"
-                        className="bg-zinc-900 text-slate-300 caret-zinc-300 px-2 m-1 rounded-l-md pseudo-zinc navigation"
+                        className="bg-zinc-925 text-slate-300 caret-zinc-300 px-2 m-1 rounded-l-md pseudo-zinc navigation"
                         value={searchText}
                         onChange={handleChange}
                         onFocus={handleFocus}

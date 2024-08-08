@@ -10,6 +10,7 @@ import Navigation from './components/UI/navigation/Navigation'
 import { useScreenWidth } from './hooks/useScreenWidth'
 import { StreamProps } from './types/StreamProps'
 import { getEnglishLanguageName } from './helper/getEnglishLanguageName'
+import Footer from './components/UI/footer/Footer'
 
 export const ContextScreenWidth = createContext<
     'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP' | undefined
@@ -130,6 +131,7 @@ const App = () => {
                                                     <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 px-2">
                                                         <StreamFeed />
                                                     </main>
+                                                    <Footer />
                                                 </ContextFocusInput.Provider>
                                             </ContextSearchResults.Provider>
                                         </ContextDisableFocusTrap.Provider>

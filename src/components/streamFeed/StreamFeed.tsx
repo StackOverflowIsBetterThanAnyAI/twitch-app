@@ -187,7 +187,9 @@ const StreamFeed = () => {
                 return
 
             const focusableStreamButtons: HTMLButtonElement[] = Array.from(
-                document.querySelectorAll('button.streamfeed, .navigation')
+                document.querySelectorAll(
+                    'button.streamfeed, .navigation, .footer'
+                )
             )
 
             const focusableNavigationButtons = Array.from(
