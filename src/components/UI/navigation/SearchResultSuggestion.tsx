@@ -1,10 +1,6 @@
 import { forwardRef, useContext } from 'react'
 import StreamLive from '../../streamFeed/StreamLive'
-import {
-    ContextScreenWidth,
-    ContextSearchResults,
-    ContextSearchText,
-} from '../../../App'
+import { ContextScreenWidth, ContextSearchResults } from '../../../App'
 
 type SearchResultSuggestionProps = {
     handleClick: (name: string) => void
@@ -34,15 +30,6 @@ const SearchResultSuggestion = forwardRef<
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [searchResults, setSearchResults] = contextSearchResults
-
-    const contextSearchText = useContext(ContextSearchText)
-    if (!contextSearchText) {
-        throw new Error(
-            'ContextSearchText must be used within a ContextSearchText.Provider'
-        )
-    }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [searchText, setSearchText] = contextSearchText
 
     const handleMobileClick = (searchText: any) => {
         if (contextScreenWidth === 'DESKTOP') handleClick(searchText)
