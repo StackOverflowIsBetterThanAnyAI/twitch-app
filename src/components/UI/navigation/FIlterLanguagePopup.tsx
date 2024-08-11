@@ -38,7 +38,8 @@ const FilterLanguagePopup: FC<FilterLanguagePopupProps> = ({
 
     return (
         <div
-            className="flex flex-col gap-2 h-[30dvh] min-w-44 w-[20vw] max-w-80"
+            className="grid gap-2 max-h-[30dvh] min-w-44 w-[20vw] max-w-80"
+            style={{ gridTemplateRows: 'auto 1fr auto' }}
             ref={popupLanguageRef}
         >
             <div className="flex flex-row border-b pb-2 items-center justify-between">

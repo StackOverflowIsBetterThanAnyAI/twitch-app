@@ -69,9 +69,7 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
 
         useEffect(() => {
             const handleFocusTrap = (e: KeyboardEvent) => {
-                if (e.key !== 'Tab') return
-
-                if (focusTrapDisabled) return
+                if (e.key !== 'Tab' || focusTrapDisabled) return
 
                 const focusableElements = [
                     searchMobileRef?.current,

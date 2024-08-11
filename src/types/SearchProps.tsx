@@ -8,7 +8,7 @@ export type SearchProps = {
     handleInput: () => void
     handleKeyDown: (e: React.KeyboardEvent<HTMLInputElement>) => void
     handleSearch: () => void
-    handleSearchDoubleClick: () => void
+    handleSearchDoubleClick: (search?: string) => void
     handleSearchKeyDown: (
         e: React.KeyboardEvent<HTMLButtonElement>,
         name: string
