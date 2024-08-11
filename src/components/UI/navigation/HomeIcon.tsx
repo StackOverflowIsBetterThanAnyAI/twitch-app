@@ -26,7 +26,12 @@ export const HomeIcon = () => {
             title="Homepage"
             data-testid="navigation-homepage-anchor"
         >
-            <img src={logo} alt="Twitch-App Homepage" loading="lazy" />
+            <img
+                src={logo}
+                alt="Twitch-App Homepage"
+                loading="lazy"
+                className="rounded-md"
+            />
             {(contextScreenWidth === 'TABLET' ||
                 contextScreenWidth === 'DESKTOP') && (
                 <span className="pl-4 m-auto">Twitch-App</span>
