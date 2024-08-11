@@ -1,10 +1,14 @@
 import { forwardRef, useContext } from 'react'
 import StreamLive from '../../streamFeed/StreamLive'
-import { ContextScreenWidth, ContextSearchResults } from '../../../App'
+import {
+    ContextScreenWidth,
+    ContextSearchResults,
+    ContextSearchText,
+} from '../../../App'
 
 type SearchResultSuggestionProps = {
     handleClick: (name: string) => void
-    handleSearchDoubleClick: () => void
+    handleSearchDoubleClick: (search?: string) => void
     handleSearchKeyDown: (
         e: React.KeyboardEvent<HTMLButtonElement>,
         name: string
@@ -31,6 +35,23 @@ const SearchResultSuggestion = forwardRef<
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [searchResults, setSearchResults] = contextSearchResults
 
+    const contextSearchText = useContext(ContextSearchText)
+    if (!contextSearchText) {
+        throw new Error(
+            'ContextSearchText must be used within a ContextSearchText.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [searchText, setSearchText] = contextSearchText
+
+    const handleMobileClick = (searchText: any) => {
+        if (contextScreenWidth === 'DESKTOP') handleClick(searchText)
+        else {
+            handleClick(searchText)
+            handleSearchDoubleClick(searchText)
+        }
+    }
+
     return (
         <div
             className="outline outline-zinc-700 rounded-lg bg-zinc-900 flex flex-col overflow-auto"
@@ -54,8 +75,10 @@ const SearchResultSuggestion = forwardRef<
                         title={`${item.user_name}${
                             item.tags.length ? ` (${item.tags.join(', ')})` : ''
                         }`}
-                        onClick={() => handleClick(item.user_name)}
-                        onDoubleClick={handleSearchDoubleClick}
+                        onClick={() => handleMobileClick(item.user_name)}
+                        onDoubleClick={() =>
+                            handleSearchDoubleClick(item.user_name)
+                        }
                         onKeyDown={(e) =>
                             handleSearchKeyDown(e, item.user_name)
                         }

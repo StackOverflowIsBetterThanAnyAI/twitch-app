@@ -164,14 +164,18 @@ const Navigation = () => {
         }
     }
 
-    const handleSearchDoubleClick = () => {
-        const filteredData = getSearchFilter(searchText, streamData, true)
+    const handleSearchDoubleClick = (search?: string) => {
+        const filteredData = getSearchFilter(
+            search || searchText,
+            streamData,
+            true
+        )
         if (streamData) {
             setFilteredStreamData({
                 data: filteredData!,
             })
             filteredData && filteredData.length > 0
-                ? setSEOSearchText(searchText)
+                ? setSEOSearchText(search ?? searchText)
                 : setSEOSearchText('')
         }
     }

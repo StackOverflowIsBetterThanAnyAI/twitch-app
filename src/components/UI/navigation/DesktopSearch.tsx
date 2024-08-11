@@ -69,11 +69,12 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
 
         useEffect(() => {
             const handleFocusTrap = (e: KeyboardEvent) => {
-                if (searchText.length === 0) return
-
-                if (focusTrapDisabled) return
-
-                if (e.key !== 'Tab') return
+                if (
+                    searchText.length === 0 ||
+                    focusTrapDisabled ||
+                    e.key !== 'Tab'
+                )
+                    return
 
                 const focusableElements = [
                     inputRef?.current,
