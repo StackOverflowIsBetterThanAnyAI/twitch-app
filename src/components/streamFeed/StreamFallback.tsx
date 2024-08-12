@@ -15,7 +15,7 @@ const StreamFallback = () => {
     const [errorMessage, setErrorMessage] = contextErrorMessage
 
     return (
-        <article className="p-4 md:p-12 lg:p-12 text-center h-screen text-slate-300">
+        <article className="p-4 md:p-12 lg:p-12 text-center text-slate-300">
             <section>
                 <h2 className="text-lg lg:text-xl font-bold">Ooops!</h2>
                 <h3 className="text-base lg:text-lg">
