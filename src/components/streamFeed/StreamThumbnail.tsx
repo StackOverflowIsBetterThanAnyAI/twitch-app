@@ -24,7 +24,7 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
     const [loaded, setLoaded] = useState<boolean>(false)
 
     return (
-        <>
+        <div style={{ aspectRatio: '16/9' }}>
             {loaded ? (
                 <img
                     src={getImage(
@@ -62,7 +62,7 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
                     data-testid={testid}
                 />
             )}
-        </>
+        </div>
     )
 }
 
