@@ -68,8 +68,9 @@ const Icon: FC<IconProps> = ({ code, language, type }) => {
         <img
             src={`https://flagcdn.com/w40/${code}.png`}
             alt={language}
-            className="mx-2 w-8"
-        ></img>
+            className="mx-2"
+            width={32}
+        />
     )
     const search = (
         <svg

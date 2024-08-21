@@ -35,7 +35,8 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
                         'THUMBNAIL'
                     )}
                     alt={`${user_name} Livestream`}
-                    className="rounded-xl w-full"
+                    className="rounded-xl"
+                    width="100%"
                     loading="lazy"
                     title={
                         stream_game
@@ -54,7 +55,8 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
                         'THUMBNAIL'
                     )}
                     alt={`loading ${user_name}`}
-                    className="rounded-xl w-full"
+                    className="rounded-xl"
+                    width="100%"
                     loading="lazy"
                     onLoad={() => setLoaded(true)}
                     data-testid={testid}

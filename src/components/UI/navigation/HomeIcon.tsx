@@ -31,6 +31,7 @@ export const HomeIcon = () => {
                 alt="Twitch-App Homepage"
                 loading="lazy"
                 className="rounded-md"
+                width={48}
             />
             {(contextScreenWidth === 'TABLET' ||
                 contextScreenWidth === 'DESKTOP') && (
