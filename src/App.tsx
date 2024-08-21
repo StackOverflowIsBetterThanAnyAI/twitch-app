@@ -142,7 +142,7 @@ const App = () => {
                                                         <div
                                                             className="grid"
                                                             style={{
-                                                                minHeight: `calc(100vh - 64px - ${
+                                                                minHeight: `calc(100dvh - 64px - ${
                                                                     (screenWidth ===
                                                                         'MOBILE' ||
                                                                         screenWidth ===
