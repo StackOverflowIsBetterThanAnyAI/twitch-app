@@ -29,7 +29,7 @@ const SearchResultSuggestion = forwardRef<
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [searchResults, setSearchResults] = contextSearchResults
+    const [searchResults, _setSearchResults] = contextSearchResults
 
     const handleMobileClick = (searchText: any) => {
         if (contextScreenWidth === 'DESKTOP') handleClick(searchText)

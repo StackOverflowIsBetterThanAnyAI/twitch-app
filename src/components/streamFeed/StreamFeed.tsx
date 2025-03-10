@@ -45,7 +45,7 @@ const StreamFeed = () => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [language, setLanguage] = contextLanguage
+    const [language, _setLanguage] = contextLanguage
 
     const contextErrorMessage = useContext(ContextErrorMessage)
     if (!contextErrorMessage) {
@@ -54,7 +54,7 @@ const StreamFeed = () => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [errorMessage, setErrorMessage] = contextErrorMessage
+    const [_errorMessage, setErrorMessage] = contextErrorMessage
 
     const contextStreamData = useContext(ContextStreamData)
     if (!contextStreamData) {
@@ -62,7 +62,6 @@ const StreamFeed = () => {
             'ContextStreamData must be used within a ContextStreamData.Provider'
         )
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [streamData, setStreamData] = contextStreamData
 
     const contextFilteredStreamData = useContext(ContextFilteredStreamData)
@@ -88,7 +87,7 @@ const StreamFeed = () => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [searchText, setSearchText] = contextSearchText
+    const [_searchText, setSearchText] = contextSearchText
 
     const contextSEOSearchText = useContext(ContextSEOSearchText)
     if (!contextSEOSearchText) {
@@ -96,7 +95,6 @@ const StreamFeed = () => {
             'ContextSEOSearchText must be used within a ContextSEOSearchText.Provider'
         )
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [seoSearchText, setSEOSearchText] = contextSEOSearchText
 
     const contextFocusInput = useContext(ContextFocusInput)
@@ -106,7 +104,7 @@ const StreamFeed = () => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [inputFocussed, setInputFocussed] = contextFocusInput
+    const [_inputFocussed, setInputFocussed] = contextFocusInput
 
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)

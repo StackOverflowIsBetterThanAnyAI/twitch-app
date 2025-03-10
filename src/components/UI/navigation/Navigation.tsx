@@ -32,7 +32,7 @@ const Navigation = () => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [streamData, setStreamData] = contextStreamData
+    const [streamData, _setStreamData] = contextStreamData
 
     const contextFilteredStreamData = useContext(ContextFilteredStreamData)
     if (!contextFilteredStreamData) {
@@ -41,7 +41,7 @@ const Navigation = () => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [filteredStreamData, setFilteredStreamData] =
+    const [_filteredStreamData, setFilteredStreamData] =
         contextFilteredStreamData
 
     const contextSearchText = useContext(ContextSearchText)
@@ -59,7 +59,7 @@ const Navigation = () => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [seoSearchText, setSEOSearchText] = contextSEOSearchText
+    const [_seoSearchText, setSEOSearchText] = contextSEOSearchText
 
     const contextDisableFocusTrap = useContext(ContextDisableFocusTrap)
     if (!contextDisableFocusTrap) {
@@ -68,7 +68,7 @@ const Navigation = () => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [focusTrapDisabled, setFocusTrapDisabled] = contextDisableFocusTrap
+    const [_focusTrapDisabled, setFocusTrapDisabled] = contextDisableFocusTrap
 
     const contextSearchResults = useContext(ContextSearchResults)
     if (!contextSearchResults) {
@@ -77,7 +77,7 @@ const Navigation = () => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [searchResults, setSearchResults] = contextSearchResults
+    const [_searchResults, setSearchResults] = contextSearchResults
 
     const contextFocusInput = useContext(ContextFocusInput)
     if (!contextFocusInput) {
@@ -86,7 +86,7 @@ const Navigation = () => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [inputFocussed, setInputFocussed] = contextFocusInput
+    const [inputFocussed, _setInputFocussed] = contextFocusInput
 
     const contextHideSearch = useContext(ContextHideSearch)
     if (!contextHideSearch) {
