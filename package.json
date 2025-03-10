@@ -28,7 +28,6 @@
     "license": "MIT",
     "eslintConfig": {
         "extends": [
-            "plugin:cypress/recommended",
             "react-app"
         ]
     },
