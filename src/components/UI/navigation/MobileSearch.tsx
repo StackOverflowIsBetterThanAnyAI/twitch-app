@@ -34,7 +34,7 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
             )
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [searchText, setSearchText] = contextSearchText
+        const [searchText, _setSearchText] = contextSearchText
 
         const contextDisableFocusTrap = useContext(ContextDisableFocusTrap)
         if (!contextDisableFocusTrap) {
@@ -43,7 +43,7 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
             )
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [focusTrapDisabled, setFocusTrapDisabled] =
+        const [focusTrapDisabled, _setFocusTrapDisabled] =
             contextDisableFocusTrap
 
         const contextSearchResults = useContext(ContextSearchResults)
@@ -53,7 +53,7 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
             )
         }
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const [searchResults, setSearchResults] = contextSearchResults
+        const [searchResults, _setSearchResults] = contextSearchResults
 
         const contextFocusInput = useContext(ContextFocusInput)
         if (!contextFocusInput) {
@@ -61,7 +61,6 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
                 'ContextFocusInput must be used within a ContextFocusInput.Provider'
             )
         }
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const [inputFocussed, setInputFocussed] = contextFocusInput
 
         const buttonRef = useRef<HTMLButtonElement | null>(null)

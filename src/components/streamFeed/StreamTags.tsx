@@ -22,7 +22,7 @@ const StreamTags: FC<StreamTagsProps> = ({ item, testid }) => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [streamData, setStreamData] = contextStreamData
+    const [streamData, _setStreamData] = contextStreamData
 
     const contextFilteredStreamData = useContext(ContextFilteredStreamData)
     if (!contextFilteredStreamData) {
@@ -31,7 +31,7 @@ const StreamTags: FC<StreamTagsProps> = ({ item, testid }) => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [filteredStreamData, setFilteredStreamData] =
+    const [_filteredStreamData, setFilteredStreamData] =
         contextFilteredStreamData
 
     const contextSearchText = useContext(ContextSearchText)
@@ -41,7 +41,7 @@ const StreamTags: FC<StreamTagsProps> = ({ item, testid }) => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [searchText, setSearchText] = contextSearchText
+    const [_searchText, setSearchText] = contextSearchText
 
     const contextSEOSearchText = useContext(ContextSEOSearchText)
     if (!contextSEOSearchText) {
@@ -50,7 +50,7 @@ const StreamTags: FC<StreamTagsProps> = ({ item, testid }) => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [seoSearchText, setSEOSearchText] = contextSEOSearchText
+    const [_seoSearchText, setSEOSearchText] = contextSEOSearchText
 
     const contextDisableFocusTrap = useContext(ContextDisableFocusTrap)
     if (!contextDisableFocusTrap) {
@@ -59,7 +59,7 @@ const StreamTags: FC<StreamTagsProps> = ({ item, testid }) => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [focusTrapDisabled, setFocusTrapDisabled] = contextDisableFocusTrap
+    const [_focusTrapDisabled, setFocusTrapDisabled] = contextDisableFocusTrap
 
     const contextSearchResults = useContext(ContextSearchResults)
     if (!contextSearchResults) {
@@ -68,7 +68,7 @@ const StreamTags: FC<StreamTagsProps> = ({ item, testid }) => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [searchResults, setSearchResults] = contextSearchResults
+    const [_searchResults, setSearchResults] = contextSearchResults
 
     const handleClick = () => {
         setFilteredStreamData({

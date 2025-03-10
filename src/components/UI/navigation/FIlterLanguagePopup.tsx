@@ -34,7 +34,7 @@ const FilterLanguagePopup: FC<FilterLanguagePopupProps> = ({
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [language, setLanguage] = contextLanguage
+    const [language, _setLanguage] = contextLanguage
 
     return (
         <div

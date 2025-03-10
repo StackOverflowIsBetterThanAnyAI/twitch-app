@@ -12,7 +12,7 @@ const StreamFallback = () => {
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [errorMessage, setErrorMessage] = contextErrorMessage
+    const [errorMessage, _setErrorMessage] = contextErrorMessage
 
     return (
         <article className="p-4 md:p-12 lg:p-12 text-center text-slate-300">

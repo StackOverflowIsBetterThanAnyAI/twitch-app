@@ -60,7 +60,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [searchText, setSearchText] = contextSearchText
+    const [_searchText, setSearchText] = contextSearchText
 
     const contextSEOSearchText = useContext(ContextSEOSearchText)
     if (!contextSEOSearchText) {
@@ -69,7 +69,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
         )
     }
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [seoSearchText, setSEOSearchText] = contextSEOSearchText
+    const [_seoSearchText, setSEOSearchText] = contextSEOSearchText
 
     const [currentIndex, setCurrentIndex] = useState<number>(
         getLanguageIndex(language) === 0 ? 1 : 0
