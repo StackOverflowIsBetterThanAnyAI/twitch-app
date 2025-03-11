@@ -69,5 +69,5 @@ jobs:
 
             - name: Deploy to GitHub Pages
               env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              run: npx gh-pages -d build --repo https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+                  GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+              run: npx gh-pages -d build --repo https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/${{ github.repository }}.git
