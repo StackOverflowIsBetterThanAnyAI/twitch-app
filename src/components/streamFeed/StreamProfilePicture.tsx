@@ -2,7 +2,16 @@ import { FC, useContext, useEffect, useState } from 'react'
 import { getProfilePicture } from '../../helper/getProfilePicture'
 
 import { getImage } from '../../helper/getImage'
-import { ContextScreenWidth } from '../../App'
+import {
+    ContextDisableFocusTrap,
+    ContextFilteredStreamData,
+    ContextScreenWidth,
+    ContextSearchResults,
+    ContextSearchText,
+    ContextSEOSearchText,
+    ContextStreamData,
+} from '../../App'
+import { getSearchFilter } from '../../helper/getSearchFilter'
 
 type StreamProfilePictureProps = {
     testid?: string
@@ -23,6 +32,61 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
     }
     const [imageUrl, setImageUrl] = useState<string>('')
 
+    const contextStreamData = useContext(ContextStreamData)
+    if (!contextStreamData) {
+        throw new Error(
+            'ContextStreamData must be used within a ContextStreamData.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [streamData, _setStreamData] = contextStreamData
+
+    const contextFilteredStreamData = useContext(ContextFilteredStreamData)
+    if (!contextFilteredStreamData) {
+        throw new Error(
+            'ContextFilteredStreamData must be used within a ContextFilteredStreamData.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_filteredStreamData, setFilteredStreamData] =
+        contextFilteredStreamData
+
+    const contextSearchText = useContext(ContextSearchText)
+    if (!contextSearchText) {
+        throw new Error(
+            'ContextSearchText must be used within a ContextSearchText.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_searchText, setSearchText] = contextSearchText
+
+    const contextSEOSearchText = useContext(ContextSEOSearchText)
+    if (!contextSEOSearchText) {
+        throw new Error(
+            'ContextSEOSearchText must be used within a ContextSEOSearchText.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_seoSearchText, setSEOSearchText] = contextSEOSearchText
+
+    const contextDisableFocusTrap = useContext(ContextDisableFocusTrap)
+    if (!contextDisableFocusTrap) {
+        throw new Error(
+            'ContextDisableFocusTrap must be used within a ContextDisableFocusTrap.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_focusTrapDisabled, setFocusTrapDisabled] = contextDisableFocusTrap
+
+    const contextSearchResults = useContext(ContextSearchResults)
+    if (!contextSearchResults) {
+        throw new Error(
+            'ContextSearchResults must be used within a ContextSearchResults.Provider'
+        )
+    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_searchResults, setSearchResults] = contextSearchResults
+
     useEffect(() => {
         const fetchImageUrl = async () => {
             try {
@@ -37,6 +101,16 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
         return () => {}
     }, [user_id])
 
+    const handleClick = () => {
+        setFilteredStreamData({
+            data: getSearchFilter(user_name, streamData, true)!,
+        })
+        setSearchText(user_name)
+        setSEOSearchText(user_name)
+        setFocusTrapDisabled(true)
+        setSearchResults([])
+    }
+
     const imageWidth = (() => {
         switch (contextScreenWidth) {
             case 'MOBILE':
@@ -50,15 +124,21 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
     })()
 
     return (
-        <img
-            src={getImage(imageUrl, { size: contextScreenWidth }, 'PROFILE')}
-            alt={user_name}
-            title={user_name}
-            className="rounded-full col-span-1 mx-auto"
-            style={{ width: `max(${imageWidth}px, 80%)` }}
-            loading="lazy"
-            data-testid={testid}
-        />
+        <button className="h-fit" onClick={handleClick}>
+            <img
+                src={getImage(
+                    imageUrl,
+                    { size: contextScreenWidth },
+                    'PROFILE'
+                )}
+                alt={user_name}
+                title={user_name}
+                className="rounded-full col-span-1 mx-auto"
+                style={{ width: `max(${imageWidth}px, 80%)` }}
+                loading="lazy"
+                data-testid={testid}
+            />
+        </button>
     )
 }
 
