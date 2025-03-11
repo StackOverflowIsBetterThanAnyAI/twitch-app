@@ -1,0 +1,73 @@
+name: Deploy to GitHub Pages
+
+on:
+    push:
+        branches:
+            - master
+
+permissions:
+    contents: write
+
+jobs:
+    cypress-run:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v4
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 22
+
+            - name: Install Dependencies
+              run: npm i
+
+            - name: Build App
+              run: npm run build
+
+            - name: Run Cypress Tests
+              uses: cypress-io/github-action@v6
+              with:
+                  start: npm start
+                  wait-on: 'http://localhost:3000'
+                  browser: chrome
+
+            - name: Upload Cypress Artifacts
+              if: failure()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: cypress-artifacts
+                  path: |
+                      cypress/screenshots
+                      cypress/videos
+
+    deploy:
+        needs: cypress-run
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v3
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 22
+
+            - name: Install Dependencies
+              run: npm i
+
+            - name: Build App
+              run: npm run build
+
+            - name: Configure User
+              run: |
+                  git config --global user.email "github-actions@github.com"
+                  git config --global user.name "github-actions[bot]"
+
+            - name: Deploy to GitHub Pages
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              run: npx gh-pages -d build --repo https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
