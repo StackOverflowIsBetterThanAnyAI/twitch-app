@@ -18,7 +18,7 @@ const Icon: FC<IconProps> = ({ code, language, type }) => {
             viewBox="0 0 24 24"
         >
             <path
-                stroke="currentColor"
+                stroke="gainsboro"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
@@ -37,7 +37,7 @@ const Icon: FC<IconProps> = ({ code, language, type }) => {
             viewBox="0 0 24 24"
         >
             <path
-                stroke="currentColor"
+                stroke="gainsboro"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
@@ -56,7 +56,7 @@ const Icon: FC<IconProps> = ({ code, language, type }) => {
             viewBox="0 0 24 24"
         >
             <path
-                stroke="currentColor"
+                stroke="gainsboro"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
@@ -102,7 +102,7 @@ const Icon: FC<IconProps> = ({ code, language, type }) => {
             viewBox="0 0 24 24"
         >
             <path
-                stroke="#fafafa"
+                stroke="gainsboro"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
