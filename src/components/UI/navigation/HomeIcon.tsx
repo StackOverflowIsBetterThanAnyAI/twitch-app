@@ -20,7 +20,7 @@ export const HomeIcon = () => {
 
     return (
         <a
-            href="/"
+            href="/twitch-app/"
             className="flex flex-row px-2 rounded-md pseudo-zinc navigation"
             onKeyDown={handleKeyDown}
             title="Homepage"
