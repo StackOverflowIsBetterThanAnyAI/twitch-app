@@ -416,7 +416,7 @@ const StreamFeed = () => {
                                                 key={`${item.user_id} - game`}
                                                 testid={`streamfeed-game-${index}`}
                                             />
-                                            <div className="flex flex-wrap w-full">
+                                            <div className="flex flex-wrap w-full max-h-20 overflow-auto">
                                                 {item.tags.map((tag, index) => (
                                                     <StreamTags
                                                         item={tag}
