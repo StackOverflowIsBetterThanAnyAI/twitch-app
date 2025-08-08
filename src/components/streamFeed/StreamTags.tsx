@@ -82,7 +82,8 @@ const StreamTags: FC<StreamTagsProps> = ({ item, testid }) => {
 
     return (
         <button
-            className="bg-gray-600 text-slate-50 text-left max-w-full text-ellipsis whitespace-nowrap overflow-hidden px-2 rounded-md mr-1 my-1 text-sm lg:text-base pseudo-zinc-secondary streamfeed streamtag"
+            className="bg-gray-600 text-slate-50 text-left max-w-full text-ellipsis whitespace-nowrap overflow-hidden
+            px-2 rounded-md mr-2 my-1 text-sm lg:text-base pseudo-zinc-secondary streamfeed streamtag"
             onClick={handleClick}
             title={item}
             data-testid={testid}

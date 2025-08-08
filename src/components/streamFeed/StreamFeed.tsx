@@ -370,7 +370,10 @@ const StreamFeed = () => {
                                     data-testid={`streamfeed-article-${index}`}
                                 >
                                     <div className={`rounded-xl ${bgColor}`}>
-                                        <section className="relative transform transition duration-150 ease-in-out hover:translate-x-2 hover:-translate-y-2">
+                                        <section
+                                            className="relative transform transition duration-150 ease-in-out
+                                            hover:translate-x-2 hover:-translate-y-2"
+                                        >
                                             <StreamThumbnail
                                                 thumbnail_url={
                                                     item.thumbnail_url
@@ -416,7 +419,7 @@ const StreamFeed = () => {
                                                 key={`${item.user_id} - game`}
                                                 testid={`streamfeed-game-${index}`}
                                             />
-                                            <div className="flex flex-wrap w-full max-h-20 overflow-auto">
+                                            <div className="flex flex-wrap w-full max-h-20 overflow-auto pl-2 -ml-2">
                                                 {item.tags.map((tag, index) => (
                                                     <StreamTags
                                                         item={tag}

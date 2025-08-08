@@ -81,7 +81,8 @@ const StreamGame: FC<StreamGameProps> = ({ game_name, testid }) => {
     }
     return (
         <button
-            className="text-slate-300 text-left max-w-full text-ellipsis whitespace-nowrap overflow-hidden text-sm lg:text-base rounded-md pr-1 pseudo-zinc-purple streamfeed streamgame"
+            className="text-slate-300 text-left max-w-full text-ellipsis whitespace-nowrap overflow-hidden
+            text-sm lg:text-base rounded-md px-1 pseudo-zinc-purple streamfeed streamgame"
             onClick={handleClick}
             title={game_name}
             data-testid={testid}
