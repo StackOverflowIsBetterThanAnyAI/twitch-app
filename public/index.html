@@ -17,6 +17,18 @@
         <title>Twitch-App</title>
     </head>
     <body>
+        <script src="https://player.twitch.tv/js/embed/v1.js"></script>
+        <div id="187"></div>
+        <script type="text/javascript">
+            var options = {
+                width: 600,
+                height: 400,
+                channel: 'eliasn97',
+            }
+            var player = new Twitch.Player('187', options)
+            player.setVolume(0.5)
+        </script>
+
         <div id="root"></div>
     </body>
 </html>
