@@ -1,7 +1,5 @@
 import { FC, useContext, useEffect, useState } from 'react'
-import { getProfilePicture } from '../../helper/getProfilePicture'
 
-import { getImage } from '../../helper/getImage'
 import {
     ContextDisableFocusTrap,
     ContextFilteredStreamData,
@@ -11,6 +9,8 @@ import {
     ContextSEOSearchText,
     ContextStreamData,
 } from '../../App'
+import { getImage } from '../../helper/getImage'
+import { getProfilePicture } from '../../helper/getProfilePicture'
 import { getSearchFilter } from '../../helper/getSearchFilter'
 
 type StreamProfilePictureProps = {
@@ -138,7 +138,10 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
     })()
 
     return (
-        <button className="h-fit flex-shrink-0" onClick={handleClick}>
+        <button
+            className="h-fit flex-shrink-0 rounded-full pseudo-zinc"
+            onClick={handleClick}
+        >
             <img
                 src={getImage(
                     imageUrl,
