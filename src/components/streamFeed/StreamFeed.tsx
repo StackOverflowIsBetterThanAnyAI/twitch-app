@@ -1,12 +1,14 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { getStreams } from '../../helper/getStreams'
 import { StreamProps } from '../../types/StreamProps'
 
+import ButtonIcon from '../UI/ButtonIcon'
 import SkeletonFeed from '../skeleton/SkeletonFeed'
 import StreamGame from './StreamGame'
 import StreamChannel from './StreamChannel'
 import StreamFallback from './StreamFallback'
+import StreamHero from './StreamHero'
 import StreamLive from './StreamLive'
+import StreamNoResults from './StreamNoResults'
 import StreamProfilePicture from './StreamProfilePicture'
 import StreamTags from './StreamTags'
 import StreamThumbnail from './StreamThumbnail'
@@ -22,9 +24,9 @@ import {
     ContextSearchText,
     ContextStreamData,
 } from '../../App'
+import { useFocusTrap } from '../../hooks/useFocusTrap'
 import { getEnglishLanguageName } from '../../helper/getEnglishLanguageName'
-import StreamNoResults from './StreamNoResults'
-import ButtonIcon from '../UI/ButtonIcon'
+import { getStreams } from '../../helper/getStreams'
 
 const bgColors = [
     'bg-gradient-to-tr from-red-400 to-red-800',
@@ -175,143 +177,7 @@ const StreamFeed = () => {
         }
     }, [loadStreams])
 
-    useEffect(() => {
-        const focusTrap = (e: KeyboardEvent) => {
-            if (
-                !['Tab', 'ArrowLeft', 'ArrowRight'].includes(e.key) ||
-                error ||
-                filteredStreamData?.data.length === 0
-            )
-                return
-
-            const focusableStreamButtons: HTMLButtonElement[] = Array.from(
-                document.querySelectorAll(
-                    'button.streamfeed, .navigation, .footer'
-                )
-            )
-
-            const focusableNavigationButtons = Array.from(
-                document.querySelectorAll('.navigation')
-            )
-
-            if (
-                !document.activeElement ||
-                !focusableStreamButtons.includes(
-                    document.activeElement as HTMLButtonElement
-                )
-            )
-                return
-
-            const firstFocusableElement =
-                focusableStreamButtons[0] as HTMLButtonElement
-
-            const firstStreamFeedFocusableElement = focusableStreamButtons[
-                focusableNavigationButtons.length
-            ] as HTMLButtonElement
-
-            const lastFocusableElement = focusableStreamButtons[
-                focusableStreamButtons.length - 1
-            ] as HTMLButtonElement
-
-            const findCurrentButtonIndex = (button: HTMLButtonElement) => {
-                return focusableStreamButtons.indexOf(button)
-            }
-
-            if (e.shiftKey && e.key === 'Tab') {
-                if (document.activeElement === firstFocusableElement) {
-                    e.preventDefault()
-                    lastFocusableElement?.focus()
-                } else {
-                    e.preventDefault()
-                    const currentIndex = findCurrentButtonIndex(
-                        document.activeElement as HTMLButtonElement
-                    )
-                    focusableStreamButtons[currentIndex - 1]?.focus()
-                }
-            } else if (!e.shiftKey && e.key === 'Tab') {
-                if (document.activeElement === lastFocusableElement) {
-                    e.preventDefault()
-                    firstStreamFeedFocusableElement?.focus()
-                } else {
-                    e.preventDefault()
-                    const currentIndex = findCurrentButtonIndex(
-                        document.activeElement as HTMLButtonElement
-                    )
-                    focusableStreamButtons[currentIndex + 1]?.focus()
-                }
-            } else if (e.key === 'ArrowRight') {
-                const upcommingFocusableStreamButtons =
-                    focusableStreamButtons.splice(
-                        findCurrentButtonIndex(
-                            document.activeElement as HTMLButtonElement
-                        ) + 1
-                    )
-
-                const previousFocusableStreamButtons =
-                    focusableStreamButtons.splice(
-                        0,
-                        findCurrentButtonIndex(
-                            document.activeElement as HTMLButtonElement
-                        )
-                    )
-
-                const category = Array.from(document.activeElement.classList)[
-                    Array.from(document.activeElement.classList).length - 1
-                ]
-
-                const upcomingElement =
-                    upcommingFocusableStreamButtons.filter((item) =>
-                        Array.from(item.classList).includes(category)
-                    )[0] ??
-                    previousFocusableStreamButtons.filter((item) =>
-                        Array.from(item.classList).includes(category)
-                    )[0] ??
-                    undefined
-
-                upcomingElement && upcomingElement.focus()
-            } else if (e.key === 'ArrowLeft') {
-                const upcommingFocusableStreamButtons =
-                    focusableStreamButtons.splice(
-                        findCurrentButtonIndex(
-                            document.activeElement as HTMLButtonElement
-                        ) + 1
-                    )
-
-                const previousFocusableStreamButtons =
-                    focusableStreamButtons.splice(
-                        0,
-                        findCurrentButtonIndex(
-                            document.activeElement as HTMLButtonElement
-                        )
-                    )
-
-                const category = Array.from(document.activeElement.classList)[
-                    Array.from(document.activeElement.classList).length - 1
-                ]
-
-                const previousElement =
-                    previousFocusableStreamButtons
-                        .reverse()
-                        .filter((item) =>
-                            Array.from(item.classList).includes(category)
-                        )[0] ??
-                    upcommingFocusableStreamButtons
-                        .reverse()
-                        .filter((item) =>
-                            Array.from(item.classList).includes(category)
-                        )[0] ??
-                    undefined
-
-                previousElement && previousElement.focus()
-            }
-        }
-
-        document.addEventListener('keydown', focusTrap)
-
-        return () => {
-            document.removeEventListener('keydown', focusTrap)
-        }
-    }, [error, filteredStreamData])
+    useFocusTrap(error, filteredStreamData)
 
     if (error) {
         return <StreamFallback />
@@ -325,9 +191,15 @@ const StreamFeed = () => {
         <>
             {filteredStreamData && filteredStreamData.data.length > 0 ? (
                 <>
-                    <h1
+                    {!seoSearchText && (
+                        <StreamHero
+                            bgColors={bgColors}
+                            filteredStreamData={filteredStreamData}
+                        />
+                    )}
+                    <h2
                         className="px-4 pt-2 text-xl lg:text-2xl"
-                        data-testid="streamfeed-heading"
+                        data-testid="streamfeed-heading-2"
                     >
                         <span className="text-purple-400">
                             {getEnglishLanguageName(language)} Livestreams{' '}
@@ -337,7 +209,7 @@ const StreamFeed = () => {
                                 seoSearchText ? `: ${seoSearchText}` : ''
                             }`}
                         </span>
-                    </h1>
+                    </h2>
                     {seoSearchText && (
                         <div className="flex items-center px-4 pt-1">
                             <h2 className="text-lg lg:text-xl text-slate-300 pr-2">
@@ -365,72 +237,80 @@ const StreamFeed = () => {
                         {filteredStreamData.data.map((item, index) => {
                             const bgColor = bgColors[index % bgColors.length]
                             return (
-                                <article
-                                    key={item.user_id}
-                                    data-testid={`streamfeed-article-${index}`}
-                                >
-                                    <div className={`rounded-xl ${bgColor}`}>
-                                        <section
-                                            className="relative transform transition duration-150 ease-in-out
-                                            hover:translate-x-2 hover:-translate-y-2"
+                                index > (seoSearchText ? -1 : 0) && (
+                                    <article
+                                        key={item.user_id}
+                                        data-testid={`streamfeed-article-${index}`}
+                                    >
+                                        <div
+                                            className={`rounded-xl ${bgColor}`}
                                         >
-                                            <StreamThumbnail
-                                                thumbnail_url={
-                                                    item.thumbnail_url
-                                                }
+                                            <section
+                                                className="relative transform transition duration-150 ease-in-out
+                                                hover:translate-x-2 hover:-translate-y-2"
+                                            >
+                                                <StreamThumbnail
+                                                    thumbnail_url={
+                                                        item.thumbnail_url
+                                                    }
+                                                    user_name={item.user_name}
+                                                    stream_game={item.game_name}
+                                                    key={`${item.user_id} - thumbnail`}
+                                                    testid={`streamfeed-thumbnail-${index}`}
+                                                />
+                                                <StreamLive
+                                                    placement="thumbnail"
+                                                    type={item.type}
+                                                    key={`${item.user_id} - live`}
+                                                    testid={`streamfeed-live-${index}`}
+                                                />
+                                                <StreamViewerCount
+                                                    viewer_count={
+                                                        item.viewer_count
+                                                    }
+                                                    key={`${item.user_id} - viewer_count`}
+                                                    testid={`streamfeed-viewercount-${index}`}
+                                                />
+                                            </section>
+                                        </div>
+                                        <section className="grid grid-cols-minmax-36 grid-rows-1 gap-2 w-full pt-2">
+                                            <StreamProfilePicture
+                                                user_id={item.user_id}
                                                 user_name={item.user_name}
-                                                stream_game={item.game_name}
-                                                key={`${item.user_id} - thumbnail`}
-                                                testid={`streamfeed-thumbnail-${index}`}
+                                                key={`${item.user_id} - profile_picture`}
+                                                testid={`streamfeed-profilepicture-${index}`}
                                             />
-                                            <StreamLive
-                                                placement="thumbnail"
-                                                type={item.type}
-                                                key={`${item.user_id} - live`}
-                                                testid={`streamfeed-live-${index}`}
-                                            />
-                                            <StreamViewerCount
-                                                viewer_count={item.viewer_count}
-                                                key={`${item.user_id} - viewer_count`}
-                                                testid={`streamfeed-viewercount-${index}`}
-                                            />
+                                            <section className="col-span-4">
+                                                <StreamChannel
+                                                    user_name={item.user_name}
+                                                    key={`${item.user_id} - channel`}
+                                                    testid={`streamfeed-channel-${index}`}
+                                                />
+                                                <StreamTitle
+                                                    title={item.title}
+                                                    key={`${item.user_id} - title`}
+                                                    testid={`streamfeed-title-${index}`}
+                                                />
+                                                <StreamGame
+                                                    game_name={item.game_name}
+                                                    key={`${item.user_id} - game`}
+                                                    testid={`streamfeed-game-${index}`}
+                                                />
+                                                <div className="flex flex-wrap w-full max-h-20 overflow-auto pl-2 -ml-2">
+                                                    {item.tags.map(
+                                                        (tag, index) => (
+                                                            <StreamTags
+                                                                item={tag}
+                                                                key={`${tag}${index} - tag`}
+                                                                testid={`streamfeed-tags-${index}`}
+                                                            />
+                                                        )
+                                                    )}
+                                                </div>
+                                            </section>
                                         </section>
-                                    </div>
-                                    <section className="grid grid-cols-minmax-36 grid-rows-1 gap-2 w-full pt-2">
-                                        <StreamProfilePicture
-                                            user_id={item.user_id}
-                                            user_name={item.user_name}
-                                            key={`${item.user_id} - profile_picture`}
-                                            testid={`streamfeed-profilepicture-${index}`}
-                                        />
-                                        <section className="col-span-4">
-                                            <StreamChannel
-                                                user_name={item.user_name}
-                                                key={`${item.user_id} - channel`}
-                                                testid={`streamfeed-channel-${index}`}
-                                            />
-                                            <StreamTitle
-                                                title={item.title}
-                                                key={`${item.user_id} - title`}
-                                                testid={`streamfeed-title-${index}`}
-                                            />
-                                            <StreamGame
-                                                game_name={item.game_name}
-                                                key={`${item.user_id} - game`}
-                                                testid={`streamfeed-game-${index}`}
-                                            />
-                                            <div className="flex flex-wrap w-full max-h-20 overflow-auto pl-2 -ml-2">
-                                                {item.tags.map((tag, index) => (
-                                                    <StreamTags
-                                                        item={tag}
-                                                        key={`${tag}${index} - tag`}
-                                                        testid={`streamfeed-tags-${index}`}
-                                                    />
-                                                ))}
-                                            </div>
-                                        </section>
-                                    </section>
-                                </article>
+                                    </article>
+                                )
                             )
                         })}
                     </article>

@@ -146,8 +146,9 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
                         onInput={handleInput}
                         onKeyDown={handleKeyDown}
                         onBlur={handleBlur}
-                        title="Search current Livestreams."
                         ref={inputRef}
+                        title="Search current Livestreams."
+                        name="searchCurrentLivestreams"
                     />
                     <button
                         className={`m-auto p-1 rounded-full mr-1 my-1 ${

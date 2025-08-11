@@ -1,7 +1,5 @@
 import { FC, useContext, useEffect, useState } from 'react'
-import { getProfilePicture } from '../../helper/getProfilePicture'
 
-import { getImage } from '../../helper/getImage'
 import {
     ContextDisableFocusTrap,
     ContextFilteredStreamData,
@@ -11,15 +9,19 @@ import {
     ContextSEOSearchText,
     ContextStreamData,
 } from '../../App'
+import { getImage } from '../../helper/getImage'
+import { getProfilePicture } from '../../helper/getProfilePicture'
 import { getSearchFilter } from '../../helper/getSearchFilter'
 
 type StreamProfilePictureProps = {
+    isHeroPicture?: boolean
     testid?: string
     user_id: string
     user_name: string
 }
 
 const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
+    isHeroPicture,
     testid,
     user_id,
     user_name,
@@ -111,6 +113,18 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
         setSearchResults([])
     }
 
+    const heroImageWidth = (() => {
+        switch (contextScreenWidth) {
+            case 'MOBILE':
+            case 'TABLET_SMALL':
+                return 64
+            case 'TABLET':
+                return 80
+            case 'DESKTOP':
+                return 96
+        }
+    })()
+
     const imageWidth = (() => {
         switch (contextScreenWidth) {
             case 'MOBILE':
@@ -124,7 +138,10 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
     })()
 
     return (
-        <button className="h-fit" onClick={handleClick}>
+        <button
+            className="h-fit flex-shrink-0 rounded-full pseudo-zinc"
+            onClick={handleClick}
+        >
             <img
                 src={getImage(
                     imageUrl,
@@ -134,7 +151,9 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
                 alt={user_name}
                 title={user_name}
                 className="rounded-full col-span-1 mx-auto"
-                style={{ width: `max(${imageWidth}px, 80%)` }}
+                style={{
+                    width: `${isHeroPicture ? heroImageWidth : imageWidth}px`,
+                }}
                 loading="lazy"
                 data-testid={testid}
             />

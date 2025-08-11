@@ -138,6 +138,7 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
                         onKeyDown={handleKeyDown}
                         ref={searchMobileRef}
                         title="Search current Livestreams."
+                        name="searchCurrentLivestreams"
                     />
                     <button
                         className={`px-2 pseudo-zinc rounded-md search-button ${
