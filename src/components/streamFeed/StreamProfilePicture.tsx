@@ -152,9 +152,7 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
                 title={user_name}
                 className="rounded-full col-span-1 mx-auto"
                 style={{
-                    width: isHeroPicture
-                        ? `${heroImageWidth}px`
-                        : `max(${imageWidth}px, 80%)`,
+                    width: `${isHeroPicture ? heroImageWidth : imageWidth}px`,
                 }}
                 loading="lazy"
                 data-testid={testid}
