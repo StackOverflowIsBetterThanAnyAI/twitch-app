@@ -43,8 +43,9 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
     const fetchUser = async () => {
         try {
             const data = await getUser()
-            if (!data)
+            if (!data) {
                 throw new Error('Unable to fetch the currently logged in user')
+            }
             setUser(data)
             sessionStorage.setItem('twitch_user', JSON.stringify(data))
         } catch (error: any) {
