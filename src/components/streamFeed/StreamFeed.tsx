@@ -6,13 +6,13 @@ import SkeletonFeed from '../skeleton/SkeletonFeed'
 import StreamGame from './StreamGame'
 import StreamChannel from './StreamChannel'
 import StreamFallback from './StreamFallback'
+import StreamHero from './StreamHero'
 import StreamLive from './StreamLive'
 import StreamNoResults from './StreamNoResults'
 import StreamProfilePicture from './StreamProfilePicture'
 import StreamTags from './StreamTags'
 import StreamThumbnail from './StreamThumbnail'
 import StreamTitle from './StreamTitle'
-import StreamTitleHero from './StreamTitleHero'
 import StreamViewerCount from './StreamViewerCount'
 import {
     ContextErrorMessage,
@@ -138,7 +138,6 @@ const StreamFeed = () => {
                 prevLanguage !== language && setFilteredStreamData(data)
                 filteredStreamData === undefined && setFilteredStreamData(data)
                 setPrevLanguage(language)
-                console.log(data)
             } else if (!data) {
                 setStreamData(undefined)
                 setFilteredStreamData(undefined)
@@ -193,207 +192,10 @@ const StreamFeed = () => {
             {filteredStreamData && filteredStreamData.data.length > 0 ? (
                 <>
                     {!seoSearchText && (
-                        <>
-                            <h1
-                                className="w-full sm:w-4/5 max-w-6xl m-auto pt-4 text-2xl lg:text-3xl"
-                                data-testid="streamfeed-heading-2"
-                            >
-                                <span className="text-slate-300">Current</span>
-                                <span className="text-purple-400">
-                                    {' '}
-                                    Top Livestream
-                                </span>
-                                <span className="text-slate-300">
-                                    : {filteredStreamData.data[0].user_name}
-                                </span>
-                            </h1>
-                            {contextScreenWidth === 'DESKTOP' ? (
-                                <article
-                                    className="flex w-4/5 max-w-6xl m-auto p-4 my-4 items-center gap-4
-                                    bg-gradient-to-b from-zinc-700 to-zinc-700/80 rounded-lg"
-                                    data-testid="streamfeed-article-0"
-                                >
-                                    <div
-                                        className={`rounded-xl w-1/2 ${bgColors[0]}`}
-                                    >
-                                        <section className="relative">
-                                            <StreamThumbnail
-                                                thumbnail_url={
-                                                    filteredStreamData.data[0]
-                                                        .thumbnail_url
-                                                }
-                                                user_name={
-                                                    filteredStreamData.data[0]
-                                                        .user_name
-                                                }
-                                                stream_game={
-                                                    filteredStreamData.data[0]
-                                                        .game_name
-                                                }
-                                                testid="streamfeed-thumbnail-0"
-                                            />
-                                            <StreamLive
-                                                placement="thumbnail"
-                                                type={
-                                                    filteredStreamData.data[0]
-                                                        .type
-                                                }
-                                                testid={'streamfeed-live-0'}
-                                            />
-                                            <StreamViewerCount
-                                                viewer_count={
-                                                    filteredStreamData.data[0]
-                                                        .viewer_count
-                                                }
-                                                testid="streamfeed-viewercount-0"
-                                            />
-                                        </section>
-                                    </div>
-                                    <section className="flex items-center gap-x-2 w-1/2 bg-zinc-800 p-4 rounded-xl">
-                                        <StreamProfilePicture
-                                            isHeroPicture
-                                            user_id={
-                                                filteredStreamData.data[0]
-                                                    .user_id
-                                            }
-                                            user_name={
-                                                filteredStreamData.data[0]
-                                                    .user_name
-                                            }
-                                            testid="streamfeed-profilepicture-0"
-                                        />
-                                        <section>
-                                            <StreamChannel
-                                                user_name={
-                                                    filteredStreamData.data[0]
-                                                        .user_name
-                                                }
-                                                testid="streamfeed-channel-0"
-                                            />
-                                            <StreamTitleHero
-                                                title={
-                                                    filteredStreamData.data[0]
-                                                        .title
-                                                }
-                                                testid="streamfeed-title-0"
-                                            />
-                                            <StreamGame
-                                                game_name={
-                                                    filteredStreamData.data[0]
-                                                        .game_name
-                                                }
-                                                testid="streamfeed-game-0"
-                                            />
-                                            <div className="flex flex-wrap w-full max-h-20 overflow-auto pl-2 -ml-2">
-                                                {filteredStreamData.data[0].tags.map(
-                                                    (tag, index) => (
-                                                        <StreamTags
-                                                            item={tag}
-                                                            key={`${tag}${index} - tag`}
-                                                            testid={`streamfeed-tags-${index}`}
-                                                        />
-                                                    )
-                                                )}
-                                            </div>
-                                        </section>
-                                    </section>
-                                </article>
-                            ) : contextScreenWidth === 'TABLET' ? (
-                                <article
-                                    className="flex flex-col w-4/5 max-w-6xl m-auto p-4 my-4 gap-2
-                                    bg-gradient-to-b from-zinc-700 to-zinc-700/80 rounded-lg"
-                                >
-                                    <div
-                                        className="flex items-center gap-4"
-                                        data-testid="streamfeed-article-0"
-                                    >
-                                        <div
-                                            className={`rounded-xl w-1/2 ${bgColors[0]}`}
-                                        >
-                                            <section className="relative">
-                                                <StreamThumbnail
-                                                    thumbnail_url={
-                                                        filteredStreamData
-                                                            .data[0]
-                                                            .thumbnail_url
-                                                    }
-                                                    user_name={
-                                                        filteredStreamData
-                                                            .data[0].user_name
-                                                    }
-                                                    stream_game={
-                                                        filteredStreamData
-                                                            .data[0].game_name
-                                                    }
-                                                    testid="streamfeed-thumbnail-0"
-                                                />
-                                                <StreamLive
-                                                    placement="thumbnail"
-                                                    type={
-                                                        filteredStreamData
-                                                            .data[0].type
-                                                    }
-                                                    testid={'streamfeed-live-0'}
-                                                />
-                                                <StreamViewerCount
-                                                    viewer_count={
-                                                        filteredStreamData
-                                                            .data[0]
-                                                            .viewer_count
-                                                    }
-                                                    testid="streamfeed-viewercount-0"
-                                                />
-                                            </section>
-                                        </div>
-                                        <section className="flex items-center gap-x-2 w-1/2 bg-zinc-800 p-4 rounded-xl">
-                                            <StreamProfilePicture
-                                                isHeroPicture
-                                                user_id={
-                                                    filteredStreamData.data[0]
-                                                        .user_id
-                                                }
-                                                user_name={
-                                                    filteredStreamData.data[0]
-                                                        .user_name
-                                                }
-                                                testid="streamfeed-profilepicture-0"
-                                            />
-                                            <section className="flex flex-col">
-                                                <StreamChannel
-                                                    user_name={
-                                                        filteredStreamData
-                                                            .data[0].user_name
-                                                    }
-                                                    testid="streamfeed-channel-0"
-                                                />
-                                                <StreamGame
-                                                    game_name={
-                                                        filteredStreamData
-                                                            .data[0].game_name
-                                                    }
-                                                    testid="streamfeed-game-0"
-                                                />
-                                            </section>
-                                        </section>
-                                    </div>
-                                    <StreamTitleHero
-                                        title={filteredStreamData.data[0].title}
-                                        testid="streamfeed-title-0"
-                                    />
-                                    <div className="flex flex-wrap w-full max-h-20 overflow-auto pl-2 -ml-2">
-                                        {filteredStreamData.data[0].tags.map(
-                                            (tag, index) => (
-                                                <StreamTags
-                                                    item={tag}
-                                                    key={`${tag}${index} - tag`}
-                                                    testid={`streamfeed-tags-${index}`}
-                                                />
-                                            )
-                                        )}
-                                    </div>
-                                </article>
-                            ) : null}
-                        </>
+                        <StreamHero
+                            bgColors={bgColors}
+                            filteredStreamData={filteredStreamData}
+                        />
                     )}
                     <h2
                         className="px-4 pt-2 text-xl lg:text-2xl"
