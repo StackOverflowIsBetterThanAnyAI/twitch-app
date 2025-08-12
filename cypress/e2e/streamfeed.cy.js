@@ -10,13 +10,13 @@ describe('twitch-app contains valid streamfeed', () => {
 
         cy.get('[data-testid="streamfeed-heading-1"]')
             .children()
-            .should('have.length', 2)
+            .should('have.length', 3)
 
         cy.get('[data-testid="streamfeed-heading-2"]').should('have.length', 1)
 
         cy.get('[data-testid="streamfeed-heading-2"]')
             .children()
-            .should('have.length', 3)
+            .should('have.length', 2)
     })
 
     it('contains correct default heading content', () => {
