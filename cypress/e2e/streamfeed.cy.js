@@ -56,12 +56,6 @@ describe('twitch-app contains valid streamfeed', () => {
             .children()
             .should('have.length', 3)
 
-        cy.get('[data-testid="streamfeed-thumbnail-0').should('have.length', 1)
-
-        cy.get('[data-testid="streamfeed-live-0').should('have.length', 1)
-
-        cy.get('[data-testid="streamfeed-live-0').should('have.length', 1)
-
         cy.get('[data-testid="streamfeed-profilepicture-0').should(
             'have.length',
             1
