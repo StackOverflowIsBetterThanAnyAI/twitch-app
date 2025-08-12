@@ -6,20 +6,36 @@ describe('twitch-app contains valid streamfeed', () => {
     })
 
     it('shows default heading', () => {
-        cy.get('[data-testid="streamfeed-heading"]').should('have.length', 1)
+        cy.get('[data-testid="streamfeed-heading-1"]').should('have.length', 1)
 
-        cy.get('[data-testid="streamfeed-heading"]')
+        cy.get('[data-testid="streamfeed-heading-1"]')
             .children()
             .should('have.length', 2)
+
+        cy.get('[data-testid="streamfeed-heading-2"]').should('have.length', 1)
+
+        cy.get('[data-testid="streamfeed-heading-2"]')
+            .children()
+            .should('have.length', 3)
     })
 
     it('contains correct default heading content', () => {
-        cy.get('[data-testid="streamfeed-heading"]')
+        cy.get('[data-testid="streamfeed-heading-1"]')
+            .children()
+            .eq(0)
+            .contains('Current')
+
+        cy.get('[data-testid="streamfeed-heading-1"]')
+            .children()
+            .eq(1)
+            .contains('Top Livestream')
+
+        cy.get('[data-testid="streamfeed-heading-2"]')
             .children()
             .eq(0)
             .contains('German Livestreams')
 
-        cy.get('[data-testid="streamfeed-heading"]')
+        cy.get('[data-testid="streamfeed-heading-2"]')
             .children()
             .eq(1)
             .contains('you might like')
@@ -38,7 +54,7 @@ describe('twitch-app contains valid streamfeed', () => {
 
         cy.get('[data-testid="streamfeed-article-0"]')
             .children()
-            .should('have.length', 2)
+            .should('have.length', 3)
 
         cy.get('[data-testid="streamfeed-thumbnail-0').should('have.length', 1)
 

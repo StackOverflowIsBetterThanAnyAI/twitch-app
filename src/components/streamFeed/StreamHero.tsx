@@ -23,7 +23,7 @@ const StreamHero = ({ bgColors, filteredStreamData }: StreamHeroProps) => {
         <>
             <h1
                 className="w-full lg:w-4/5 max-w-6xl m-auto pt-4 text-2xl lg:text-3xl"
-                data-testid="streamfeed-heading-2"
+                data-testid="streamfeed-heading-1"
             >
                 <span className="text-slate-300">Current</span>
                 <span className="text-purple-400"> Top Livestream</span>
