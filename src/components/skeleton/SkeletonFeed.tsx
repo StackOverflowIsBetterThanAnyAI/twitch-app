@@ -25,7 +25,7 @@ const SkeletonFeed = () => {
                 </div>
             </div>
             <div
-                className="bg-zinc-50 rounded-full h-5 animate-pulse mt-4 mb-2 mx-4"
+                className="bg-zinc-50 rounded-full h-5 animate-pulse my-4 mx-4"
                 style={{ width: 'min(85vw, 320px)' }}
             ></div>
             <article
