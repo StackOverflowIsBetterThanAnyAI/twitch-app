@@ -103,7 +103,7 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
             {loaded ? (
                 <button
                     onClick={handleClick}
-                    className="rounded-xl pseudo-zinc"
+                    className="absolute rounded-xl pseudo-zinc"
                 >
                     <img
                         src={getImage(
