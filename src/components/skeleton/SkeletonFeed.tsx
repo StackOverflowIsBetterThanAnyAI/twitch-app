@@ -15,12 +15,14 @@ const SkeletonFeed = () => {
     const skeletonArray = Array.from({ length: 20 }, (_, i) => i)
     return (
         <>
-            <div className="w-full lg:w-4/5 m-auto pt-4">
+            <div className="w-full lg:w-4/5 max-w-6xl m-auto pt-4">
                 <div
                     className="bg-zinc-50 rounded-full h-6 animate-pulse my-2"
                     style={{ width: 'clamp(25vw, 300px, 75vw)' }}
                 ></div>
-                <div className="bg-zinc-50 w-full h-80 my-8 rounded-lg animate-pulse"></div>
+                <div className="relative bg-zinc-700 my-8 p-4 rounded-lg h-80 animate-pulse">
+                    <div className="absolute inset-4 bg-zinc-50 animate-pulse"></div>
+                </div>
             </div>
             <div
                 className="bg-zinc-50 rounded-full h-5 animate-pulse mt-4 mb-2 mx-4"
