@@ -99,7 +99,7 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
     }
 
     return (
-        <div style={{ aspectRatio: '16/9' }} className="h-full">
+        <div className="aspect-video">
             {loaded ? (
                 <button
                     onClick={handleClick}
