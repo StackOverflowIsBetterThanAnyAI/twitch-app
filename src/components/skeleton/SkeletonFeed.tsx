@@ -15,9 +15,18 @@ const SkeletonFeed = () => {
     const skeletonArray = Array.from({ length: 20 }, (_, i) => i)
     return (
         <>
+            <div className="w-full lg:w-4/5 max-w-6xl m-auto pt-4">
+                <div
+                    className="bg-zinc-50 rounded-full h-6 animate-pulse my-2"
+                    style={{ width: 'min(75vw, 256px)' }}
+                ></div>
+                <div className="relative bg-zinc-700 my-8 p-4 rounded-lg h-80 animate-pulse">
+                    <div className="absolute inset-4 bg-zinc-50 animate-pulse"></div>
+                </div>
+            </div>
             <div
-                className="bg-zinc-50 rounded-full h-4 animate-pulse mt-4 mb-2 mx-4"
-                style={{ width: 'clamp(25vw, 300px, 75vw)' }}
+                className="bg-zinc-50 rounded-full h-5 animate-pulse mt-4 mb-2 mx-4"
+                style={{ width: 'min(85vw, 320px)' }}
             ></div>
             <article
                 className={`p-4 gap-4 ${

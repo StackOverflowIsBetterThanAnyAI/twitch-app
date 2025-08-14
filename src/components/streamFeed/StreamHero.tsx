@@ -49,12 +49,12 @@ const StreamHero = ({ bgColors, filteredStreamData }: StreamHeroProps) => {
                             user_name={filteredStreamData.data[0].user_name}
                             testid="streamfeed-profilepicture-0"
                         />
-                        <section>
+                        <section className="flex flex-col flex-1 w-0">
                             <StreamChannel
                                 user_name={filteredStreamData.data[0].user_name}
                                 testid="streamfeed-channel-0"
                             />
-                            <StreamTitleHero
+                            <StreamTitle
                                 title={filteredStreamData.data[0].title}
                                 testid="streamfeed-title-0"
                             />
