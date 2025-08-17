@@ -12,6 +12,7 @@ import { getImage } from '../../helper/getImage'
 import { getSearchFilter } from '../../helper/getSearchFilter'
 
 type StreamThumbnailProps = {
+    isError?: boolean
     stream_game?: string
     testid?: string
     thumbnail_url: string
@@ -19,6 +20,7 @@ type StreamThumbnailProps = {
 }
 
 const StreamThumbnail: FC<StreamThumbnailProps> = ({
+    isError = false,
     stream_game,
     testid,
     thumbnail_url,
@@ -103,7 +105,9 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
             {loaded ? (
                 <button
                     onClick={handleClick}
-                    className="absolute rounded-xl pseudo-zinc"
+                    className={`${
+                        isError ? '' : 'absolute'
+                    } rounded-xl pseudo-zinc`}
                 >
                     <img
                         src={getImage(

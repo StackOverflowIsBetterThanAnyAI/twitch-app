@@ -29,8 +29,9 @@ const StreamFallback = () => {
                         <i>{errorMessage[1]}</i>
                     </h4>
                 )}
-                <section className="py-2 max-w-lg m-auto">
+                <section className="py-4 max-w-lg m-auto">
                     <StreamThumbnail
+                        isError={true}
                         thumbnail_url={fallbackThumbnailImage}
                         user_name="no current Livestreams"
                     />
