@@ -83,7 +83,7 @@ const StreamHero = ({ bgColors, filteredStreamData }: StreamHeroProps) => {
                     data-testid="streamfeed-article-0"
                 >
                     <div className="flex items-center gap-4">
-                        <div className={`w-1/2 ${bgColors[0]}`}>
+                        <div className={`w-1/2 ${bgColors[0]} aspect-video`}>
                             <StreamPlayer
                                 channel={filteredStreamData.data[0].user_login}
                             />
@@ -131,7 +131,7 @@ const StreamHero = ({ bgColors, filteredStreamData }: StreamHeroProps) => {
                     bg-gradient-to-b from-zinc-700 to-zinc-700/80 rounded-lg"
                     data-testid="streamfeed-article-0"
                 >
-                    <div className={`w-full ${bgColors[0]}`}>
+                    <div className={`w-full ${bgColors[0]} aspect-video`}>
                         <StreamPlayer
                             channel={filteredStreamData.data[0].user_login}
                         />
