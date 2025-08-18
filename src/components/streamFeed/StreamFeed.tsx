@@ -1,10 +1,10 @@
 import { useCallback, useContext, useEffect, useState } from 'react'
 import { StreamProps } from '../../types/StreamProps'
 
-import ButtonIcon from '../UI/ButtonIcon'
 import SkeletonFeed from '../skeleton/SkeletonFeed'
 import StreamGame from './StreamGame'
 import StreamChannel from './StreamChannel'
+import StreamClearFilter from './StreamClearFilter'
 import StreamFallback from './StreamFallback'
 import StreamHero from './StreamHero'
 import StreamLive from './StreamLive'
@@ -197,32 +197,54 @@ const StreamFeed = () => {
                             filteredStreamData={filteredStreamData}
                         />
                     )}
-                    <h2
-                        className="px-4 pt-2 text-xl lg:text-2xl"
-                        data-testid="streamfeed-heading-2"
-                    >
-                        <span className="text-purple-400">
-                            {getEnglishLanguageName(language)} Livestreams{' '}
-                        </span>
-                        <span className="text-slate-300">
-                            {`you might like${
-                                seoSearchText ? `: ${seoSearchText}` : ''
-                            }`}
-                        </span>
-                    </h2>
-                    {seoSearchText && (
-                        <div className="flex items-center px-4 pt-1">
-                            <h2 className="text-lg lg:text-xl text-slate-300 pr-2">
-                                Clear filter:
+                    {filteredStreamData.data.length === 1 ? (
+                        <>
+                            <h2
+                                className="px-4 pt-2 text-xl lg:text-2xl"
+                                data-testid="streamfeed-heading-2"
+                            >
+                                <span className="text-purple-400">
+                                    {getEnglishLanguageName(language)}{' '}
+                                    Livestreams{' '}
+                                </span>
+                                <span className="text-slate-300">
+                                    with: {seoSearchText}
+                                </span>
                             </h2>
-                            <ButtonIcon
-                                ariaLabel="Remove filter."
-                                onClick={removeFilter}
-                                place="left"
-                                secondary
-                                type="Remove"
+                            {seoSearchText && (
+                                <StreamClearFilter
+                                    removeFilter={removeFilter}
+                                />
+                            )}
+                            <StreamHero
+                                bgColors={bgColors}
+                                filteredStreamData={filteredStreamData}
                             />
-                        </div>
+                        </>
+                    ) : (
+                        <>
+                            <h2
+                                className="px-4 pt-2 text-xl lg:text-2xl"
+                                data-testid="streamfeed-heading-2"
+                            >
+                                <span className="text-purple-400">
+                                    {getEnglishLanguageName(language)}{' '}
+                                    Livestreams{' '}
+                                </span>
+                                <span className="text-slate-300">
+                                    {`${
+                                        seoSearchText
+                                            ? `with: ${seoSearchText}`
+                                            : 'you might like'
+                                    }`}
+                                </span>
+                            </h2>
+                            {seoSearchText && (
+                                <StreamClearFilter
+                                    removeFilter={removeFilter}
+                                />
+                            )}
+                        </>
                     )}
                     <article
                         className={`p-4 gap-4 ${
@@ -237,7 +259,12 @@ const StreamFeed = () => {
                         {filteredStreamData.data.map((item, index) => {
                             const bgColor = bgColors[index % bgColors.length]
                             return (
-                                index > (seoSearchText ? -1 : 0) && (
+                                index >
+                                    ((seoSearchText.length &&
+                                        filteredStreamData.data.length === 1) ||
+                                    !seoSearchText.length
+                                        ? 0
+                                        : -1) && (
                                     <article
                                         key={item.user_id}
                                         data-testid={`streamfeed-article-${index}`}
