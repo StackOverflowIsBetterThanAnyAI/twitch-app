@@ -7,13 +7,13 @@ type StreamTitleHeroProps = {
 
 const StreamTitleHero: FC<StreamTitleHeroProps> = ({ testid, title }) => {
     return (
-        <h3
+        <div
             className="text-slate-300 w-full text-pretty text-base lg:text-lg streamfeed"
             title={title}
             data-testid={testid}
         >
             {title}
-        </h3>
+        </div>
     )
 }
 

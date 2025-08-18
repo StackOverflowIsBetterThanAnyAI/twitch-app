@@ -342,39 +342,41 @@ const Navigation = () => {
     return (
         <div className="sticky top-0 z-10" data-testid="navigation-container">
             <nav
-                className={`bg-zinc-925 text-slate-300 flex justify-between py-2 px-4 h-16
-            transition-opacity duration-500 ease-in-out ${navOpacity}`}
+                className={`bg-zinc-925 text-slate-300 py-2 px-4 h-16
+                transition-opacity duration-500 ease-in-out ${navOpacity}`}
                 data-testid="navigation"
             >
-                <HomeIcon />
-                {contextScreenWidth === 'TABLET' ||
-                contextScreenWidth === 'DESKTOP' ? (
-                    <DesktopSearch
-                        handleBlur={handleBlur}
-                        handleChange={handleChange}
-                        handleClick={handleClickCompletion}
-                        handleFocus={handleFocus}
-                        handleInput={handleInput}
-                        handleKeyDown={handleKeyDown}
-                        handleSearch={handleSearch}
-                        handleSearchDoubleClick={handleSearchDoubleClick}
-                        handleSearchKeyDown={handleSearchKeyDown}
-                        inputRef={inputRef}
-                        searchResultsExpanded={searchResultsExpanded}
-                        ref={desktopSearchRef}
-                    />
-                ) : (
-                    <ButtonIcon
-                        ariaLabel="Search current Livestreams."
-                        ariaPressed={ariaPressed}
-                        buttonIconRef={buttonIconRef}
-                        type="Search"
-                        title="Toggle search bar."
-                        onClick={handleToggleMobile}
-                        place="center"
-                    />
-                )}
-                <UserIcon anchorRef={anchorRef} buttonRef={userIconRef} />
+                <div className="max-w-[2048px] flex justify-between w-full m-auto">
+                    <HomeIcon />
+                    {contextScreenWidth === 'TABLET' ||
+                    contextScreenWidth === 'DESKTOP' ? (
+                        <DesktopSearch
+                            handleBlur={handleBlur}
+                            handleChange={handleChange}
+                            handleClick={handleClickCompletion}
+                            handleFocus={handleFocus}
+                            handleInput={handleInput}
+                            handleKeyDown={handleKeyDown}
+                            handleSearch={handleSearch}
+                            handleSearchDoubleClick={handleSearchDoubleClick}
+                            handleSearchKeyDown={handleSearchKeyDown}
+                            inputRef={inputRef}
+                            searchResultsExpanded={searchResultsExpanded}
+                            ref={desktopSearchRef}
+                        />
+                    ) : (
+                        <ButtonIcon
+                            ariaLabel="Search current Livestreams."
+                            ariaPressed={ariaPressed}
+                            buttonIconRef={buttonIconRef}
+                            type="Search"
+                            title="Toggle search bar."
+                            onClick={handleToggleMobile}
+                            place="center"
+                        />
+                    )}
+                    <UserIcon anchorRef={anchorRef} buttonRef={userIconRef} />
+                </div>
             </nav>
             {(contextScreenWidth === 'MOBILE' ||
                 contextScreenWidth === 'TABLET_SMALL') &&
