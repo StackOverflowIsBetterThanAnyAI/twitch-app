@@ -34,7 +34,7 @@ const StreamHero = ({ bgColors, filteredStreamData }: StreamHeroProps) => {
             {contextScreenWidth === 'DESKTOP' ? (
                 <article
                     className="flex w-4/5 max-w-6xl m-auto p-4 my-4 items-center gap-4
-                    bg-gradient-to-b from-zinc-700 to-zinc-700/80 rounded-lg"
+                    bg-gradient-to-b from-zinc-700 to-zinc-700/80 shadow-zinc-900 shadow-lg rounded-lg"
                     data-testid="streamfeed-article-0"
                 >
                     <div className={`w-1/2 ${bgColors[0]} aspect-video`}>
@@ -42,7 +42,7 @@ const StreamHero = ({ bgColors, filteredStreamData }: StreamHeroProps) => {
                             channel={filteredStreamData.data[0].user_login}
                         />
                     </div>
-                    <section className="flex items-center gap-x-2 w-1/2 bg-zinc-800 p-4 rounded-xl">
+                    <section className="flex items-center gap-x-2 w-1/2 bg-zinc-800 shadow-zinc-800/75 shadow-md p-4 rounded-xl">
                         <StreamProfilePicture
                             isHeroPicture
                             user_id={filteredStreamData.data[0].user_id}
@@ -79,7 +79,7 @@ const StreamHero = ({ bgColors, filteredStreamData }: StreamHeroProps) => {
             ) : contextScreenWidth === 'TABLET' ? (
                 <article
                     className="flex flex-col w-full m-auto p-4 my-4 gap-2
-                    bg-gradient-to-b from-zinc-700 to-zinc-700/80 rounded-lg"
+                    bg-gradient-to-b from-zinc-700 to-zinc-700/80 shadow-zinc-900 shadow-lg rounded-lg"
                     data-testid="streamfeed-article-0"
                 >
                     <div className="flex items-center gap-4">
@@ -88,7 +88,7 @@ const StreamHero = ({ bgColors, filteredStreamData }: StreamHeroProps) => {
                                 channel={filteredStreamData.data[0].user_login}
                             />
                         </div>
-                        <section className="flex items-center gap-x-2 w-1/2 bg-zinc-800 p-4 rounded-xl">
+                        <section className="flex items-center gap-x-2 w-1/2 bg-zinc-800 shadow-zinc-800/75 shadow-md p-4 rounded-xl">
                             <StreamProfilePicture
                                 isHeroPicture
                                 user_id={filteredStreamData.data[0].user_id}
@@ -127,8 +127,8 @@ const StreamHero = ({ bgColors, filteredStreamData }: StreamHeroProps) => {
                 </article>
             ) : (
                 <article
-                    className="flex flex-col m-auto p-4 my-4 gap-2
-                    bg-gradient-to-b from-zinc-700 to-zinc-700/80 rounded-lg"
+                    className="flex flex-col m-auto p-4 my-4 gap-4
+                    bg-gradient-to-b from-zinc-700 to-zinc-700/80 shadow-zinc-900 shadow-lg rounded-lg"
                     data-testid="streamfeed-article-0"
                 >
                     <div className={`w-full ${bgColors[0]} aspect-video`}>
@@ -136,7 +136,7 @@ const StreamHero = ({ bgColors, filteredStreamData }: StreamHeroProps) => {
                             channel={filteredStreamData.data[0].user_login}
                         />
                     </div>
-                    <section className="flex items-center gap-x-2 bg-zinc-800 p-4 rounded-xl">
+                    <section className="flex items-center gap-x-2 bg-zinc-800 shadow-zinc-800/75 shadow-md p-4 rounded-xl">
                         <StreamProfilePicture
                             isHeroPicture
                             user_id={filteredStreamData.data[0].user_id}

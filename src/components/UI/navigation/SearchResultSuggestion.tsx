@@ -41,7 +41,7 @@ const SearchResultSuggestion = forwardRef<
 
     return (
         <div
-            className="outline outline-zinc-700 rounded-lg bg-zinc-900 flex flex-col overflow-auto"
+            className="outline outline-zinc-700 shadow-zinc-900 shadow-xl rounded-lg bg-zinc-900 flex flex-col overflow-auto"
             style={{
                 maxHeight: '377px',
                 minHeight: `clamp(0px, ${
