@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/twitch-app/static/css/main.7576f236.css",
-    "main.js": "/twitch-app/static/js/main.ef94a41c.js",
+    "main.js": "/twitch-app/static/js/main.6f3de895.js",
     "index.html": "/twitch-app/index.html",
     "main.7576f236.css.map": "/twitch-app/static/css/main.7576f236.css.map",
-    "main.ef94a41c.js.map": "/twitch-app/static/js/main.ef94a41c.js.map"
+    "main.6f3de895.js.map": "/twitch-app/static/js/main.6f3de895.js.map"
   },
   "entrypoints": [
     "static/css/main.7576f236.css",
-    "static/js/main.ef94a41c.js"
+    "static/js/main.6f3de895.js"
   ]
 }
