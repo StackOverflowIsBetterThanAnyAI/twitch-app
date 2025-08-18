@@ -64,7 +64,7 @@ const StreamPlayer: React.FC<StreamPlayerProps> = ({ channel }) => {
         }
     }, [height])
 
-    return <div ref={containerRef}></div>
+    return <div ref={containerRef} className="shadow-zinc-900 shadow-lg"></div>
 }
 
 export default StreamPlayer
