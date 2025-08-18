@@ -20,7 +20,6 @@ import {
     ContextFocusInput,
     ContextLanguage,
     ContextSEOSearchText,
-    ContextScreenWidth,
     ContextSearchText,
     ContextStreamData,
 } from '../../App'
@@ -74,13 +73,6 @@ const StreamFeed = () => {
     }
     const [filteredStreamData, setFilteredStreamData] =
         contextFilteredStreamData
-
-    const contextScreenWidth = useContext(ContextScreenWidth)
-    if (!contextScreenWidth) {
-        throw new Error(
-            'ContextScreenWidth must be used within a ContextScreenWidth.Provider'
-        )
-    }
 
     const contextSearchText = useContext(ContextSearchText)
     if (!contextSearchText) {
@@ -188,7 +180,7 @@ const StreamFeed = () => {
     }
 
     return (
-        <>
+        <div className="max-w-[2048px] mx-auto">
             {filteredStreamData && filteredStreamData.data.length > 0 ? (
                 <>
                     {!seoSearchText && (
@@ -247,13 +239,7 @@ const StreamFeed = () => {
                         </>
                     )}
                     <article
-                        className={`p-4 gap-4 ${
-                            contextScreenWidth === 'MOBILE'
-                                ? 'grid grid-cols-1'
-                                : contextScreenWidth === 'TABLET_SMALL'
-                                ? 'grid grid-cols-2'
-                                : 'grid grid-cols-auto-fill-284'
-                        }`}
+                        className="p-4 gap-4 grid grid-cols-1 min-[384px]:grid-cols-2 sm:grid-cols-auto-fill-284"
                         data-testid="streamfeed-container"
                     >
                         {filteredStreamData.data.map((item, index) => {
@@ -345,7 +331,7 @@ const StreamFeed = () => {
             ) : (
                 <StreamNoResults />
             )}
-        </>
+        </div>
     )
 }
 

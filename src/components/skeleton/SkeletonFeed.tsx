@@ -1,20 +1,11 @@
-import { useContext } from 'react'
 import SkeletonChannelInfo from './SkeletonChannelInfo'
 import SkeletonProfilePicture from './SkeletonProfilePicture'
 import SkeletonThumbnail from './SkeletonThumbnail'
-import { ContextScreenWidth } from '../../App'
 
 const SkeletonFeed = () => {
-    const contextScreenWidth = useContext(ContextScreenWidth)
-    if (!contextScreenWidth) {
-        throw new Error(
-            'ContextScreenWidth must be used within a ContextScreenWidth.Provider'
-        )
-    }
-
     const skeletonArray = Array.from({ length: 20 }, (_, i) => i)
     return (
-        <>
+        <div className="max-w-[2048px] mx-auto">
             <div className="w-full lg:w-4/5 max-w-6xl m-auto pt-4">
                 <div
                     className="bg-zinc-50 rounded-full h-6 animate-pulse my-2"
@@ -28,15 +19,7 @@ const SkeletonFeed = () => {
                 className="bg-zinc-50 rounded-full h-5 animate-pulse my-4 mx-4"
                 style={{ width: 'min(85vw, 320px)' }}
             ></div>
-            <article
-                className={`p-4 gap-4 ${
-                    contextScreenWidth === 'MOBILE'
-                        ? 'grid grid-cols-1'
-                        : contextScreenWidth === 'TABLET_SMALL'
-                        ? 'grid grid-cols-2'
-                        : 'grid grid-cols-auto-fill-284'
-                }`}
-            >
+            <article className="p-4 gap-4 grid grid-cols-1 min-[384px]:grid-cols-2 sm:grid-cols-auto-fill-284">
                 {skeletonArray.map((item) => {
                     return (
                         <article key={item} className="max-w-[440px]">
@@ -51,7 +34,7 @@ const SkeletonFeed = () => {
                     )
                 })}
             </article>
-        </>
+        </div>
     )
 }
 
