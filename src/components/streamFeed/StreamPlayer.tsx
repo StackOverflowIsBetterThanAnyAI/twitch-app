@@ -38,6 +38,7 @@ const StreamPlayer: React.FC<StreamPlayerProps> = ({ channel }) => {
                     height,
                     channel,
                     muted: true,
+                    parent: [window.location.hostname],
                 }
                 playerRef.current = new (window as any).Twitch.Player(
                     containerRef.current,
