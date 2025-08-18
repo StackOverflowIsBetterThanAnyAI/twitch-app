@@ -17,7 +17,12 @@ describe('twitch-app contains navigation bar for small screen sizes', () => {
     it('displays the whole navigation bar content for small screen sizes', () => {
         cy.get('[data-testid="navigation"]').should('have.length', 1)
 
-        cy.get('[data-testid="navigation"]').children().should('have.length', 3)
+        cy.get('[data-testid="navigation"]').children().should('have.length', 1)
+
+        cy.get('[data-testid="navigation"]')
+            .children()
+            .children()
+            .should('have.length', 3)
     })
 
     it('displays the homepage button for small screen sizes', () => {
