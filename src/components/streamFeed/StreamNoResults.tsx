@@ -12,8 +12,9 @@ const StreamNoResults = () => {
                     Make sure all words are spelled correctly or try different
                     keywords.
                 </h3>
-                <section className="py-2 max-w-lg m-auto">
+                <section className="py-4 max-w-lg m-auto">
                     <StreamThumbnail
+                        isError={true}
                         thumbnail_url={fallbackThumbnailImage}
                         user_name="no current Livestreams"
                     />
