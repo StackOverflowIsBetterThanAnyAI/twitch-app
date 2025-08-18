@@ -16,7 +16,7 @@ export const useFocusTrap = (
 
             const focusableStreamButtons: HTMLButtonElement[] = Array.from(
                 document.querySelectorAll(
-                    'button.streamfeed, .navigation, .footer'
+                    'button.streamfeed, .navigation, .footer, .remove-button'
                 )
             )
 
