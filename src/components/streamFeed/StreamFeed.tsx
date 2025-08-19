@@ -25,7 +25,10 @@ import {
 } from '../../App'
 import { useFocusTrap } from '../../hooks/useFocusTrap'
 import { getEnglishLanguageName } from '../../helper/getEnglishLanguageName'
+import { getItemFromStorage } from '../../helper/getItemFromStorage'
+import { getSearchFilter } from '../../helper/getSearchFilter'
 import { getStreams } from '../../helper/getStreams'
+import { setItemInStorage } from '../../helper/setItemInStorage'
 
 const bgColors = [
     'bg-gradient-to-tr from-red-400 to-red-800',
@@ -106,6 +109,7 @@ const StreamFeed = () => {
 
     const removeFilter = () => {
         setSEOSearchText('')
+        setItemInStorage('filter', '')
         setSearchText('')
         setFilteredStreamData(streamData)
         setInputFocussed(false)
@@ -117,6 +121,7 @@ const StreamFeed = () => {
         }
         e.preventDefault()
         setSEOSearchText('')
+        setItemInStorage('filter', '')
         setSearchText('')
         setFilteredStreamData(streamData)
         setInputFocussed(true)
@@ -124,6 +129,8 @@ const StreamFeed = () => {
 
     const loadStreams = useCallback(async () => {
         const url = `https://api.twitch.tv/helix/streams?language=${language}`
+        const parsedData = getItemFromStorage()
+        const filter = parsedData?.filter || ''
         try {
             const data: StreamProps | { error: 'login' } | undefined =
                 await getStreams(url)
@@ -140,6 +147,13 @@ const StreamFeed = () => {
                 setStreamData(data)
                 prevLanguage !== language && setFilteredStreamData(data)
                 filteredStreamData === undefined && setFilteredStreamData(data)
+                if (filter.length) {
+                    setFilteredStreamData({
+                        data: getSearchFilter(filter, data)!,
+                    })
+                    setSearchText(filter)
+                    setSEOSearchText(filter)
+                }
                 setPrevLanguage(language)
             } else if (!data) {
                 setStreamData(undefined)
