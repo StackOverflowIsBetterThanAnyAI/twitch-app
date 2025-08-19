@@ -180,8 +180,10 @@ const StreamFeed = () => {
         language,
         prevLanguage,
         setErrorMessage,
-        setStreamData,
         setFilteredStreamData,
+        setSearchText,
+        setSEOSearchText,
+        setStreamData,
     ])
 
     useEffect(() => {
