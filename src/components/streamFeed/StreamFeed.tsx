@@ -105,7 +105,6 @@ const StreamFeed = () => {
 
     const [error, setError] = useState(false)
     const [loading, setLoading] = useState(true)
-    const [prevLanguage, setPrevLanguage] = useState(language)
 
     const removeFilter = () => {
         setSEOSearchText('')
@@ -145,8 +144,7 @@ const StreamFeed = () => {
                 )
             } else if (data && !('error' in data)) {
                 setStreamData(data)
-                prevLanguage !== language && setFilteredStreamData(data)
-                filteredStreamData === undefined && setFilteredStreamData(data)
+                setFilteredStreamData(data)
                 if (filter.length) {
                     setFilteredStreamData({
                         data: getSearchFilter(filter, data)!,
@@ -154,7 +152,6 @@ const StreamFeed = () => {
                     setSearchText(filter)
                     setSEOSearchText(filter)
                 }
-                setPrevLanguage(language)
             } else if (!data) {
                 setStreamData(undefined)
                 setFilteredStreamData(undefined)
@@ -176,9 +173,7 @@ const StreamFeed = () => {
             setLoading(false)
         }
     }, [
-        filteredStreamData,
         language,
-        prevLanguage,
         setErrorMessage,
         setFilteredStreamData,
         setSearchText,
