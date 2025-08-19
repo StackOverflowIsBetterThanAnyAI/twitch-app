@@ -6,6 +6,7 @@ type ButtonIconProps = {
     ariaPressed?: boolean
     buttonIconRef?: RefObject<HTMLButtonElement>
     onClick: () => void
+    onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>
     place: 'center' | 'left'
     secondary?: boolean
     title?: string
@@ -17,6 +18,7 @@ const ButtonIcon: FC<ButtonIconProps> = ({
     ariaPressed,
     buttonIconRef,
     onClick,
+    onKeyDown,
     place,
     secondary = false,
     title,
@@ -99,6 +101,7 @@ const ButtonIcon: FC<ButtonIconProps> = ({
                 type === 'Search' ? 'navigation' : ''
             }`}
             onClick={onClick}
+            onKeyDown={onKeyDown || undefined}
             title={title || type}
             aria-label={ariaLabel}
             aria-pressed={ariaPressed}

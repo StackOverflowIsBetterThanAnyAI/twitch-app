@@ -108,6 +108,17 @@ const StreamFeed = () => {
         setSEOSearchText('')
         setSearchText('')
         setFilteredStreamData(streamData)
+        setInputFocussed(false)
+    }
+
+    const removeFilterFocus = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+        if (!['Enter', ' '].includes(e.key)) {
+            return
+        }
+        e.preventDefault()
+        setSEOSearchText('')
+        setSearchText('')
+        setFilteredStreamData(streamData)
         setInputFocussed(true)
     }
 
@@ -192,7 +203,7 @@ const StreamFeed = () => {
                     {filteredStreamData.data.length === 1 ? (
                         <>
                             <h2
-                                className="px-4 pt-2 text-xl lg:text-2xl"
+                                className="px-0 lg:px-4 pt-2 text-xl lg:text-2xl"
                                 data-testid="streamfeed-heading-2"
                             >
                                 <span className="text-purple-400">
@@ -205,7 +216,8 @@ const StreamFeed = () => {
                             </h2>
                             {seoSearchText && (
                                 <StreamClearFilter
-                                    removeFilter={removeFilter}
+                                    onClick={removeFilter}
+                                    onKeyDown={removeFilterFocus}
                                 />
                             )}
                             <StreamHero
@@ -216,7 +228,7 @@ const StreamFeed = () => {
                     ) : (
                         <>
                             <h2
-                                className="px-4 pt-2 text-xl lg:text-2xl"
+                                className="px-0 lg:px-4 pt-2 text-xl lg:text-2xl"
                                 data-testid="streamfeed-heading-2"
                             >
                                 <span className="text-purple-400">
@@ -233,7 +245,8 @@ const StreamFeed = () => {
                             </h2>
                             {seoSearchText && (
                                 <StreamClearFilter
-                                    removeFilter={removeFilter}
+                                    onClick={removeFilter}
+                                    onKeyDown={removeFilterFocus}
                                 />
                             )}
                         </>
