@@ -5,12 +5,13 @@ import {
     ContextScreenWidth,
     ContextSearchText,
 } from '../../../App'
-import ProfilePicture from './ProfilePicture'
-import { LANGUAGES } from '../../../constants'
-import Icon from '../Icon'
-import { getLanguageIndex } from '../../../helper/getLanguageIndex'
-import FilterLanguagePopup from './FIlterLanguagePopup'
 import { ContextFilterLanguageExpanded } from './UserIcon'
+import { LANGUAGES } from '../../../constants'
+import FilterLanguagePopup from './FIlterLanguagePopup'
+import Icon from '../Icon'
+import ProfilePicture from './ProfilePicture'
+import { getLanguageIndex } from '../../../helper/getLanguageIndex'
+import { setItemInStorage } from '../../../helper/setItemInStorage'
 
 type SettingsPopupProps = {
     handleButtonKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => void
@@ -89,6 +90,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
             sessionStorage.setItem('twitch_filtered_language', target.value)
             setDisabledIndex(getLanguageIndex(target.value))
             setSEOSearchText('')
+            setItemInStorage('filter', '')
             setSearchText('')
         }
         if (e.key === 'Escape') {
@@ -153,6 +155,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
             sessionStorage.setItem('twitch_filtered_language', selectedValue)
             setDisabledIndex(getLanguageIndex(selectedValue))
             setSEOSearchText('')
+            setItemInStorage('filter', '')
             setSearchText('')
         }
     }

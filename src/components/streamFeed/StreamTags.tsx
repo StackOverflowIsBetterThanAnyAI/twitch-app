@@ -8,6 +8,7 @@ import {
     ContextSearchText,
     ContextStreamData,
 } from '../../App'
+import { setItemInStorage } from '../../helper/setItemInStorage'
 
 type StreamTagsProps = {
     item: string
@@ -76,6 +77,7 @@ const StreamTags: FC<StreamTagsProps> = ({ item, testid }) => {
         })
         setSearchText(item)
         setSEOSearchText(item)
+        setItemInStorage('filter', item)
         setFocusTrapDisabled(true)
         setSearchResults([])
     }

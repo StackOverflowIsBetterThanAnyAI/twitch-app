@@ -10,6 +10,7 @@ import {
 } from '../../App'
 import { getImage } from '../../helper/getImage'
 import { getSearchFilter } from '../../helper/getSearchFilter'
+import { setItemInStorage } from '../../helper/setItemInStorage'
 
 type StreamThumbnailProps = {
     isError?: boolean
@@ -96,6 +97,7 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
         })
         setSearchText(user_name)
         setSEOSearchText(user_name)
+        setItemInStorage('filter', user_name)
         setFocusTrapDisabled(true)
         setSearchResults([])
     }

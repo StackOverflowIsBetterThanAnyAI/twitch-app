@@ -8,6 +8,7 @@ import {
     ContextStreamData,
 } from '../../App'
 import { getSearchFilter } from '../../helper/getSearchFilter'
+import { setItemInStorage } from '../../helper/setItemInStorage'
 
 type StreamChannelProps = {
     testid?: string
@@ -76,6 +77,7 @@ const StreamChannel: FC<StreamChannelProps> = ({ testid, user_name }) => {
         })
         setSearchText(user_name)
         setSEOSearchText(user_name)
+        setItemInStorage('filter', user_name)
         setFocusTrapDisabled(true)
         setSearchResults([])
     }
