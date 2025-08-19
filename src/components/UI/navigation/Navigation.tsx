@@ -16,6 +16,7 @@ import {
 } from '../../../App'
 import DesktopSearch from './DesktopSearch'
 import { getSearchFilter } from '../../../helper/getSearchFilter'
+import { setItemInStorage } from '../../../helper/setItemInStorage'
 
 const Navigation = () => {
     const contextScreenWidth = useContext(ContextScreenWidth)
@@ -115,6 +116,7 @@ const Navigation = () => {
             setSearchResultsExpanded(false)
             setSearchResults([])
             setSEOSearchText('')
+            setItemInStorage('filter', '')
         }
     }
 
@@ -145,6 +147,7 @@ const Navigation = () => {
             setSearchResultsExpanded(false)
             setSearchResults([])
             setSEOSearchText('')
+            setItemInStorage('filter', '')
         }
     }
 
@@ -161,6 +164,9 @@ const Navigation = () => {
             filteredData && filteredData.length > 0
                 ? setSEOSearchText(searchText)
                 : setSEOSearchText('')
+            filteredData && filteredData.length > 0
+                ? setItemInStorage('filter', searchText)
+                : setItemInStorage('filter', '')
         }
     }
 
@@ -177,6 +183,9 @@ const Navigation = () => {
             filteredData && filteredData.length > 0
                 ? setSEOSearchText(search ?? searchText)
                 : setSEOSearchText('')
+            filteredData && filteredData.length > 0
+                ? setItemInStorage('filter', search ?? searchText)
+                : setItemInStorage('filter', '')
         }
     }
 
@@ -192,6 +201,9 @@ const Navigation = () => {
             filteredData && filteredData.length > 0
                 ? setSEOSearchText(name)
                 : setSEOSearchText('')
+            filteredData && filteredData.length > 0
+                ? setItemInStorage('filter', name)
+                : setItemInStorage('filter', '')
         }
     }
 

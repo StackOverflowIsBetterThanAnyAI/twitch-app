@@ -12,6 +12,7 @@ import {
 import { getImage } from '../../helper/getImage'
 import { getProfilePicture } from '../../helper/getProfilePicture'
 import { getSearchFilter } from '../../helper/getSearchFilter'
+import { setItemInStorage } from '../../helper/setItemInStorage'
 
 type StreamProfilePictureProps = {
     isHeroPicture?: boolean
@@ -109,6 +110,7 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
         })
         setSearchText(user_name)
         setSEOSearchText(user_name)
+        setItemInStorage('filter', user_name)
         setFocusTrapDisabled(true)
         setSearchResults([])
     }

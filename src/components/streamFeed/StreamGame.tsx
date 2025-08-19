@@ -8,6 +8,7 @@ import {
     ContextSearchText,
     ContextStreamData,
 } from '../../App'
+import { setItemInStorage } from '../../helper/setItemInStorage'
 
 type StreamGameProps = {
     game_name: string
@@ -76,6 +77,7 @@ const StreamGame: FC<StreamGameProps> = ({ game_name, testid }) => {
         })
         setSearchText(game_name)
         setSEOSearchText(game_name)
+        setItemInStorage('filter', game_name)
         setFocusTrapDisabled(true)
         setSearchResults([])
     }
