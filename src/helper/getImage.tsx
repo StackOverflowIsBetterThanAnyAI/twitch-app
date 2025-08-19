@@ -48,6 +48,6 @@ export const getImage = (
                   typeof size === 'number'
                       ? size.toString()
                       : sizesThumbnail[size.size].width
-              )}&cacheBuster=${cacheBuster}`
+              )}${type === 'THUMBNAIL' ? `&cacheBuster=${cacheBuster}` : ''}`
         : fallbackThumbnailImage
 }
