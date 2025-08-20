@@ -96,7 +96,9 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
                 const data = await getProfilePicture(user_id || '')
                 if (!data) {
                     throw new Error()
-                } else setImageUrl(data)
+                } else {
+                    setImageUrl(data)
+                }
             } catch (error: any) {}
         }
         fetchImageUrl()
