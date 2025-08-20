@@ -104,50 +104,34 @@ const StreamThumbnail: FC<StreamThumbnailProps> = ({
 
     return (
         <div className="aspect-video">
-            {loaded ? (
-                <button
-                    onClick={handleClick}
-                    className={`${
-                        isError ? '' : 'absolute'
-                    } rounded-xl pseudo-zinc`}
-                >
-                    <img
-                        src={getImage(
-                            thumbnail_url,
-                            {
-                                size: contextScreenWidth,
-                            },
-                            'THUMBNAIL'
-                        )}
-                        alt={`${user_name} Livestream`}
-                        className="rounded-xl"
-                        width="100%"
-                        loading="lazy"
-                        title={
-                            stream_game
-                                ? `${user_name} streams ${stream_game}`
-                                : user_name
-                        }
-                        data-testid={testid}
-                    />
-                </button>
-            ) : (
+            <button
+                onClick={handleClick}
+                className={`${
+                    isError ? '' : 'absolute'
+                } rounded-xl pseudo-zinc`}
+            >
                 <img
                     src={getImage(
-                        '',
+                        thumbnail_url,
                         {
                             size: contextScreenWidth,
                         },
                         'THUMBNAIL'
                     )}
-                    alt={`loading ${user_name}`}
-                    className="rounded-xl"
+                    alt={`${user_name} Livestream`}
+                    className="rounded-xl transition-opacity duration-200 ease-in-out"
                     width="100%"
                     loading="lazy"
+                    style={{ opacity: loaded ? 1 : 0 }}
                     onLoad={() => setLoaded(true)}
+                    title={
+                        stream_game
+                            ? `${user_name} streams ${stream_game}`
+                            : user_name
+                    }
                     data-testid={testid}
                 />
-            )}
+            </button>
         </div>
     )
 }
