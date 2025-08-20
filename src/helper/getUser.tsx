@@ -32,7 +32,7 @@ export const getUser = async (): Promise<UserProps | null> => {
             }
         )
 
-        if (response.status !== 200 || typeof response !== 'object')
+        if (response.status !== 200 || typeof response.data !== 'object')
             throw new Error(`${response.status}`)
 
         user = response.data

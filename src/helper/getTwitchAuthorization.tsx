@@ -1,6 +1,7 @@
 import axios from 'axios'
 
 import { AuthorizationProps } from '../types/AuthorizationProps'
+import { setItemInStorage } from './setItemInStorage'
 
 export const getTwitchAuthorization = async (): Promise<AuthorizationProps> => {
     try {
@@ -9,6 +10,11 @@ export const getTwitchAuthorization = async (): Promise<AuthorizationProps> => {
         )
         if (response.status !== 200 || typeof response.data !== 'object')
             throw new Error(`${response.status}`)
+
+        setItemInStorage('access_token', response.data.access_token)
+        setItemInStorage('expires_in', response.data.expires_in)
+        setItemInStorage('token_type', response.data.token_type)
+
         return response.data
     } catch (error: any) {
         console.error(
