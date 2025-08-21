@@ -1,16 +1,14 @@
-import { forwardRef, useContext, useRef } from 'react'
-import './search.css'
+import { forwardRef, useContext, useEffect, useRef } from 'react'
 import {
     ContextDisableFocusTrap,
     ContextFocusInput,
     ContextSearchResults,
     ContextSearchText,
 } from '../../../App'
+import { SearchProps } from '../../../types/SearchProps'
 import Icon from '../Icon'
 import SearchResultSuggestion from './SearchResultSuggestion'
-import { SearchProps } from '../../../types/SearchProps'
-import { useFocusInput } from '../../../hooks/useFocusInput'
-import { useFocusTrapSearch } from '../../../hooks/useFocusTrapSearch'
+import './search.css'
 
 const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
     (
@@ -68,14 +66,68 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
         const buttonRef = useRef<HTMLButtonElement | null>(null)
         const searchResultsRef = useRef<HTMLDivElement | null>(null)
 
-        useFocusTrapSearch(
-            buttonRef,
+        useEffect(() => {
+            const handleFocusTrap = (e: KeyboardEvent) => {
+                if (
+                    searchText.length === 0 ||
+                    focusTrapDisabled ||
+                    e.key !== 'Tab'
+                )
+                    return
+
+                const focusableElements = [
+                    inputRef?.current,
+                    buttonRef.current,
+                    ...(searchResultsRef.current
+                        ? Array.from(
+                              searchResultsRef.current.querySelectorAll(
+                                  'button'
+                              )
+                          )
+                        : []),
+                ].filter((el) => el !== null) as (
+                    | HTMLInputElement
+                    | HTMLButtonElement
+                )[]
+
+                if (focusableElements.length === 0) return
+
+                const firstElement = focusableElements[0]
+                const lastElement =
+                    focusableElements[focusableElements.length - 1]
+
+                if (e.shiftKey) {
+                    if (document.activeElement === firstElement) {
+                        e.preventDefault()
+                        lastElement.focus()
+                    }
+                } else {
+                    if (document.activeElement === lastElement) {
+                        e.preventDefault()
+                        firstElement.focus()
+                    }
+                }
+            }
+
+            document.addEventListener('keydown', handleFocusTrap)
+
+            return () => {
+                document.removeEventListener('keydown', handleFocusTrap)
+            }
+        }, [
             focusTrapDisabled,
             inputRef,
-            searchResultsRef,
-            searchText
-        )
-        useFocusInput(inputFocussed, inputRef, setInputFocussed)
+            searchResults,
+            searchResultsExpanded,
+            searchText,
+        ])
+
+        useEffect(() => {
+            if (inputFocussed && inputRef?.current) {
+                inputRef.current.focus()
+                setInputFocussed(false)
+            }
+        }, [inputFocussed, inputRef, setInputFocussed])
 
         return (
             <div

@@ -1,10 +1,16 @@
-import { Dispatch, SetStateAction, createContext, useState } from 'react'
+import {
+    Dispatch,
+    SetStateAction,
+    createContext,
+    useEffect,
+    useState,
+} from 'react'
 import Footer from './components/UI/footer/Footer'
 import StreamFeed from './components/streamFeed/StreamFeed'
 import Navigation from './components/UI/navigation/Navigation'
 import { StreamProps } from './types/StreamProps'
+import { getEnglishLanguageName } from './helper/getEnglishLanguageName'
 import { getItemFromStorage } from './helper/getItemFromStorage'
-import { useDocumentTitle } from './hooks/useDocumentTitle'
 import { useScreenWidth } from './hooks/useScreenWidth'
 
 export const ContextScreenWidth = createContext<
@@ -79,7 +85,11 @@ const App = () => {
     const [inputFocussed, setInputFocussed] = useState(false)
     const [hideSearch, setHideSearch] = useState(true)
 
-    useDocumentTitle(language, seoSearchText)
+    useEffect(() => {
+        document.title = `Twitch-App | ${getEnglishLanguageName(
+            language
+        )} Livestreams${seoSearchText ? ` | ${seoSearchText}` : ''}`
+    }, [language, seoSearchText])
 
     return (
         <div className="min-w-64 min-h-screen bg-zinc-800">

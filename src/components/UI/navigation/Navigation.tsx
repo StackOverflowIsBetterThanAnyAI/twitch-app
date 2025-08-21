@@ -1,9 +1,8 @@
-import { useContext, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import ButtonIcon from '../ButtonIcon'
-import DesktopSearch from './DesktopSearch'
-import MobileSearch from './MobileSearch'
 import { HomeIcon } from './HomeIcon'
 import { UserIcon } from './UserIcon'
+import MobileSearch from './MobileSearch'
 import {
     ContextDisableFocusTrap,
     ContextFilteredStreamData,
@@ -15,11 +14,9 @@ import {
     ContextSearchText,
     ContextStreamData,
 } from '../../../App'
+import DesktopSearch from './DesktopSearch'
 import { getSearchFilter } from '../../../helper/getSearchFilter'
 import { setItemInStorage } from '../../../helper/setItemInStorage'
-import { useNavigationScrollY } from '../../../hooks/useNavigationScrollY'
-import { useCloseSearchResults } from '../../../hooks/useCloseSearchResults'
-import { useHideMobileSearch } from '../../../hooks/useHideMobileSearch'
 
 const Navigation = () => {
     const contextScreenWidth = useContext(ContextScreenWidth)
@@ -256,24 +253,103 @@ const Navigation = () => {
         }, 0)
     }
 
-    useNavigationScrollY(blockOpacity, navOpacity, setNavOpacity)
-    useCloseSearchResults(
-        anchorRef,
-        buttonIconRef,
-        contextScreenWidth,
-        desktopSearchRef,
-        inputRef,
-        mobileSearchRef,
-        searchResultsExpanded,
-        setSearchResultsExpanded,
-        userIconRef
-    )
-    useHideMobileSearch(
-        contextScreenWidth,
-        inputFocussed,
-        setAriaPressed,
-        setHideSearch
-    )
+    useEffect(() => {
+        let lastScrollY = window.scrollY
+        let timer: NodeJS.Timeout
+
+        const handleScroll = () => {
+            if (window.scrollY === 0) {
+                setNavOpacity('opacity-100')
+            } else if (window.scrollY < lastScrollY && !blockOpacity) {
+                setNavOpacity('opacity-75')
+            } else if (!blockOpacity) {
+                setNavOpacity('opacity-95')
+            }
+            lastScrollY = window.scrollY
+
+            clearTimeout(timer)
+            if (navOpacity !== 'opacity-100') {
+                timer = setTimeout(() => {
+                    setNavOpacity('opacity-100')
+                }, 500)
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll)
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll)
+            clearTimeout(timer)
+        }
+    }, [blockOpacity, navOpacity])
+
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (
+                ((desktopSearchRef.current &&
+                    !desktopSearchRef.current.contains(event.target as Node)) ||
+                    (mobileSearchRef.current &&
+                        !mobileSearchRef.current.contains(
+                            event.target as Node
+                        ))) &&
+                searchResultsExpanded
+            ) {
+                event.stopPropagation()
+                setSearchResultsExpanded(false)
+            }
+        }
+
+        const handleEscape = (event: KeyboardEvent) => {
+            if (
+                ((desktopSearchRef.current &&
+                    desktopSearchRef.current.contains(event.target as Node)) ||
+                    (mobileSearchRef.current &&
+                        mobileSearchRef.current.contains(
+                            event.target as Node
+                        ))) &&
+                searchResultsExpanded &&
+                event.key === 'Escape'
+            ) {
+                event.stopPropagation()
+                setSearchResultsExpanded(false)
+                if (!inputRef?.current?.onfocus) {
+                    if (
+                        contextScreenWidth === 'MOBILE' ||
+                        contextScreenWidth === 'TABLET_SMALL'
+                    ) {
+                        buttonIconRef?.current?.focus()
+                    } else {
+                        userIconRef?.current?.focus()
+                        anchorRef?.current?.focus()
+                    }
+                }
+            }
+        }
+
+        if (searchResultsExpanded) {
+            document.addEventListener('keydown', handleEscape)
+            document.addEventListener('mousedown', handleClickOutside)
+        } else {
+            document.removeEventListener('keydown', handleEscape)
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+
+        return () => {
+            document.removeEventListener('keydown', handleEscape)
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [contextScreenWidth, searchResultsExpanded])
+
+    useEffect(() => {
+        if (
+            (contextScreenWidth === 'MOBILE' ||
+                contextScreenWidth === 'TABLET_SMALL') &&
+            inputFocussed
+        ) {
+            setHideSearch(false)
+            setAriaPressed(true)
+        }
+    }, [contextScreenWidth, inputFocussed, setHideSearch])
 
     return (
         <div className="sticky top-0 z-10" data-testid="navigation-container">
