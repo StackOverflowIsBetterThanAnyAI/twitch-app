@@ -11,7 +11,6 @@ import FilterLanguagePopup from './FIlterLanguagePopup'
 import Icon from '../Icon'
 import ProfilePicture from './ProfilePicture'
 import { getLanguageIndex } from '../../../helper/getLanguageIndex'
-import { removeItemFromStorage } from '../../../helper/removeItemFromStorage'
 import { setItemInStorage } from '../../../helper/setItemInStorage'
 
 type SettingsPopupProps = {
@@ -88,7 +87,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
         if (e.key === ' ' || e.key === 'Enter') {
             const target = e.target as HTMLSelectElement
             setLanguage(target.value)
-            setItemInStorage('twitch_filtered_language', target.value)
+            sessionStorage.setItem('twitch_filtered_language', target.value)
             setDisabledIndex(getLanguageIndex(target.value))
             setSEOSearchText('')
             setItemInStorage('filter', '')
@@ -153,7 +152,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
         if (selectLanguageRef.current) {
             const selectedValue = selectLanguageRef.current.value
             setLanguage(selectedValue)
-            setItemInStorage('twitch_filtered_language', selectedValue)
+            sessionStorage.setItem('twitch_filtered_language', selectedValue)
             setDisabledIndex(getLanguageIndex(selectedValue))
             setSEOSearchText('')
             setItemInStorage('filter', '')
@@ -170,10 +169,10 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
     }
 
     const handleLogout = () => {
-        removeItemFromStorage('twitch_access_state')
-        removeItemFromStorage('twitch_access_token')
-        removeItemFromStorage('twitch_logged_in')
-        removeItemFromStorage('twitch_user')
+        sessionStorage.removeItem('twitch_access_state')
+        sessionStorage.removeItem('twitch_access_token')
+        sessionStorage.removeItem('twitch_logged_in')
+        sessionStorage.removeItem('twitch_user')
         window.location.reload()
     }
 
