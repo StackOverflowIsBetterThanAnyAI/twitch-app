@@ -30,10 +30,10 @@ describe('twitch-app contains valid streamfeed', () => {
             .eq(1)
             .contains('Top Livestream')
 
-        // cy.get('[data-testid="streamfeed-heading-2"]')
-        //     .children()
-        //     .eq(0)
-        //     .contains('English Livestreams')
+        cy.get('[data-testid="streamfeed-heading-2"]')
+            .children()
+            .eq(0)
+            .contains('English Livestreams')
 
         cy.get('[data-testid="streamfeed-heading-2"]')
             .children()
