@@ -7,14 +7,11 @@ import {
     useRef,
     useState,
 } from 'react'
-import SettingsPopup from './SettingsPopup'
-import { UserProps } from '../../../types/UserProps'
 import { getImage } from '../../../helper/getImage'
-import { getItemFromStorage } from '../../../helper/getItemFromStorage'
-import { getRandomChars } from '../../../helper/getRandomChars'
+import { UserProps } from '../../../types/UserProps'
 import { getUser } from '../../../helper/getUser'
-import { removeItemFromStorage } from '../../../helper/removeItemFromStorage'
-import { setItemInStorage } from '../../../helper/setItemInStorage'
+import SettingsPopup from './SettingsPopup'
+import { getRandomChars } from '../../../helper/getRandomChars'
 
 export const ContextFilterLanguageExpanded = createContext<
     [boolean, Dispatch<SetStateAction<boolean>>] | undefined
@@ -29,8 +26,8 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
     const [filterLanguageExpanded, setFilterLanguageExpanded] = useState(false)
     const [state, setState] = useState('')
     const [user, setUser] = useState<UserProps | null>(() => {
-        const parsedData = getItemFromStorage()
-        return parsedData.twitch_user ?? null
+        const storedUser = sessionStorage.getItem('twitch_user')
+        return storedUser ? JSON.parse(storedUser) : null
     })
     const [dropdownActive, setDropdownActive] = useState(false)
     const [redirectUrl, setRedirectUrl] = useState<string | null>(null)
@@ -40,7 +37,7 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
     const settingState = () => {
         const randomState = getRandomChars()
         setState(randomState)
-        setItemInStorage('twitch_random_state', randomState)
+        sessionStorage.setItem('twitch_random_state', randomState)
     }
 
     const fetchUser = async () => {
@@ -50,7 +47,7 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
                 throw new Error('Unable to fetch the currently logged in user')
             }
             setUser(data)
-            setItemInStorage('twitch_user', data)
+            sessionStorage.setItem('twitch_user', JSON.stringify(data))
         } catch (error: any) {
             console.error(
                 'The following error occured while fetching the currently logged in user',
@@ -61,20 +58,19 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
 
     const handleAnchorClick = () => {
         settingState()
-        setItemInStorage('twitch_logged_in', 'true')
+        sessionStorage.setItem('twitch_logged_in', 'true')
     }
 
     useEffect(() => {
-        const parsedData = getItemFromStorage()
-        const isLoggedIn = parsedData.twitch_logged_in
+        const isLoggedIn = sessionStorage.getItem('twitch_logged_in')
         isLoggedIn === 'true' && !user && fetchUser()
         const timer = setTimeout(
             () =>
                 isLoggedIn === 'false' &&
-                (removeItemFromStorage('twitch_logged_in'),
-                removeItemFromStorage('twitch_access_state'),
-                removeItemFromStorage('twitch_access_token'),
-                removeItemFromStorage('twitch_user')),
+                (sessionStorage.removeItem('twitch_logged_in'),
+                sessionStorage.removeItem('twitch_access_state'),
+                sessionStorage.removeItem('twitch_access_token'),
+                sessionStorage.removeItem('twitch_user')),
             0
         )
         return () => clearTimeout(timer)

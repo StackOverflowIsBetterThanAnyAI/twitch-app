@@ -5,13 +5,12 @@ import {
     useEffect,
     useState,
 } from 'react'
-import Footer from './components/UI/footer/Footer'
-import Navigation from './components/UI/navigation/Navigation'
 import StreamFeed from './components/streamFeed/StreamFeed'
+import Navigation from './components/UI/navigation/Navigation'
+import { useScreenWidth } from './hooks/useScreenWidth'
 import { StreamProps } from './types/StreamProps'
 import { getEnglishLanguageName } from './helper/getEnglishLanguageName'
-import { getItemFromStorage } from './helper/getItemFromStorage'
-import { useScreenWidth } from './hooks/useScreenWidth'
+import Footer from './components/UI/footer/Footer'
 
 export const ContextScreenWidth = createContext<
     'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP' | undefined
@@ -67,10 +66,9 @@ export const ContextHideSearch = createContext<
 
 const App = () => {
     const [errorMessage, setErrorMessage] = useState([''])
-    const [language, setLanguage] = useState(() => {
-        const parsedData = getItemFromStorage()
-        return parsedData.twitch_filtered_language || 'en'
-    })
+    const [language, setLanguage] = useState(
+        sessionStorage.getItem('twitch_filtered_language') || 'de'
+    )
     const screenWidth = useScreenWidth()
     const [searchText, setSearchText] = useState<string>('')
     const [seoSearchText, setSEOSearchText] = useState<string>('')
