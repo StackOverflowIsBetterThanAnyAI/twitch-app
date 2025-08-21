@@ -67,7 +67,7 @@ export const ContextHideSearch = createContext<
 const App = () => {
     const [errorMessage, setErrorMessage] = useState([''])
     const [language, setLanguage] = useState(
-        sessionStorage.getItem('twitch_filtered_language') || 'de'
+        sessionStorage.getItem('twitch_filtered_language') || 'en'
     )
     const screenWidth = useScreenWidth()
     const [searchText, setSearchText] = useState<string>('')
