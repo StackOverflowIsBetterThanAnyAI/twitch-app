@@ -1,4 +1,4 @@
-import { FC, useContext, useEffect, useState } from 'react'
+import { FC, useContext, useState } from 'react'
 
 import {
     ContextDisableFocusTrap,
@@ -10,9 +10,9 @@ import {
     ContextStreamData,
 } from '../../App'
 import { getImage } from '../../helper/getImage'
-import { getProfilePicture } from '../../helper/getProfilePicture'
 import { getSearchFilter } from '../../helper/getSearchFilter'
 import { setItemInStorage } from '../../helper/setItemInStorage'
+import { useFetchImageUrl } from '../../hooks/useFetchImageUrl'
 
 type StreamProfilePictureProps = {
     isHeroPicture?: boolean
@@ -90,21 +90,7 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_searchResults, setSearchResults] = contextSearchResults
 
-    useEffect(() => {
-        const fetchImageUrl = async () => {
-            try {
-                const data = await getProfilePicture(user_id || '')
-                if (!data) {
-                    throw new Error()
-                } else {
-                    setImageUrl(data)
-                }
-            } catch (error: any) {}
-        }
-        fetchImageUrl()
-
-        return () => {}
-    }, [user_id])
+    useFetchImageUrl(setImageUrl, user_id)
 
     const handleClick = () => {
         setFilteredStreamData({
