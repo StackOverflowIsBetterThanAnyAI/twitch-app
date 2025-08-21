@@ -3,15 +3,18 @@ import {
     FC,
     SetStateAction,
     createContext,
-    useEffect,
     useRef,
     useState,
 } from 'react'
-import { getImage } from '../../../helper/getImage'
-import { UserProps } from '../../../types/UserProps'
-import { getUser } from '../../../helper/getUser'
 import SettingsPopup from './SettingsPopup'
+import { UserProps } from '../../../types/UserProps'
+import { getImage } from '../../../helper/getImage'
 import { getRandomChars } from '../../../helper/getRandomChars'
+import { getUser } from '../../../helper/getUser'
+import { useCloseUserIcon } from '../../../hooks/useCloseUserIcon'
+import { useGetAuthUrl } from '../../../hooks/useGetAuthUrl'
+import { useLogUserOut } from '../../../hooks/useLogUserOut'
+import { useSetRedirectUrl } from '../../../hooks/useSetRedirectUrl'
 
 export const ContextFilterLanguageExpanded = createContext<
     [boolean, Dispatch<SetStateAction<boolean>>] | undefined
@@ -61,20 +64,7 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
         sessionStorage.setItem('twitch_logged_in', 'true')
     }
 
-    useEffect(() => {
-        const isLoggedIn = sessionStorage.getItem('twitch_logged_in')
-        isLoggedIn === 'true' && !user && fetchUser()
-        const timer = setTimeout(
-            () =>
-                isLoggedIn === 'false' &&
-                (sessionStorage.removeItem('twitch_logged_in'),
-                sessionStorage.removeItem('twitch_access_state'),
-                sessionStorage.removeItem('twitch_access_token'),
-                sessionStorage.removeItem('twitch_user')),
-            0
-        )
-        return () => clearTimeout(timer)
-    }, [user])
+    useLogUserOut(fetchUser, user)
 
     const handleButtonClick = () => {
         setDropdownActive((prev) => !prev)
@@ -98,74 +88,17 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
         }
     }
 
-    useEffect(() => {
-        const getAuthUrl = async () => {
-            if (state.length) {
-                try {
-                    const response = await fetch(
-                        `https://twitch-backend.vercel.app/api/auth-url?state=${state}`
-                    )
-                    const data = await response.json()
-                    setRedirectUrl(data.url)
-                } catch (error) {
-                    console.error('Error fetching auth URL:', error)
-                }
-            }
-        }
-        getAuthUrl()
-    }, [state])
+    useGetAuthUrl(setRedirectUrl, state)
+    useSetRedirectUrl(redirectUrl || '')
 
-    useEffect(() => {
-        if (redirectUrl) {
-            window.location.href = redirectUrl
-        }
-    }, [redirectUrl])
-
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (
-                popupRef.current &&
-                !popupRef.current.contains(event.target as Node) &&
-                buttonRef.current &&
-                !buttonRef.current.contains(event.target as Node)
-            ) {
-                setDropdownActive(false)
-                setFilterLanguageExpanded(false)
-            }
-        }
-
-        if (dropdownActive) {
-            document.addEventListener('mousedown', handleClickOutside)
-        } else {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
-
-        return () => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        }
-    }, [buttonRef, dropdownActive])
-
-    useEffect(() => {
-        const handleEscape = (event: KeyboardEvent) => {
-            if (
-                popupRef.current &&
-                !popupRef.current.contains(event.target as Node) &&
-                !filterLanguageExpanded
-            ) {
-                setDropdownActive(false)
-            }
-        }
-
-        if (dropdownActive && !filterLanguageExpanded) {
-            document.addEventListener('keydown', handleEscape)
-        } else {
-            document.removeEventListener('keydown', handleEscape)
-        }
-
-        return () => {
-            document.removeEventListener('keydown', handleEscape)
-        }
-    }, [dropdownActive, filterLanguageExpanded])
+    useCloseUserIcon(
+        buttonRef,
+        dropdownActive,
+        filterLanguageExpanded,
+        popupRef,
+        setDropdownActive,
+        setFilterLanguageExpanded
+    )
 
     return (
         <>

@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useState } from 'react'
 import { StreamProps } from '../../types/StreamProps'
 
 import SkeletonFeed from '../skeleton/SkeletonFeed'
@@ -29,6 +29,7 @@ import { getItemFromStorage } from '../../helper/getItemFromStorage'
 import { getSearchFilter } from '../../helper/getSearchFilter'
 import { getStreams } from '../../helper/getStreams'
 import { setItemInStorage } from '../../helper/setItemInStorage'
+import { useLoadStreams } from '../../hooks/useLoadStreams'
 
 const bgColors = [
     'bg-gradient-to-tr from-red-400 to-red-800',
@@ -181,16 +182,7 @@ const StreamFeed = () => {
         setStreamData,
     ])
 
-    useEffect(() => {
-        loadStreams()
-        const refresh = setInterval(() => {
-            loadStreams()
-        }, 120000)
-        return () => {
-            clearInterval(refresh)
-        }
-    }, [loadStreams])
-
+    useLoadStreams(loadStreams)
     useFocusTrap(error, filteredStreamData)
 
     if (error) {
