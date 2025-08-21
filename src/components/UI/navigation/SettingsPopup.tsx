@@ -1,4 +1,4 @@
-import { FC, useContext, useRef, useState } from 'react'
+import { FC, useContext, useEffect, useRef, useState } from 'react'
 import {
     ContextLanguage,
     ContextSEOSearchText,
@@ -12,8 +12,6 @@ import Icon from '../Icon'
 import ProfilePicture from './ProfilePicture'
 import { getLanguageIndex } from '../../../helper/getLanguageIndex'
 import { setItemInStorage } from '../../../helper/setItemInStorage'
-import { useCloseSettingsPopup } from '../../../hooks/useCloseSettingsPopup'
-import { useSettingsPopupFocusTrap } from '../../../hooks/useSettingsPopupFocusTrap'
 
 type SettingsPopupProps = {
     handleButtonKeyDown: (e: React.KeyboardEvent<HTMLButtonElement>) => void
@@ -178,12 +176,61 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
         window.location.reload()
     }
 
-    useCloseSettingsPopup(
-        filterLanguageExpanded,
-        popupLanguageRef,
-        setFilterLanguageExpanded
-    )
-    useSettingsPopupFocusTrap(filterLanguageExpanded, popupRef)
+    useEffect(() => {
+        const handleEscape = (event: KeyboardEvent) => {
+            if (
+                popupLanguageRef.current &&
+                !popupLanguageRef.current.contains(event.target as Node) &&
+                filterLanguageExpanded &&
+                event.key === 'Escape'
+            ) {
+                event.stopPropagation()
+                setFilterLanguageExpanded(false)
+            }
+        }
+
+        if (filterLanguageExpanded) {
+            document.addEventListener('keydown', handleEscape)
+        } else {
+            document.removeEventListener('keydown', handleEscape)
+        }
+
+        return () => {
+            document.removeEventListener('keydown', handleEscape)
+        }
+    }, [filterLanguageExpanded, setFilterLanguageExpanded])
+
+    useEffect(() => {
+        if (filterLanguageExpanded) return
+
+        const buttons = popupRef.current?.querySelectorAll('button')
+        if (!buttons || buttons.length === 0) return
+
+        const firstButton = buttons[0]
+        const lastButton = buttons[buttons.length - 1]
+
+        const handleFocusTrap = (e: KeyboardEvent) => {
+            if (e.key !== 'Tab') return
+
+            if (e.shiftKey) {
+                if (document.activeElement === firstButton) {
+                    e.preventDefault()
+                    lastButton.focus()
+                }
+            } else {
+                if (document.activeElement === lastButton) {
+                    e.preventDefault()
+                    firstButton.focus()
+                }
+            }
+        }
+
+        document.addEventListener('keydown', handleFocusTrap)
+
+        return () => {
+            document.removeEventListener('keydown', handleFocusTrap)
+        }
+    }, [filterLanguageExpanded, popupRef])
 
     return (
         <div
