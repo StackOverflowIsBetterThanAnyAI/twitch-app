@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import logo from './../../../images/fallback.png'
 import { ContextScreenWidth } from '../../../App'
+import { setItemInStorage } from '../../../helper/setItemInStorage'
 
 export const HomeIcon = () => {
     const contextScreenWidth = useContext(ContextScreenWidth)
@@ -10,11 +11,16 @@ export const HomeIcon = () => {
         )
     }
 
+    const clearFilter = () => {
+        setItemInStorage('filter', '')
+    }
+
     const handleKeyDown = (e: React.KeyboardEvent<HTMLAnchorElement>) => {
         if (e.key === ' ') {
             const target = e.target as HTMLElement
             target.click()
             e.preventDefault()
+            clearFilter()
         }
     }
 
@@ -22,6 +28,7 @@ export const HomeIcon = () => {
         <a
             href="/twitch-app/"
             className="flex flex-row px-2 rounded-md pseudo-zinc navigation"
+            onClick={clearFilter}
             onKeyDown={handleKeyDown}
             title="Homepage"
             data-testid="navigation-homepage-anchor"
