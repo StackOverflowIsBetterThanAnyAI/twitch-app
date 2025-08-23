@@ -14,6 +14,7 @@ export const useInitPlayer = (
 
         const initPlayer = () => {
             if (playerRef.current) {
+                playerRef.current.setChannel(channel)
                 return
             }
 
