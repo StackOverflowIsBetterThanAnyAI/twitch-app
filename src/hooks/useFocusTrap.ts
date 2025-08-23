@@ -14,37 +14,29 @@ export const useFocusTrap = (
             )
                 return
 
-            const focusableStreamButtons: HTMLButtonElement[] = Array.from(
+            const focusableElements: HTMLButtonElement[] = Array.from(
                 document.querySelectorAll(
                     'button.streamfeed, .navigation, .footer, .remove-button'
                 )
             )
 
-            const focusableNavigationButtons = Array.from(
-                document.querySelectorAll('.navigation')
-            )
-
             if (
                 !document.activeElement ||
-                !focusableStreamButtons.includes(
+                !focusableElements.includes(
                     document.activeElement as HTMLButtonElement
                 )
             )
                 return
 
             const firstFocusableElement =
-                focusableStreamButtons[0] as HTMLButtonElement
+                focusableElements[0] as HTMLButtonElement
 
-            const firstStreamFeedFocusableElement = focusableStreamButtons[
-                focusableNavigationButtons.length
-            ] as HTMLButtonElement
-
-            const lastFocusableElement = focusableStreamButtons[
-                focusableStreamButtons.length - 1
+            const lastFocusableElement = focusableElements[
+                focusableElements.length - 1
             ] as HTMLButtonElement
 
             const findCurrentButtonIndex = (button: HTMLButtonElement) => {
-                return focusableStreamButtons.indexOf(button)
+                return focusableElements.indexOf(button)
             }
 
             if (e.shiftKey && e.key === 'Tab') {
@@ -56,76 +48,72 @@ export const useFocusTrap = (
                     const currentIndex = findCurrentButtonIndex(
                         document.activeElement as HTMLButtonElement
                     )
-                    focusableStreamButtons[currentIndex - 1]?.focus()
+                    focusableElements[currentIndex - 1]?.focus()
                 }
             } else if (!e.shiftKey && e.key === 'Tab') {
                 if (document.activeElement === lastFocusableElement) {
                     e.preventDefault()
-                    firstStreamFeedFocusableElement?.focus()
+                    firstFocusableElement?.focus()
                 } else {
                     e.preventDefault()
                     const currentIndex = findCurrentButtonIndex(
                         document.activeElement as HTMLButtonElement
                     )
-                    focusableStreamButtons[currentIndex + 1]?.focus()
+                    focusableElements[currentIndex + 1]?.focus()
                 }
             } else if (e.key === 'ArrowRight') {
-                const upcommingFocusableStreamButtons =
-                    focusableStreamButtons.splice(
-                        findCurrentButtonIndex(
-                            document.activeElement as HTMLButtonElement
-                        ) + 1
-                    )
+                const upcomingFocusableElements = focusableElements.splice(
+                    findCurrentButtonIndex(
+                        document.activeElement as HTMLButtonElement
+                    ) + 1
+                )
 
-                const previousFocusableStreamButtons =
-                    focusableStreamButtons.splice(
-                        0,
-                        findCurrentButtonIndex(
-                            document.activeElement as HTMLButtonElement
-                        )
+                const previousFocusableElements = focusableElements.splice(
+                    0,
+                    findCurrentButtonIndex(
+                        document.activeElement as HTMLButtonElement
                     )
+                )
 
                 const category = Array.from(document.activeElement.classList)[
                     Array.from(document.activeElement.classList).length - 1
                 ]
 
                 const upcomingElement =
-                    upcommingFocusableStreamButtons.filter((item) =>
+                    upcomingFocusableElements.filter((item) =>
                         Array.from(item.classList).includes(category)
                     )[0] ??
-                    previousFocusableStreamButtons.filter((item) =>
+                    previousFocusableElements.filter((item) =>
                         Array.from(item.classList).includes(category)
                     )[0] ??
                     undefined
 
                 upcomingElement && upcomingElement.focus()
             } else if (e.key === 'ArrowLeft') {
-                const upcommingFocusableStreamButtons =
-                    focusableStreamButtons.splice(
-                        findCurrentButtonIndex(
-                            document.activeElement as HTMLButtonElement
-                        ) + 1
-                    )
+                const upcomingFocusableElements = focusableElements.splice(
+                    findCurrentButtonIndex(
+                        document.activeElement as HTMLButtonElement
+                    ) + 1
+                )
 
-                const previousFocusableStreamButtons =
-                    focusableStreamButtons.splice(
-                        0,
-                        findCurrentButtonIndex(
-                            document.activeElement as HTMLButtonElement
-                        )
+                const previousFocusableElements = focusableElements.splice(
+                    0,
+                    findCurrentButtonIndex(
+                        document.activeElement as HTMLButtonElement
                     )
+                )
 
                 const category = Array.from(document.activeElement.classList)[
                     Array.from(document.activeElement.classList).length - 1
                 ]
 
                 const previousElement =
-                    previousFocusableStreamButtons
+                    previousFocusableElements
                         .reverse()
                         .filter((item) =>
                             Array.from(item.classList).includes(category)
                         )[0] ??
-                    upcommingFocusableStreamButtons
+                    upcomingFocusableElements
                         .reverse()
                         .filter((item) =>
                             Array.from(item.classList).includes(category)
