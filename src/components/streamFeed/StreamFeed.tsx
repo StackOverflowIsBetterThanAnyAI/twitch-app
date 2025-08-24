@@ -128,6 +128,7 @@ const StreamFeed = () => {
     }
 
     const loadStreams = useCallback(async () => {
+        setLoading(true)
         const url = `https://api.twitch.tv/helix/streams?language=${language}`
         const parsedData = getItemFromStorage()
         const filter = parsedData?.filter || ''
