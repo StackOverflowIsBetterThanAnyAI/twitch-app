@@ -201,16 +201,22 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
     }, [filterLanguageExpanded, setFilterLanguageExpanded])
 
     useEffect(() => {
-        if (filterLanguageExpanded) return
+        if (filterLanguageExpanded) {
+            return
+        }
 
         const buttons = popupRef.current?.querySelectorAll('button')
-        if (!buttons || buttons.length === 0) return
+        if (!buttons || buttons.length === 0) {
+            return
+        }
 
         const firstButton = buttons[0]
         const lastButton = buttons[buttons.length - 1]
 
         const handleFocusTrap = (e: KeyboardEvent) => {
-            if (e.key !== 'Tab') return
+            if (e.key !== 'Tab') {
+                return
+            }
 
             if (e.shiftKey) {
                 if (document.activeElement === firstButton) {
