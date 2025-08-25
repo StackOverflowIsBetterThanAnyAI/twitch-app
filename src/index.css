@@ -15,6 +15,21 @@ input[type='search']::-webkit-search-cancel-button:hover {
     transform: rotate(90deg);
 }
 
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.shimmer {
+    background: linear-gradient(90deg, #e5e7eb 25%, #fcfcfd 50%, #e5e7eb 75%);
+    background-size: 200% 100%;
+    animation: shimmer 2s infinite;
+}
+
 ::-webkit-scrollbar {
     width: 8px;
 }

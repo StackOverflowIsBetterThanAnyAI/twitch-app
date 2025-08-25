@@ -1,5 +1,5 @@
 const SkeletonChannelInfo = () => {
-    const textClassName = 'bg-zinc-50 rounded-full h-4 mb-2 animate-pulse'
+    const textClassName = 'bg-zinc-50 rounded-full h-4 mb-2 shimmer'
     const skeletonArray = Array.from({ length: 3 }, (_, i) => i)
     return (
         <>
