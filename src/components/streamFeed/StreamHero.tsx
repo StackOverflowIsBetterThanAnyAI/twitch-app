@@ -7,7 +7,6 @@ import StreamPlayer from './StreamPlayer'
 import StreamProfilePicture from './StreamProfilePicture'
 import StreamTags from './StreamTags'
 import StreamTitle from './StreamTitle'
-import StreamTitleHero from './StreamTitleHero'
 
 type StreamHeroProps = { bgColors: string[]; filteredStreamData: StreamProps }
 
@@ -31,146 +30,68 @@ const StreamHero = ({ bgColors, filteredStreamData }: StreamHeroProps) => {
                     : {filteredStreamData.data[0].user_name}
                 </span>
             </h1>
-            {contextScreenWidth === 'DESKTOP' ? (
-                <article
-                    className="flex w-4/5 max-w-6xl m-auto p-4 my-4 items-center gap-4
-                    bg-gradient-to-b from-zinc-700 to-zinc-700/80 shadow-zinc-900 shadow-lg rounded-lg"
-                    data-testid="streamfeed-article-0"
+            <article
+                className={`flex ${
+                    contextScreenWidth === 'DESKTOP'
+                        ? 'w-4/5'
+                        : `w-full ${
+                              contextScreenWidth === 'TABLET' ? '' : 'flex-col'
+                          }`
+                } max-w-6xl m-auto p-4 my-4 items-center gap-4
+                bg-gradient-to-b from-zinc-700 to-zinc-700/80 shadow-zinc-900 shadow-lg rounded-lg"
+                data-testid="streamfeed-article-0`}
+            >
+                <div
+                    className={`${
+                        ['DESKTOP', 'TABLET'].includes(contextScreenWidth)
+                            ? 'w-1/2'
+                            : 'w-full'
+                    } ${bgColors[0]} aspect-video`}
                 >
-                    <div className={`w-1/2 ${bgColors[0]} aspect-video`}>
-                        <StreamPlayer
-                            channel={filteredStreamData.data[0].user_login}
-                        />
-                    </div>
-                    <section className="flex items-center gap-x-2 w-1/2 bg-zinc-800 shadow-zinc-800/75 shadow-md p-4 rounded-xl">
-                        <StreamProfilePicture
-                            isHeroPicture
-                            user_id={filteredStreamData.data[0].user_id}
-                            user_name={filteredStreamData.data[0].user_name}
-                            testid="streamfeed-profilepicture-0"
-                        />
-                        <section className="flex flex-col flex-1 w-0">
-                            <StreamChannel
-                                user_name={filteredStreamData.data[0].user_name}
-                                testid="streamfeed-channel-0"
-                            />
-                            <StreamTitle
-                                title={filteredStreamData.data[0].title}
-                                testid="streamfeed-title-0"
-                            />
-                            <StreamGame
-                                game_name={filteredStreamData.data[0].game_name}
-                                testid="streamfeed-game-0"
-                            />
-                            <div className="flex flex-wrap w-full max-h-20 overflow-auto pl-2 -ml-2">
-                                {filteredStreamData.data[0].tags.map(
-                                    (tag, index) => (
-                                        <StreamTags
-                                            item={tag}
-                                            key={`${tag}${index} - tag`}
-                                            testid={`streamfeed-tags-${index}`}
-                                        />
-                                    )
-                                )}
-                            </div>
-                        </section>
-                    </section>
-                </article>
-            ) : contextScreenWidth === 'TABLET' ? (
-                <article
-                    className="flex flex-col w-full m-auto p-4 my-4 gap-2
-                    bg-gradient-to-b from-zinc-700 to-zinc-700/80 shadow-zinc-900 shadow-lg rounded-lg"
-                    data-testid="streamfeed-article-0"
-                >
-                    <div className="flex items-center gap-4">
-                        <div className={`w-1/2 ${bgColors[0]} aspect-video`}>
-                            <StreamPlayer
-                                channel={filteredStreamData.data[0].user_login}
-                            />
-                        </div>
-                        <section className="flex items-center gap-x-2 w-1/2 bg-zinc-800 shadow-zinc-800/75 shadow-md p-4 rounded-xl">
-                            <StreamProfilePicture
-                                isHeroPicture
-                                user_id={filteredStreamData.data[0].user_id}
-                                user_name={filteredStreamData.data[0].user_name}
-                                testid="streamfeed-profilepicture-0"
-                            />
-                            <section className="flex flex-col">
-                                <StreamChannel
-                                    user_name={
-                                        filteredStreamData.data[0].user_name
-                                    }
-                                    testid="streamfeed-channel-0"
-                                />
-                                <StreamGame
-                                    game_name={
-                                        filteredStreamData.data[0].game_name
-                                    }
-                                    testid="streamfeed-game-0"
-                                />
-                            </section>
-                        </section>
-                    </div>
-                    <StreamTitleHero
-                        title={filteredStreamData.data[0].title}
-                        testid="streamfeed-title-0"
+                    <StreamPlayer
+                        channel={filteredStreamData.data[0].user_login}
                     />
-                    <div className="flex flex-wrap w-full max-h-20 overflow-auto pl-2 -ml-2">
-                        {filteredStreamData.data[0].tags.map((tag, index) => (
-                            <StreamTags
-                                item={tag}
-                                key={`${tag}${index} - tag`}
-                                testid={`streamfeed-tags-${index}`}
-                            />
-                        ))}
-                    </div>
-                </article>
-            ) : (
-                <article
-                    className="flex flex-col m-auto p-4 my-4 gap-4
-                    bg-gradient-to-b from-zinc-700 to-zinc-700/80 shadow-zinc-900 shadow-lg rounded-lg"
-                    data-testid="streamfeed-article-0"
+                </div>
+                <section
+                    className={`flex items-center gap-x-2 ${
+                        ['DESKTOP', 'TABLET'].includes(contextScreenWidth)
+                            ? 'w-1/2'
+                            : 'w-full'
+                    } bg-zinc-800 shadow-zinc-800/75 shadow-md p-4 rounded-xl`}
                 >
-                    <div className={`w-full ${bgColors[0]} aspect-video`}>
-                        <StreamPlayer
-                            channel={filteredStreamData.data[0].user_login}
-                        />
-                    </div>
-                    <section className="flex items-center gap-x-2 bg-zinc-800 shadow-zinc-800/75 shadow-md p-4 rounded-xl">
-                        <StreamProfilePicture
-                            isHeroPicture
-                            user_id={filteredStreamData.data[0].user_id}
+                    <StreamProfilePicture
+                        isHeroPicture
+                        user_id={filteredStreamData.data[0].user_id}
+                        user_name={filteredStreamData.data[0].user_name}
+                        testid="streamfeed-profilepicture-0"
+                    />
+                    <section className="flex flex-col flex-1 w-0">
+                        <StreamChannel
                             user_name={filteredStreamData.data[0].user_name}
-                            testid="streamfeed-profilepicture-0"
+                            testid="streamfeed-channel-0"
                         />
-                        <section className="flex flex-col flex-1 w-0">
-                            <StreamChannel
-                                user_name={filteredStreamData.data[0].user_name}
-                                testid="streamfeed-channel-0"
-                            />
-                            <StreamTitle
-                                title={filteredStreamData.data[0].title}
-                                testid="streamfeed-title-0"
-                            />
-                            <StreamGame
-                                game_name={filteredStreamData.data[0].game_name}
-                                testid="streamfeed-game-0"
-                            />
-                            <div className="flex flex-wrap w-full max-h-20 overflow-auto pl-2 -ml-2">
-                                {filteredStreamData.data[0].tags.map(
-                                    (tag, index) => (
-                                        <StreamTags
-                                            item={tag}
-                                            key={`${tag}${index} - tag`}
-                                            testid={`streamfeed-tags-${index}`}
-                                        />
-                                    )
-                                )}
-                            </div>
-                        </section>
+                        <StreamTitle
+                            title={filteredStreamData.data[0].title}
+                            testid="streamfeed-title-0"
+                        />
+                        <StreamGame
+                            game_name={filteredStreamData.data[0].game_name}
+                            testid="streamfeed-game-0"
+                        />
+                        <div className="flex flex-wrap w-full max-h-20 overflow-auto pl-2 -ml-2">
+                            {filteredStreamData.data[0].tags.map(
+                                (tag, index) => (
+                                    <StreamTags
+                                        item={tag}
+                                        key={`${tag}${index} - tag`}
+                                        testid={`streamfeed-tags-${index}`}
+                                    />
+                                )
+                            )}
+                        </div>
                     </section>
-                </article>
-            )}
+                </section>
+            </article>
         </>
     )
 }
