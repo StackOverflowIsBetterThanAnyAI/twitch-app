@@ -38,8 +38,8 @@ const StreamHero = ({ bgColors, filteredStreamData }: StreamHeroProps) => {
                               contextScreenWidth === 'TABLET' ? '' : 'flex-col'
                           }`
                 } max-w-6xl m-auto p-4 my-4 items-center gap-4
-                bg-gradient-to-b from-zinc-700 to-zinc-700/80 shadow-zinc-900 shadow-lg rounded-lg"
-                data-testid="streamfeed-article-0`}
+                bg-gradient-to-b from-zinc-700 to-zinc-700/80 shadow-zinc-900 shadow-lg rounded-lg`}
+                data-testid="streamfeed-article-0"
             >
                 <div
                     className={`${
