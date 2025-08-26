@@ -83,11 +83,11 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
                 ref={ref}
                 data-testid="navigation-searchbar-container"
             >
-                <div className="flex flex-row outline outline-zinc-700 rounded-lg my-auto w-[249px]">
+                <div className="flex flex-row outline outline-zinc-700 rounded-lg my-auto w-[249px] focus-within:outline-2 focus-within:outline-purple-500">
                     <input
                         type="search"
                         placeholder="Search Livestreams"
-                        className="bg-zinc-925 text-slate-300 caret-zinc-300 px-2 m-1 rounded-l-md pseudo-zinc navigation"
+                        className="bg-zinc-925 text-slate-300 caret-zinc-300 px-2 m-1 rounded-l-md pseudo-zinc focus-visible:outline-0 navigation"
                         value={searchText}
                         onChange={handleChange}
                         onFocus={handleFocus}
