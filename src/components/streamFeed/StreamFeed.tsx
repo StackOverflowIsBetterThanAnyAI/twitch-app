@@ -127,61 +127,64 @@ const StreamFeed = () => {
         setInputFocussed(true)
     }
 
-    const loadStreams = useCallback(async () => {
-        setLoading(true)
-        const url = `https://api.twitch.tv/helix/streams?language=${language}`
-        const parsedData = getItemFromStorage()
-        const filter = parsedData?.filter || ''
-        try {
-            const data: StreamProps | { error: 'login' } | undefined =
-                await getStreams(url)
-            if (data && 'error' in data && data.error === 'login') {
-                setStreamData(undefined)
-                setFilteredStreamData(undefined)
-                setErrorMessage([
-                    'At the moment there are problems with the login process.',
-                ])
-                throw new Error(
-                    'At the moment there are problems with the login process.'
-                )
-            } else if (data && !('error' in data)) {
-                setStreamData(data)
-                setFilteredStreamData(data)
-                if (filter.length) {
-                    setFilteredStreamData({
-                        data: getSearchFilter(filter, data)!,
-                    })
-                    setSearchText(filter)
-                    setSEOSearchText(filter)
-                }
-            } else if (!data) {
-                setStreamData(undefined)
-                setFilteredStreamData(undefined)
-                setErrorMessage([
-                    `There are no ${getEnglishLanguageName(
+    const loadStreams = useCallback(
+        async (useSkeleton: boolean = true) => {
+            setLoading(useSkeleton)
+            const url = `https://api.twitch.tv/helix/streams?language=${language}`
+            const parsedData = getItemFromStorage()
+            const filter = parsedData?.filter || ''
+            try {
+                const data: StreamProps | { error: 'login' } | undefined =
+                    await getStreams(url)
+                if (data && 'error' in data && data.error === 'login') {
+                    setStreamData(undefined)
+                    setFilteredStreamData(undefined)
+                    setErrorMessage([
+                        'At the moment there are problems with the login process.',
+                    ])
+                    throw new Error(
+                        'At the moment there are problems with the login process.'
+                    )
+                } else if (data && !('error' in data)) {
+                    setStreamData(data)
+                    setFilteredStreamData(data)
+                    if (filter.length) {
+                        setFilteredStreamData({
+                            data: getSearchFilter(filter, data)!,
+                        })
+                        setSearchText(filter)
+                        setSEOSearchText(filter)
+                    }
+                } else if (!data) {
+                    setStreamData(undefined)
+                    setFilteredStreamData(undefined)
+                    setErrorMessage([
+                        `There are no ${getEnglishLanguageName(
+                            language
+                        )} Livestreams available at the following URL:`,
+                        url,
+                    ])
+                    throw new Error(`There are no ${getEnglishLanguageName(
                         language
-                    )} Livestreams available at the following URL:`,
-                    url,
-                ])
-                throw new Error(`There are no ${getEnglishLanguageName(
-                    language
-                )} Livestreams available at the following URL:
+                    )} Livestreams available at the following URL:
                     ${url}`)
+                }
+                setError(false)
+            } catch (error) {
+                setError(true)
+            } finally {
+                setLoading(false)
             }
-            setError(false)
-        } catch (error) {
-            setError(true)
-        } finally {
-            setLoading(false)
-        }
-    }, [
-        language,
-        setErrorMessage,
-        setFilteredStreamData,
-        setSearchText,
-        setSEOSearchText,
-        setStreamData,
-    ])
+        },
+        [
+            language,
+            setErrorMessage,
+            setFilteredStreamData,
+            setSearchText,
+            setSEOSearchText,
+            setStreamData,
+        ]
+    )
 
     useLoadStreams(loadStreams)
     useFocusTrap(error, filteredStreamData)
