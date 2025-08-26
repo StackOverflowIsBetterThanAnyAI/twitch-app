@@ -1,10 +1,12 @@
 import { useEffect } from 'react'
 
-export const useLoadStreams = (loadStreams: () => Promise<void>) => {
+export const useLoadStreams = (
+    loadStreams: (useSkeleton: boolean) => Promise<void>
+) => {
     useEffect(() => {
-        loadStreams()
+        loadStreams(true)
         const refresh = setInterval(() => {
-            loadStreams()
+            loadStreams(false)
         }, 120000)
         return () => {
             clearInterval(refresh)
