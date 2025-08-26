@@ -349,7 +349,13 @@ const StreamFeed = () => {
                     </article>
                 </>
             ) : (
-                <StreamNoResults />
+                <>
+                    <StreamClearFilter
+                        onClick={removeFilter}
+                        onKeyDown={removeFilterFocus}
+                    />
+                    <StreamNoResults />
+                </>
             )}
         </div>
     )
