@@ -16,9 +16,12 @@ describe('twitch-app contains footer', () => {
     it('contains the correct footer content', () => {
         cy.get('[data-testid="footer-content"]').should('have.length', 1)
 
-        cy.get('[data-testid="footer-content"]').contains(
-            'Copyright © 2025 Michael Münzenhofer. All Rights Reserved.GitHub Repository.'
-        )
+        cy.get('[data-testid="footer-content"]')
+            .should(
+                'contain.text',
+                'Copyright © 2025 Michael Münzenhofer. All Rights Reserved.'
+            )
+            .should('contain.text', 'GitHub Repository')
 
         cy.get('[data-testid="footer-content"]')
             .children()
