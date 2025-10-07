@@ -132,13 +132,16 @@ const Navigation = () => {
                     game_name: item.game_name,
                     user_name: item.user_name,
                     title: item.title,
-                    tags: item.tags.filter((tag) =>
-                        tag
-                            .toLowerCase()
-                            .includes(
-                                e.target.value.toLowerCase().replaceAll(' ', '')
-                            )
-                    ),
+                    tags:
+                        item.tags?.filter((tag) =>
+                            tag
+                                .toLowerCase()
+                                .includes(
+                                    e.target.value
+                                        .toLowerCase()
+                                        .replaceAll(' ', '')
+                                )
+                        ) || [],
                 })
             )
             setSearchResults(results)

@@ -25,7 +25,7 @@ export const getSearchFilter = (
                       .toLowerCase()
                       .replaceAll(' ', '')
                       .includes(searchTextLowerCase) ||
-                  item.tags.some((tag) =>
+                  item.tags?.some((tag) =>
                       tag
                           .toLowerCase()
                           .replaceAll(' ', '')
