@@ -78,17 +78,19 @@ const StreamHero = ({ bgColors, filteredStreamData }: StreamHeroProps) => {
                             game_name={filteredStreamData.data[0].game_name}
                             testid="streamfeed-game-0"
                         />
-                        <div className="flex flex-wrap w-full max-h-20 overflow-auto pl-2 -ml-2">
-                            {filteredStreamData.data[0].tags.map(
-                                (tag, index) => (
-                                    <StreamTags
-                                        item={tag}
-                                        key={`${tag}${index} - tag`}
-                                        testid={`streamfeed-tags-${index}`}
-                                    />
-                                )
-                            )}
-                        </div>
+                        {filteredStreamData.data[0].tags && (
+                            <div className="flex flex-wrap w-full max-h-20 overflow-auto pl-2 -ml-2">
+                                {filteredStreamData.data[0].tags.map(
+                                    (tag, index) => (
+                                        <StreamTags
+                                            item={tag}
+                                            key={`${tag}${index} - tag`}
+                                            testid={`streamfeed-tags-${index}`}
+                                        />
+                                    )
+                                )}
+                            </div>
+                        )}
                     </section>
                 </section>
             </article>

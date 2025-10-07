@@ -329,17 +329,19 @@ const StreamFeed = () => {
                                                     key={`${item.user_id} - game`}
                                                     testid={`streamfeed-game-${index}`}
                                                 />
-                                                <div className="flex flex-wrap w-full max-h-20 overflow-auto pl-2 -ml-2">
-                                                    {item.tags.map(
-                                                        (tag, index) => (
-                                                            <StreamTags
-                                                                item={tag}
-                                                                key={`${tag}${index} - tag`}
-                                                                testid={`streamfeed-tags-${index}`}
-                                                            />
-                                                        )
-                                                    )}
-                                                </div>
+                                                {item.tags && (
+                                                    <div className="flex flex-wrap w-full max-h-20 overflow-auto pl-2 -ml-2">
+                                                        {item.tags.map(
+                                                            (tag, index) => (
+                                                                <StreamTags
+                                                                    item={tag}
+                                                                    key={`${tag}${index} - tag`}
+                                                                    testid={`streamfeed-tags-${index}`}
+                                                                />
+                                                            )
+                                                        )}
+                                                    </div>
+                                                )}
                                             </section>
                                         </section>
                                     </article>

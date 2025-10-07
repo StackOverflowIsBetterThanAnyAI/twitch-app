@@ -7,7 +7,7 @@ export type StreamProps = {
         language: string
         started_at: string
         tag_ids: string[]
-        tags: string[]
+        tags: string[] | null
         thumbnail_url: string
         title: string
         type: string
