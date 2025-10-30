@@ -1,7 +1,18 @@
-import { defineConfig } from 'cypress'
+const { defineConfig } = require('cypress')
 
-export default defineConfig({
+module.exports = defineConfig({
     e2e: {
+        setupNodeEvents(
+            on: Cypress.PluginEvents,
+            _config: Cypress.PluginConfigOptions
+        ) {
+            on('task', {
+                log(message: string) {
+                    console.log(message)
+                    return null
+                },
+            })
+        },
         baseUrl: 'https://stackoverflowisbetterthananyai.github.io/twitch-app',
     },
 })
