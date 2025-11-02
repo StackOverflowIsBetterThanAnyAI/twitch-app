@@ -1,63 +1,80 @@
 import { formatWCAGTag } from '../support/formatWCAGTag'
 
 describe('a11y tests', () => {
-    beforeEach(() => {
-        cy.visit('/')
-        cy.injectAxe()
-    })
+    const pages = ['/']
 
-    it('log all axe-core WCAG 2.2 success criteria', () => {
-        cy.window()
-            .its('axe')
-            .then((axe) => {
-                const options = {
-                    runOnly: {
-                        type: 'tag',
-                        values: [
-                            'wcag2a',
-                            'wcag2aa',
-                            'wcag21a',
-                            'wcag21aa',
-                            'wcag22a',
-                            'wcag22aa',
-                        ],
-                    },
-                }
+    pages.forEach((page) => {
+        it(`WCAG 2.2 accessibility evaluation of ${
+            page === '/' ? 'Homepage' : page
+        }`, () => {
+            cy.visit(page, { failOnStatusCode: false })
+            cy.injectAxe()
 
-                return axe.run(options).then((results) => {
-                    cy.task('log', 'Complete WCAG 2.2 axe-core evaluation:')
+            const safeName = page.replace(/^\//, '').toLowerCase()
+            const reportPath = `cypress/reports/a11y-report-wcag-${
+                safeName === '' ? 'homepage' : safeName
+            }.json`
 
-                    const categories = [
-                        { key: 'violations', label: `❌ failed` },
-                        { key: 'passes', label: `✅ passed` },
-                        { key: 'incomplete', label: `⚠️  incomplete` },
-                        { key: 'inapplicable', label: `⏭️  inapplicable` },
-                    ]
+            cy.window()
+                .its('axe')
+                .then((axe) => {
+                    const options = {
+                        runOnly: {
+                            type: 'tag',
+                            values: [
+                                'wcag2a',
+                                'wcag2aa',
+                                'wcag21a',
+                                'wcag21aa',
+                                'wcag22a',
+                                'wcag22aa',
+                            ],
+                        },
+                    }
 
-                    categories.forEach(({ key, label }) => {
-                        const items = results[key] || []
-                        cy.task('log', `\n=== ${label} (${items.length}) ===`)
+                    return axe.run(options).then((results) => {
+                        cy.task(
+                            'log',
+                            `\n=== WCAG 2.2 accessibility evaluation of ${
+                                page === '/' ? 'Homepage' : page
+                            } ===`
+                        )
 
-                        items.forEach((rule) => {
-                            const wcagRefs =
-                                (rule.tags || [])
-                                    .filter((tag) => /^wcag/i.test(tag))
-                                    .map((tag) => formatWCAGTag(tag))
-                                    .join(', ') || 'no WCAG reference'
+                        const categories = [
+                            { key: 'violations', label: `❌ failed` },
+                            { key: 'passes', label: `✅ passed` },
+                            { key: 'incomplete', label: `⚠️  incomplete` },
+                            { key: 'inapplicable', label: `⏭️  inapplicable` },
+                        ]
 
-                            cy.task('log', `→ Rule: ${rule.id}`)
-                            cy.task('log', `  Description: ${rule.help}`)
-                            cy.task('log', `  Impact: ${rule.impact || 'n/a'}`)
-                            cy.task('log', `  WCAG: ${wcagRefs}`)
-                            cy.task('log', `  Help: ${rule.helpUrl}`)
+                        categories.forEach(({ key, label }) => {
+                            const items = results[key] || []
+                            cy.task(
+                                'log',
+                                `\n=== ${label} (${items.length}) ===`
+                            )
+
+                            items.forEach((rule) => {
+                                const wcagRefs =
+                                    (rule.tags || [])
+                                        .filter((tag) => /^wcag/i.test(tag))
+                                        .map((tag) => formatWCAGTag(tag))
+                                        .join(', ') || 'no WCAG reference'
+
+                                cy.task('log', `→ Rule: ${rule.id}`)
+                                cy.task('log', `  Description: ${rule.help}`)
+                                cy.task(
+                                    'log',
+                                    `  Impact: ${rule.impact || 'n/a'}`
+                                )
+                                cy.task('log', `  WCAG: ${wcagRefs}`)
+                                cy.task('log', `  Help: ${rule.helpUrl}`)
+                            })
                         })
-                    })
 
-                    cy.writeFile(
-                        'cypress/reports/a11y-report-wcag.json',
-                        results
-                    )
+                        cy.writeFile(reportPath, results)
+                    })
                 })
-            })
+        })
     })
 })
