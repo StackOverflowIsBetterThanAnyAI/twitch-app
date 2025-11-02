@@ -2,12 +2,9 @@ const { defineConfig } = require('cypress')
 
 module.exports = defineConfig({
     e2e: {
-        setupNodeEvents(
-            on: Cypress.PluginEvents,
-            _config: Cypress.PluginConfigOptions
-        ) {
+        setupNodeEvents(on, _config) {
             on('task', {
-                log(message: string) {
+                log(message) {
                     console.log(message)
                     return null
                 },
