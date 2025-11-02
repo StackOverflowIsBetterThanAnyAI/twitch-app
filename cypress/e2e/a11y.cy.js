@@ -1,3 +1,5 @@
+import { formatWCAGTag } from '../support/formatWCAGTag'
+
 describe('a11y tests', () => {
     beforeEach(() => {
         cy.visit('/')
@@ -39,7 +41,8 @@ describe('a11y tests', () => {
                         items.forEach((rule) => {
                             const wcagRefs =
                                 (rule.tags || [])
-                                    .filter((tag) => /^wcag/.test(tag))
+                                    .filter((tag) => /^wcag/i.test(tag))
+                                    .map((tag) => formatWCAGTag(tag))
                                     .join(', ') || 'no WCAG reference'
 
                             cy.task('log', `→ Rule: ${rule.id}`)
