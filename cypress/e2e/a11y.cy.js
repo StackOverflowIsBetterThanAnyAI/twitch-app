@@ -26,10 +26,10 @@ describe('a11y tests', () => {
                     cy.task('log', 'Complete WCAG 2.2 axe-core evaluation:')
 
                     const categories = [
-                        { key: 'violations', label: '❌ failed' },
-                        { key: 'passes', label: '✅ passed' },
-                        { key: 'incomplete', label: '⚠️ incomplete' },
-                        { key: 'inapplicable', label: '⏭️ inapplicable' },
+                        { key: 'violations', label: `❌ failed` },
+                        { key: 'passes', label: `✅ passed` },
+                        { key: 'incomplete', label: `⚠️  incomplete` },
+                        { key: 'inapplicable', label: `⏭️  inapplicable` },
                     ]
 
                     categories.forEach(({ key, label }) => {
@@ -39,7 +39,7 @@ describe('a11y tests', () => {
                         items.forEach((rule) => {
                             const wcagRefs =
                                 (rule.tags || [])
-                                    .filter((t) => t.startsWith('wcag'))
+                                    .filter((tag) => tag.startsWith('wcag'))
                                     .join(', ') || 'no WCAG reference'
 
                             cy.task('log', `→ Rule: ${rule.id}`)
