@@ -1,4 +1,5 @@
 import { formatWCAGTag } from '../support/formatWCAGTag'
+import { isGoodStatusCode } from '../support/isGoodStatusCode'
 
 describe('accessibility tests', () => {
     const pages = ['/', '/admin']
@@ -12,22 +13,10 @@ describe('accessibility tests', () => {
                 failOnStatusCode: false,
             }).then((response) => {
                 const statusCode = response.status
-
-                if (statusCode >= 400) {
-                    cy.task(
-                        'log',
-                        '\n===================================================================================='
-                    )
-                    cy.task(
-                        'log',
-                        `⚠️  Skipping Accessibility Check: ${page} failed to load (Status: ${statusCode}).`
-                    )
-                    cy.task(
-                        'log',
-                        '===================================================================================='
-                    )
+                if (!isGoodStatusCode(statusCode, page)) {
                     return
                 }
+
                 cy.visit(page)
                 cy.injectAxe()
 
