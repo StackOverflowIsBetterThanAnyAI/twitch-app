@@ -43,10 +43,10 @@ describe('a11y tests', () => {
                                     .join(', ') || 'no WCAG reference'
 
                             cy.task('log', `→ Rule: ${rule.id}`)
-                            cy.task('log', `   Description: ${rule.help}`)
-                            cy.task('log', `   Impact: ${rule.impact || 'n/a'}`)
-                            cy.task('log', `   WCAG: ${wcagRefs}`)
-                            cy.task('log', `   Help: ${rule.helpUrl}`)
+                            cy.task('log', `  Description: ${rule.help}`)
+                            cy.task('log', `  Impact: ${rule.impact || 'n/a'}`)
+                            cy.task('log', `  WCAG: ${wcagRefs}`)
+                            cy.task('log', `  Help: ${rule.helpUrl}`)
                         })
                     })
 
