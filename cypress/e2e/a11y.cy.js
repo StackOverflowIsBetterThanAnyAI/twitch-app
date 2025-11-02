@@ -1,7 +1,7 @@
 import { formatWCAGTag } from '../support/formatWCAGTag'
 import { isGoodStatusCode } from '../support/isGoodStatusCode'
 
-describe('accessibility tests', () => {
+describe('Accessibility Tests', () => {
     const pages = ['/', '/admin']
 
     pages.forEach((page) => {
