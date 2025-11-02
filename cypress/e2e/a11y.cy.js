@@ -39,7 +39,7 @@ describe('a11y tests', () => {
                         items.forEach((rule) => {
                             const wcagRefs =
                                 (rule.tags || [])
-                                    .filter((tag) => tag.startsWith('wcag'))
+                                    .filter((tag) => /^wcag/.test(tag))
                                     .join(', ') || 'no WCAG reference'
 
                             cy.task('log', `→ Rule: ${rule.id}`)
