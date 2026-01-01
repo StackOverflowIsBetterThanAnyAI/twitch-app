@@ -19,7 +19,7 @@ describe('twitch-app contains footer', () => {
         cy.get('[data-testid="footer-content"]')
             .should(
                 'contain.text',
-                'Copyright © 2025 Michael Münzenhofer. All Rights Reserved.'
+                'Copyright © 2026 Michael Münzenhofer. All Rights Reserved.'
             )
             .should('contain.text', 'GitHub Repository')
 
