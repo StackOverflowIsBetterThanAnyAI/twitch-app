@@ -62,7 +62,7 @@ module.exports = {
         function ({ addUtilities }) {
             addUtilities({
                 '.pseudo-zinc-purple': {
-                    '@apply hover:cursor-pointer hover:bg-zinc-700 hover:text-purple-400 focus-visible:bg-zinc-700 focus-visible:text-purple-400 focus-visible:outline focus-visible:outline-zinc-400 focus-visible:outline-2 active:bg-zinc-600 active:text-purple-500 active:outline active:outline-zinc-500 active:outline-2':
+                    '@apply hover:cursor-pointer hover:bg-zinc-700 hover:text-purple-400 focus-visible:bg-zinc-800 focus-visible:text-purple-400 focus-visible:outline focus-visible:outline-zinc-400 focus-visible:outline-2 active:bg-zinc-600 active:text-purple-500 active:outline active:outline-zinc-500 active:outline-2':
                         {},
                 },
             })
