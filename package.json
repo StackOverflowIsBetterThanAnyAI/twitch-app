@@ -42,7 +42,7 @@
         ]
     },
     "devDependencies": {
-        "cypress": "^15.16.0",
+        "cypress": "^15.18.0",
         "gh-pages": "^6.3.0",
         "prettier-es5": "^0.0.4",
         "tailwindcss": "^3.4.19"
