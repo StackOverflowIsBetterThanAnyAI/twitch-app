@@ -50,5 +50,10 @@
     "overrides": {
         "nth-check": ">=2.0.1",
         "underscore": ">=1.13.8"
+    },
+    "allowScripts": {
+        "cypress@15.18.0": true,
+        "core-js@3.37.0": true,
+        "core-js-pure@3.37.0": true
     }
 }
