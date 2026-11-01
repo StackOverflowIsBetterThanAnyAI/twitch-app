@@ -37,10 +37,10 @@ jobs:
         run: npm run build
 
       - name: Run Cypress Tests
-        uses: cypress-io/github-action@v6
+        uses: cypress-io/github-action@v7
         with:
-          start: npm start -- --host 127.0.0.1
-          wait-on: "http://127.0.0.1:3000/twitch-app/"
+          start: npm start
+          wait-on: "http://localhost:3000/twitch-app/"
           browser: chrome
 
       - name: Upload Cypress Artifacts
