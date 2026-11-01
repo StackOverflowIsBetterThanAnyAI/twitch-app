@@ -15,6 +15,7 @@ export const useInitPlayer = (
         const initPlayer = () => {
             if (playerRef.current) {
                 playerRef.current.setChannel(channel)
+                setPlayerTitle()
                 return
             }
 
@@ -31,14 +32,29 @@ export const useInitPlayer = (
                     options
                 )
                 playerRef.current.setVolume(volume)
+                setPlayerTitle()
             }
         }
 
+        // frames need a title to be identifiable by assistive technologies
+        const setPlayerTitle = () => {
+            containerRef.current
+                ?.querySelector('iframe')
+                ?.setAttribute('title', `Livestream of ${channel}`)
+        }
+
         if (!(window as any).Twitch) {
-            const script = document.createElement('script')
-            script.src = 'https://player.twitch.tv/js/embed/v1.js'
+            const scriptId = 'twitch-embed-script'
+            const script =
+                (document.getElementById(scriptId) as HTMLScriptElement) ||
+                document.createElement('script')
             script.addEventListener('load', initPlayer)
-            document.body.appendChild(script)
+            if (!script.id) {
+                script.id = scriptId
+                script.src = 'https://player.twitch.tv/js/embed/v1.js'
+                document.body.appendChild(script)
+            }
+            return () => script.removeEventListener('load', initPlayer)
         } else {
             initPlayer()
         }

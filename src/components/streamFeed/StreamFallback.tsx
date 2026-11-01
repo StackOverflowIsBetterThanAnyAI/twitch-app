@@ -17,17 +17,17 @@ const StreamFallback = () => {
     return (
         <article className="p-4 md:p-12 lg:p-12 text-center text-slate-300">
             <section>
-                <h2 className="text-lg lg:text-xl font-bold">Ooops!</h2>
-                <h3 className="text-base lg:text-lg">
-                    Unfortunatelly we cannot fetch the current Livestreams.
-                </h3>
+                <h1 className="text-lg lg:text-xl font-bold">Ooops!</h1>
+                <h2 className="text-base lg:text-lg">
+                    Unfortunately we cannot fetch the current Livestreams.
+                </h2>
                 {errorMessage[0] && (
-                    <h4 className="text-sm lg:text-base">{errorMessage[0]}</h4>
+                    <p className="text-sm lg:text-base">{errorMessage[0]}</p>
                 )}
                 {errorMessage[1] && (
-                    <h4 className="text-sm lg:text-base">
+                    <p className="text-sm lg:text-base">
                         <i>{errorMessage[1]}</i>
-                    </h4>
+                    </p>
                 )}
                 <section className="py-4 max-w-lg m-auto">
                     <StreamThumbnail

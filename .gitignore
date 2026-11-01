@@ -2,3 +2,4 @@
 /cypress/reports
 /cypress/screenshots
 /build
+/cypress/videos

@@ -80,8 +80,7 @@ const Navigation = () => {
             'ContextSearchResults must be used within a ContextSearchResults.Provider'
         )
     }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [_searchResults, setSearchResults] = contextSearchResults
+    const [searchResults, setSearchResults] = contextSearchResults
 
     const contextFocusInput = useContext(ContextFocusInput)
     if (!contextFocusInput) {
@@ -280,6 +279,15 @@ const Navigation = () => {
 
     return (
         <div className="sticky top-0 z-10" data-testid="navigation-container">
+            <p role="status" className="sr-only">
+                {searchResultsExpanded && searchText.length > 0
+                    ? `${searchResults.length} ${
+                          searchResults.length === 1
+                              ? 'suggestion'
+                              : 'suggestions'
+                      } available`
+                    : ''}
+            </p>
             <nav
                 className={`bg-zinc-925 text-slate-300 
                 transition-opacity duration-500 ease-in-out ${navOpacity}`}

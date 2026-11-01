@@ -80,10 +80,11 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
         return (
             <div
                 className="flex flex-col py-1 gap-1"
+                role="search"
                 ref={ref}
                 data-testid="navigation-searchbar-container"
             >
-                <div className="flex flex-row outline outline-zinc-700 rounded-lg my-auto w-[249px] focus-within:outline-2 focus-within:outline-purple-500">
+                <div className="flex flex-row outline-solid outline-zinc-700 rounded-lg my-auto w-[249px] focus-within:outline-2 focus-within:outline-purple-500">
                     <input
                         type="search"
                         placeholder="Search Livestreams"
@@ -96,6 +97,7 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
                         onBlur={handleBlur}
                         ref={inputRef}
                         title="Search current Livestreams."
+                        aria-label="Search current Livestreams"
                         name="searchCurrentLivestreams"
                     />
                     <button
@@ -110,6 +112,7 @@ const DesktopSearch = forwardRef<HTMLDivElement, SearchProps>(
                                 : 'Type anything to search for.'
                         }
                         onClick={handleSearch}
+                        aria-label="Search"
                         disabled={!searchText}
                         aria-disabled={!searchText}
                         ref={buttonRef}

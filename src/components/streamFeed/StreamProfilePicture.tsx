@@ -1,4 +1,4 @@
-import { FC, useContext, useState } from 'react'
+import { FC, useContext } from 'react'
 
 import {
     ContextDisableFocusTrap,
@@ -12,19 +12,18 @@ import {
 import { getImage } from '../../helper/getImage'
 import { getSearchFilter } from '../../helper/getSearchFilter'
 import { setItemInStorage } from '../../helper/setItemInStorage'
-import { useFetchImageUrl } from '../../hooks/useFetchImageUrl'
 
 type StreamProfilePictureProps = {
+    imageUrl?: string
     isHeroPicture?: boolean
     testid?: string
-    user_id: string
     user_name: string
 }
 
 const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
+    imageUrl = '',
     isHeroPicture,
     testid,
-    user_id,
     user_name,
 }) => {
     const contextScreenWidth = useContext(ContextScreenWidth)
@@ -33,7 +32,6 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
             'ContextScreenWidth must be used within a ContextScreenWidth.Provider'
         )
     }
-    const [imageUrl, setImageUrl] = useState<string>('')
 
     const contextStreamData = useContext(ContextStreamData)
     if (!contextStreamData) {
@@ -90,8 +88,6 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_searchResults, setSearchResults] = contextSearchResults
 
-    useFetchImageUrl(setImageUrl, user_id)
-
     const handleClick = () => {
         setFilteredStreamData({
             data: getSearchFilter(user_name, streamData, true)!,
@@ -129,7 +125,7 @@ const StreamProfilePicture: FC<StreamProfilePictureProps> = ({
 
     return (
         <button
-            className="h-fit flex-shrink-0 rounded-full pseudo-zinc"
+            className="h-fit shrink-0 rounded-full pseudo-zinc"
             onClick={handleClick}
         >
             <img

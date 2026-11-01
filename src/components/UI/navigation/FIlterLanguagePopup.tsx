@@ -49,7 +49,12 @@ const FilterLanguagePopup: FC<FilterLanguagePopupProps> = ({
                     onClick={handleClickBackFromLanguage}
                     place="left"
                 />
-                <h2 className="text-base lg:text-lg">Language</h2>
+                <h2
+                    className="text-base lg:text-lg"
+                    id="filter-language-heading"
+                >
+                    Language
+                </h2>
                 <Icon
                     type="Country"
                     code={language.replace('en', 'gb').replace('sv', 'se')}
@@ -59,7 +64,8 @@ const FilterLanguagePopup: FC<FilterLanguagePopupProps> = ({
             <select
                 size={LANGUAGES.length}
                 className="bg-zinc-700 focus-visible:outline focus-visible:outline-1 focus-visible:outline-zinc-50 rounded-md"
-                defaultValue={getLanguageNameByCode(language)}
+                defaultValue={Object.values(LANGUAGES[currentIndex])[0]}
+                aria-labelledby="filter-language-heading"
                 onKeyDown={handleSelectKeyDown}
                 onDoubleClick={handleButtonApplyClick}
                 onChange={handleSelectChange}
@@ -77,6 +83,7 @@ const FilterLanguagePopup: FC<FilterLanguagePopupProps> = ({
                                     : 'hover:bg-zinc-800 hover:text-slate-300'
                             }`}
                             value={code}
+                            lang={code}
                             disabled={code === language}
                         >
                             {name}

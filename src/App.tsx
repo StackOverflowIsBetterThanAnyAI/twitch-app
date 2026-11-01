@@ -130,6 +130,12 @@ const App = () => {
                                                             setHideSearch,
                                                         ]}
                                                     >
+                                                        <a
+                                                            href="#main"
+                                                            className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-20 focus:px-4 focus:py-2 focus:rounded-md focus:bg-zinc-50 focus:text-zinc-900 focus:outline-solid focus:outline-2 focus:outline-purple-500"
+                                                        >
+                                                            Skip to main content
+                                                        </a>
                                                         <Navigation />
                                                         <div
                                                             className="grid"
@@ -147,7 +153,10 @@ const App = () => {
                                                                     '1fr auto',
                                                             }}
                                                         >
-                                                            <main className="font-sans bg-gradient-to-b from-zinc-800 via-zinc-900 to-zinc-800 px-2">
+                                                            <main
+                                                                id="main"
+                                                                tabIndex={-1}
+                                                                className="font-sans focus:outline-none bg-linear-to-b from-zinc-800 via-zinc-900 to-zinc-800 px-2">
                                                                 <StreamFeed />
                                                             </main>
                                                             <Footer />

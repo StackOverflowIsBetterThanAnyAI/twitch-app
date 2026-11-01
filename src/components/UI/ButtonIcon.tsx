@@ -4,7 +4,7 @@ import './remove.css'
 type ButtonIconProps = {
     ariaLabel: string
     ariaPressed?: boolean
-    buttonIconRef?: RefObject<HTMLButtonElement>
+    buttonIconRef?: RefObject<HTMLButtonElement | null>
     onClick: () => void
     onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>
     place: 'center' | 'left'
@@ -95,7 +95,7 @@ const ButtonIcon: FC<ButtonIconProps> = ({
 
     return (
         <button
-            className={`${place === 'center' && 'm-auto'} p-2 rounded-full ${
+            className={`${place === 'center' ? 'm-auto' : ''} p-2 rounded-full ${
                 secondary ? 'pseudo-zinc-secondary' : 'pseudo-zinc'
             } ${type === 'Remove' ? 'remove-button' : ''} ${
                 type === 'Search' ? 'navigation' : ''

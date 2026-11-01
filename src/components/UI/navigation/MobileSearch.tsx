@@ -79,7 +79,10 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
 
         return (
             <>
-                <div className="flex justify-center bg-zinc-800 p-2 outline outline-zinc-900 w-full">
+                <div
+                    className="flex justify-center bg-zinc-800 p-2 outline-solid outline-zinc-900 w-full"
+                    role="search"
+                >
                     <input
                         type="search"
                         placeholder="Search"
@@ -92,6 +95,7 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
                         onKeyDown={handleKeyDown}
                         ref={searchMobileRef}
                         title="Search current Livestreams."
+                        aria-label="Search current Livestreams"
                         name="searchCurrentLivestreams"
                     />
                     <button
@@ -101,6 +105,7 @@ const MobileSearch = forwardRef<HTMLDivElement, SearchProps>(
                                 : 'hover:cursor-not-allowed'
                         }`}
                         onClick={handleSearch}
+                        aria-label="Search"
                         disabled={!searchText}
                         aria-disabled={!searchText}
                         ref={buttonRef}

@@ -1,6 +1,48 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+    --color-zinc-925: #161617;
+}
+
+/* keep the Tailwind v3 defaults for borders and placeholders */
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentcolor);
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        color: var(--color-zinc-400);
+    }
+}
+
+@utility grid-cols-minmax-36 {
+    grid-template-columns: minmax(36px, 1fr) 1fr 1fr 1fr 1fr;
+}
+
+@utility grid-cols-auto-fill-284 {
+    grid-template-columns: repeat(auto-fill, minmax(284px, 1fr));
+}
+
+@utility pseudo-zinc {
+    @apply hover:cursor-pointer hover:bg-zinc-800 focus-visible:bg-zinc-800 focus-visible:outline-solid focus-visible:outline-zinc-400 focus-visible:outline-2 active:bg-zinc-700 active:outline-solid active:outline-zinc-600 active:outline-2;
+}
+
+@utility pseudo-zinc-secondary {
+    @apply hover:cursor-pointer hover:bg-zinc-700 focus-visible:bg-zinc-700 focus-visible:outline-solid focus-visible:outline-zinc-400 focus-visible:outline-2 active:bg-zinc-600 active:outline-solid active:outline-zinc-500 active:outline-2;
+}
+
+@utility pseudo-zinc-purple {
+    @apply hover:cursor-pointer hover:bg-zinc-700 hover:text-purple-400 focus-visible:bg-zinc-800 focus-visible:text-purple-400 focus-visible:outline-solid focus-visible:outline-zinc-400 focus-visible:outline-2 active:bg-zinc-600 active:text-purple-500 active:outline-solid active:outline-zinc-500 active:outline-2;
+}
+
+@utility pseudo-zinc-retry {
+    @apply hover:cursor-pointer hover:bg-zinc-50 hover:text-zinc-800 focus-visible:outline-4 active:outline-offset-2 active:bg-zinc-200 active:text-zinc-800;
+}
 
 input[type='search']::-webkit-search-cancel-button {
     -webkit-appearance: none;
@@ -50,4 +92,17 @@ input[type='search']::-webkit-search-cancel-button:hover {
 html {
     background-color: rgb(39 39 42);
     scrollbar-gutter: stable;
+    /* keeps focused elements from being hidden behind the sticky navigation (WCAG 2.4.11) */
+    scroll-padding-top: 112px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .shimmer {
+        animation: none;
+    }
+
+    .remove-button .remove-icon,
+    .search-button .search-icon {
+        transition: none;
+    }
 }

@@ -18,8 +18,8 @@ export const ContextFilterLanguageExpanded = createContext<
 >(undefined)
 
 type UserIconProps = {
-    anchorRef: React.RefObject<HTMLButtonElement>
-    buttonRef: React.RefObject<HTMLButtonElement>
+    anchorRef: React.RefObject<HTMLButtonElement | null>
+    buttonRef: React.RefObject<HTMLButtonElement | null>
 }
 
 export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
@@ -148,6 +148,7 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
     useEffect(() => {
         const handleEscape = (event: KeyboardEvent) => {
             if (
+                event.key === 'Escape' &&
                 popupRef.current &&
                 !popupRef.current.contains(event.target as Node) &&
                 !filterLanguageExpanded
@@ -178,6 +179,11 @@ export const UserIcon: FC<UserIconProps> = ({ anchorRef, buttonRef }) => {
                             className="rounded-md px-2 pseudo-zinc navigation"
                             onClick={handleButtonClick}
                             ref={buttonRef}
+                            aria-expanded={dropdownActive}
+                            aria-haspopup="dialog"
+                            aria-controls={
+                                dropdownActive ? 'settings-popup' : undefined
+                            }
                         >
                             <img
                                 src={getImage(

@@ -26,7 +26,7 @@ export const HomeIcon = () => {
 
     return (
         <a
-            href="/twitch-app/"
+            href={import.meta.env.BASE_URL}
             className="flex flex-row px-2 rounded-md pseudo-zinc navigation"
             onClick={clearFilter}
             onKeyDown={handleKeyDown}

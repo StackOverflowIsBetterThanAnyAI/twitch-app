@@ -8,7 +8,8 @@ export const getImage = (
     size: ScreenSizeProps | number,
     type: 'THUMBNAIL' | 'PROFILE'
 ): string => {
-    const cacheBuster = Date.now()
+    // changes with every stream refresh (2 minutes) so re-renders reuse the cached thumbnail
+    const cacheBuster = Math.floor(Date.now() / 120000)
     const sizesThumbnail = {
         MOBILE: {
             height: '189',

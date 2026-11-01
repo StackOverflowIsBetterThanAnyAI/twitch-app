@@ -27,6 +27,12 @@ jobs:
             - name: Install Dependencies
               run: npm i
 
+            - name: Lint
+              run: npm run lint
+
+            - name: Run Unit Tests
+              run: npm test
+
             - name: Build App
               run: npm run build
 
@@ -34,7 +40,7 @@ jobs:
               uses: cypress-io/github-action@v6
               with:
                   start: npm start
-                  wait-on: 'http://localhost:3000'
+                  wait-on: 'http://localhost:3000/twitch-app/'
                   browser: chrome
 
             - name: Upload Cypress Artifacts
