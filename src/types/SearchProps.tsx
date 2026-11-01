@@ -13,7 +13,7 @@ export type SearchProps = {
         e: React.KeyboardEvent<HTMLButtonElement>,
         name: string
     ) => void
-    inputRef?: RefObject<HTMLInputElement>
+    inputRef?: RefObject<HTMLInputElement | null>
     searchResultsExpanded: boolean
-    searchMobileRef?: RefObject<HTMLInputElement>
+    searchMobileRef?: RefObject<HTMLInputElement | null>
 }

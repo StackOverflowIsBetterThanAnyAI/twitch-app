@@ -1,15 +1,15 @@
 import { useEffect } from 'react'
 
 export const useCloseSearchResults = (
-    anchorRef: React.RefObject<HTMLButtonElement>,
-    buttonIconRef: React.RefObject<HTMLButtonElement>,
+    anchorRef: React.RefObject<HTMLButtonElement | null>,
+    buttonIconRef: React.RefObject<HTMLButtonElement | null>,
     contextScreenWidth: 'MOBILE' | 'TABLET_SMALL' | 'TABLET' | 'DESKTOP',
-    desktopSearchRef: React.RefObject<HTMLDivElement>,
-    inputRef: React.RefObject<HTMLInputElement>,
-    mobileSearchRef: React.RefObject<HTMLDivElement>,
+    desktopSearchRef: React.RefObject<HTMLDivElement | null>,
+    inputRef: React.RefObject<HTMLInputElement | null>,
+    mobileSearchRef: React.RefObject<HTMLDivElement | null>,
     searchResultsExpanded: boolean,
     setSearchResultsExpanded: (value: React.SetStateAction<boolean>) => void,
-    userIconRef: React.RefObject<HTMLButtonElement>
+    userIconRef: React.RefObject<HTMLButtonElement | null>
 ) => {
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {

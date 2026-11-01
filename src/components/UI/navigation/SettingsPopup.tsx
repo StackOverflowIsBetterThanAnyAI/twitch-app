@@ -240,8 +240,11 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
 
     return (
         <div
-            className="absolute top-16 right-4 bg-zinc-700 outline outline-zinc-900 rounded-md p-2"
+            className="absolute top-16 right-4 bg-zinc-700 outline-solid outline-zinc-900 rounded-md p-2"
             ref={popupRef}
+            id="settings-popup"
+            role="dialog"
+            aria-label="Settings"
         >
             {filterLanguageExpanded ? (
                 <FilterLanguagePopup
@@ -277,9 +280,9 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
                     >
                         <div className="flex flex-row justify-start items-center gap-2">
                             <Icon type="Language" />
-                            <h3 className="text-base lg:text-lg">
+                            <span className="text-base lg:text-lg">
                                 Filter Language
-                            </h3>
+                            </span>
                         </div>
                         <Icon type="Expand" />
                     </button>
@@ -289,7 +292,7 @@ const SettingsPopup: FC<SettingsPopupProps> = ({
                         onKeyDown={handleButtonKeyDown}
                     >
                         <Icon type="Logout" />
-                        <h3 className="text-base lg:text-lg">Log out</h3>
+                        <span className="text-base lg:text-lg">Log out</span>
                     </button>
                 </div>
             )}

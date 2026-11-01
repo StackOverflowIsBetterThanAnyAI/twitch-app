@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { UserProps } from '../types/UserProps'
 
 export const getUser = async (): Promise<UserProps | null> => {
@@ -18,24 +17,29 @@ export const getUser = async (): Promise<UserProps | null> => {
 
     if (!sameState) {
         !user && sessionStorage.setItem('twitch_logged_in', 'false')
-        window.location.href = '/twitch-app/'
+        window.location.href = import.meta.env.BASE_URL
         throw new Error('The received state does not match the sent state.')
     }
 
     try {
-        const response = await axios.post(
+        const response = await fetch(
             'https://twitch-backend.vercel.app/api/user',
             {
-                access_token,
-                access_state,
-                random_state: sessionStorage.getItem('twitch_random_state'),
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    access_token,
+                    access_state,
+                    random_state: sessionStorage.getItem('twitch_random_state'),
+                }),
             }
         )
+        const data = await response.json()
 
-        if (response.status !== 200 || typeof response.data !== 'object')
+        if (!response.ok || typeof data !== 'object')
             throw new Error(`${response.status}`)
 
-        user = response.data
+        user = data
         sessionStorage.setItem('twitch_logged_in', 'true')
         return user
     } catch (error: any) {
@@ -46,7 +50,7 @@ export const getUser = async (): Promise<UserProps | null> => {
         sessionStorage.setItem('twitch_logged_in', 'false')
         return user
     } finally {
-        window.location.href = '/twitch-app/'
+        window.location.href = import.meta.env.BASE_URL
 
         sessionStorage.removeItem('twitch_access_state')
         sessionStorage.removeItem('twitch_random_state')

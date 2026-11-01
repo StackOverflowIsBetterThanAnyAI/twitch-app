@@ -1,21 +1,23 @@
-import axios from 'axios'
-
 import { AuthorizationProps } from '../types/AuthorizationProps'
+import { getItemFromStorage } from './getItemFromStorage'
 import { setItemInStorage } from './setItemInStorage'
 
-export const getTwitchAuthorization = async (): Promise<AuthorizationProps> => {
+let pendingAuthorization: Promise<AuthorizationProps> | null = null
+
+const requestTwitchAuthorization = async (): Promise<AuthorizationProps> => {
     try {
-        const response = await axios.get(
+        const response = await fetch(
             'https://twitch-backend.vercel.app/api/auth'
         )
-        if (response.status !== 200 || typeof response.data !== 'object')
+        const data = await response.json()
+        if (!response.ok || typeof data !== 'object')
             throw new Error(`${response.status}`)
 
-        setItemInStorage('access_token', response.data.access_token)
-        setItemInStorage('expires_in', response.data.expires_in)
-        setItemInStorage('token_type', response.data.token_type)
+        setItemInStorage('access_token', data.access_token)
+        setItemInStorage('expires_in', data.expires_in)
+        setItemInStorage('token_type', data.token_type)
 
-        return response.data
+        return data
     } catch (error: any) {
         console.error(
             'The following error occured during the Athorization:',
@@ -24,3 +26,27 @@ export const getTwitchAuthorization = async (): Promise<AuthorizationProps> => {
         return { access_token: '', expires_in: 0, token_type: '' }
     }
 }
+
+// concurrent callers share a single token request instead of requesting one each
+export const getTwitchAuthorization = (): Promise<AuthorizationProps> => {
+    if (!pendingAuthorization) {
+        pendingAuthorization = requestTwitchAuthorization().finally(() => {
+            pendingAuthorization = null
+        })
+    }
+    return pendingAuthorization
+}
+
+export const getStoredTwitchAuthorization =
+    async (): Promise<AuthorizationProps> => {
+        const parsedData = getItemFromStorage()
+        return parsedData.access_token &&
+            parsedData.expires_in &&
+            parsedData.token_type
+            ? {
+                  access_token: parsedData.access_token,
+                  expires_in: parsedData.expires_in,
+                  token_type: parsedData.token_type,
+              }
+            : getTwitchAuthorization()
+    }

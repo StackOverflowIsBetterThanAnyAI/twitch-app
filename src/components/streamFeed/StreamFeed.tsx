@@ -30,16 +30,17 @@ import { getSearchFilter } from '../../helper/getSearchFilter'
 import { getStreams } from '../../helper/getStreams'
 import { setItemInStorage } from '../../helper/setItemInStorage'
 import { useLoadStreams } from '../../hooks/useLoadStreams'
+import { useProfilePictures } from '../../hooks/useProfilePictures'
 
 const bgColors = [
-    'bg-gradient-to-tr from-red-400 to-red-800',
-    'bg-gradient-to-tr from-cyan-400 to-cyan-800',
-    'bg-gradient-to-tr from-lime-300 to-lime-700',
-    'bg-gradient-to-tr from-violet-600 to-violet-950',
-    'bg-gradient-to-tr from-amber-300 to-amber-700',
-    'bg-gradient-to-tr from-blue-300 to-blue-700',
-    'bg-gradient-to-tr from-green-500 to-green-900',
-    'bg-gradient-to-tr from-fuchsia-400 to-fuchsia-800',
+    'bg-linear-to-tr from-red-400 to-red-800',
+    'bg-linear-to-tr from-cyan-400 to-cyan-800',
+    'bg-linear-to-tr from-lime-300 to-lime-700',
+    'bg-linear-to-tr from-violet-600 to-violet-950',
+    'bg-linear-to-tr from-amber-300 to-amber-700',
+    'bg-linear-to-tr from-blue-300 to-blue-700',
+    'bg-linear-to-tr from-green-500 to-green-900',
+    'bg-linear-to-tr from-fuchsia-400 to-fuchsia-800',
 ]
 
 const StreamFeed = () => {
@@ -170,7 +171,7 @@ const StreamFeed = () => {
                     ${url}`)
                 }
                 setError(false)
-            } catch (error) {
+            } catch {
                 setError(true)
             } finally {
                 setLoading(false)
@@ -187,7 +188,11 @@ const StreamFeed = () => {
     )
 
     useLoadStreams(loadStreams)
+    const profilePictures = useProfilePictures(streamData)
     useFocusTrap(error, filteredStreamData)
+
+    // without the hero section the feed heading is the main heading
+    const FeedHeading = seoSearchText ? 'h1' : 'h2'
 
     if (error) {
         return <StreamFallback />
@@ -201,15 +206,25 @@ const StreamFeed = () => {
         <div className="max-w-[2048px] mx-auto">
             {filteredStreamData && filteredStreamData.data.length > 0 ? (
                 <>
+                    <p role="status" className="sr-only">
+                        {seoSearchText
+                            ? `${filteredStreamData.data.length} ${
+                                  filteredStreamData.data.length === 1
+                                      ? 'Livestream'
+                                      : 'Livestreams'
+                              } found for ${seoSearchText}`
+                            : ''}
+                    </p>
                     {!seoSearchText && (
                         <StreamHero
                             bgColors={bgColors}
                             filteredStreamData={filteredStreamData}
+                            profilePictures={profilePictures}
                         />
                     )}
                     {filteredStreamData.data.length === 1 ? (
                         <>
-                            <h2
+                            <FeedHeading
                                 className="px-0 lg:px-4 pt-2 text-xl lg:text-2xl"
                                 data-testid="streamfeed-heading-2"
                             >
@@ -220,7 +235,7 @@ const StreamFeed = () => {
                                 <span className="text-slate-300">
                                     with: {seoSearchText}
                                 </span>
-                            </h2>
+                            </FeedHeading>
                             {seoSearchText && (
                                 <StreamClearFilter
                                     onClick={removeFilter}
@@ -230,11 +245,13 @@ const StreamFeed = () => {
                             <StreamHero
                                 bgColors={bgColors}
                                 filteredStreamData={filteredStreamData}
+                                isSecondaryHeading
+                                profilePictures={profilePictures}
                             />
                         </>
                     ) : (
                         <>
-                            <h2
+                            <FeedHeading
                                 className="px-0 lg:px-4 pt-2 text-xl lg:text-2xl"
                                 data-testid="streamfeed-heading-2"
                             >
@@ -249,7 +266,7 @@ const StreamFeed = () => {
                                             : 'you might like'
                                     }`}
                                 </span>
-                            </h2>
+                            </FeedHeading>
                             {seoSearchText && (
                                 <StreamClearFilter
                                     onClick={removeFilter}
@@ -279,8 +296,8 @@ const StreamFeed = () => {
                                             className={`rounded-xl ${bgColor}`}
                                         >
                                             <section
-                                                className="relative transform transition duration-150 ease-in-out
-                                                hover:translate-x-2 hover:-translate-y-2"
+                                                className="relative transition duration-150 ease-in-out
+                                                hover:translate-x-2 hover:-translate-y-2 motion-reduce:transition-none motion-reduce:hover:translate-0"
                                             >
                                                 <StreamThumbnail
                                                     thumbnail_url={
@@ -308,7 +325,11 @@ const StreamFeed = () => {
                                         </div>
                                         <section className="grid grid-cols-minmax-36 grid-rows-1 gap-2 w-full pt-2">
                                             <StreamProfilePicture
-                                                user_id={item.user_id}
+                                                imageUrl={
+                                                    profilePictures[
+                                                        item.user_id
+                                                    ]
+                                                }
                                                 user_name={item.user_name}
                                                 key={`${item.user_id} - profile_picture`}
                                                 testid={`streamfeed-profilepicture-${index}`}

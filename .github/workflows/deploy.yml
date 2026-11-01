@@ -1,77 +1,83 @@
 name: Deploy to GitHub Pages
 
 on:
-    push:
-        branches:
-            - master
-    pull_request:
-        branches:
-            - master
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
 
 permissions:
-    contents: write
+  contents: write
 
 jobs:
-    cypress-run:
-        runs-on: ubuntu-latest
+  cypress-run:
+    runs-on: ubuntu-latest
 
-        steps:
-            - name: Checkout Repository
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 22
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
 
-            - name: Install Dependencies
-              run: npm i
+      - name: Install Dependencies
+        run: npm i
 
-            - name: Build App
-              run: npm run build
+      - name: Lint
+        run: npm run lint
 
-            - name: Run Cypress Tests
-              uses: cypress-io/github-action@v6
-              with:
-                  start: npm start
-                  wait-on: 'http://localhost:3000'
-                  browser: chrome
+      - name: Run Unit Tests
+        run: npm test
 
-            - name: Upload Cypress Artifacts
-              if: failure()
-              uses: actions/upload-artifact@v4
-              with:
-                  name: cypress-artifacts
-                  path: |
-                      cypress/screenshots
-                      cypress/videos
+      - name: Build App
+        run: npm run build
 
-    deploy:
-        if: github.event_name == 'push'
-        needs: cypress-run
-        runs-on: ubuntu-latest
+      - name: Run Cypress Tests
+        uses: cypress-io/github-action@v7
+        with:
+          start: npm start
+          wait-on: "http://localhost:3000/twitch-app/"
+          browser: chrome
 
-        steps:
-            - name: Checkout Repository
-              uses: actions/checkout@v3
+      - name: Upload Cypress Artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-artifacts
+          path: |
+            cypress/screenshots
+            cypress/videos
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 22
+  deploy:
+    if: github.event_name == 'push'
+    needs: cypress-run
+    runs-on: ubuntu-latest
 
-            - name: Install Dependencies
-              run: npm i
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
-            - name: Build App
-              run: npm run build
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
 
-            - name: Configure User
-              run: |
-                  git config --global user.email "github-actions@github.com"
-                  git config --global user.name "github-actions[bot]"
+      - name: Install Dependencies
+        run: npm i
 
-            - name: Deploy to GitHub Pages
-              env:
-                  GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-              run: npx gh-pages -d build --repo https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/${{ github.repository }}.git
+      - name: Build App
+        run: npm run build
+
+      - name: Configure User
+        run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Deploy to GitHub Pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+        run: npx gh-pages -d build --repo https://x-access-token:${{ secrets.DEPLOY_TOKEN }}@github.com/${{ github.repository }}.git

@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 export const useFocusTrapSearch = (
     buttonRef: React.MutableRefObject<HTMLButtonElement | null>,
     focusTrapDisabled: boolean,
-    inputRef: React.RefObject<HTMLInputElement> | undefined,
+    inputRef: React.RefObject<HTMLInputElement | null> | undefined,
     searchResultsRef: React.MutableRefObject<HTMLDivElement | null>,
     searchText: string
 ) => {

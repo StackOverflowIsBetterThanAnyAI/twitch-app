@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 
 export const useFocusInput = (
     inputFocussed: boolean,
-    inputRef: React.RefObject<HTMLInputElement> | undefined,
+    inputRef: React.RefObject<HTMLInputElement | null> | undefined,
     setInputFocussed: (value: React.SetStateAction<boolean>) => void
 ) => {
     useEffect(() => {

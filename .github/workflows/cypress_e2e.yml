@@ -1,28 +1,28 @@
 name: Cypress e2e tests
 
 on:
-    push:
-    schedule:
-        - cron: '0 * * * *'
+  push:
+  schedule:
+    - cron: "0 * * * *"
 
 jobs:
-    cypress-run:
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
+  cypress-run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-            - name: Cypress run
-              uses: cypress-io/github-action@v5
+      - name: Cypress run
+        uses: cypress-io/github-action@v7
 
-            - uses: actions/upload-artifact@v4
-              if: failure()
-              with:
-                  name: cypress-screenshots
-                  path: cypress/screenshots
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
 
-            - uses: actions/upload-artifact@v4
-              if: failure()
-              with:
-                  name: cypress-videos
-                  path: cypress/videos
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-videos
+          path: cypress/videos

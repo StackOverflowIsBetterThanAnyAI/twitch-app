@@ -7,7 +7,7 @@ export const useNavigationScrollY = (
 ) => {
     useEffect(() => {
         let lastScrollY = window.scrollY
-        let timer: NodeJS.Timeout
+        let timer: ReturnType<typeof setTimeout> | undefined
 
         const handleScroll = () => {
             if (window.scrollY === 0) {

@@ -5,7 +5,10 @@ import SkeletonThumbnail from './SkeletonThumbnail'
 const SkeletonFeed = () => {
     const skeletonArray = Array.from({ length: 20 }, (_, i) => i)
     return (
-        <div className="max-w-[2048px] mx-auto">
+        <div className="max-w-[2048px] mx-auto" aria-busy="true">
+            <p role="status" className="sr-only">
+                Loading Livestreams
+            </p>
             <div className="w-full lg:w-4/5 max-w-6xl m-auto pt-4">
                 <div
                     className="bg-zinc-50 rounded-full h-6 shimmer my-2"
