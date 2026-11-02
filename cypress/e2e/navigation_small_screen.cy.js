@@ -10,7 +10,7 @@ describe('twitch-app contains navigation bar for small screen sizes', () => {
         cy.get('[data-testid="navigation-container"]').should('have.length', 1)
 
         cy.get('[data-testid="navigation-container"]')
-            .children()
+            .children('nav')
             .should('have.length', 1)
     })
 

@@ -3,6 +3,9 @@ import { ScreenSizeProps } from '../types/ScreenSizeProps'
 import fallbackImage from './../images/fallback.png'
 import fallbackThumbnailImage from './../images/fallbackThumbnail.png'
 
+export const PROFILE_PICTURE_PREFIX =
+    'https://static-cdn.jtvnw.net/jtv_user_pictures/'
+
 export const getImage = (
     url: string,
     size: ScreenSizeProps | number,
@@ -30,8 +33,9 @@ export const getImage = (
     }
 
     if (type === 'PROFILE') {
-        return url.startsWith('https://static-cdn.jtvnw.net/jtv_user_pictures/')
-            ? url
+        // encodeURI keeps valid Twitch CDN urls intact but escapes any injected markup
+        return url.startsWith(PROFILE_PICTURE_PREFIX)
+            ? encodeURI(url)
             : fallbackImage
     }
     return url.startsWith(
