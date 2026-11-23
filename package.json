@@ -32,7 +32,7 @@
         "@types/react-dom": "^19.3.0",
         "@vitejs/plugin-react": "^6.3.0",
         "cypress": "^16.3.0",
-        "eslint": "^10.14.0",
+        "eslint": "^10.15.0",
         "eslint-plugin-react-hooks": "^7.1.1",
         "gh-pages": "^6.3.0",
         "globals": "^17.14.0",
